@@ -1,1 +1,37 @@
-<p>login works!</p>
+<section class="login-container">
+  <h2>Iniciar sesión</h2>
+
+  <form class="login-form" [formGroup]="loginForm">
+    <mat-form-field class="login-form-full-width">
+      <mat-label>Email</mat-label>
+      <input
+        type="email"
+        formControlName="email"
+        matInput
+        placeholder="email@example.com"
+      />
+      <mat-error *ngIf="loginForm.get('email')?.invalid">{{
+        getErrorMessage("email")
+      }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="login-form-full-width">
+      <mat-label>Contraseña</mat-label>
+      <input matInput placeholder="Contraseña" formControlName="password" />
+      <mat-error *ngIf="loginForm.get('password')?.invalid">{{
+        getErrorMessage("password")
+      }}</mat-error>
+    </mat-form-field>
+
+    <div class="login-form-btn">
+      <button mat-flat-button>Crear cuenta</button>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="loginForm.get('email')?.invalid"
+      >
+        Ingresar
+      </button>
+    </div>
+  </form>
+</section>
