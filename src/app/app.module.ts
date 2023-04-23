@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './shared/shared.module';
 import { MapaModule } from './features/mapa/mapa.module';
 
 @NgModule({
@@ -14,8 +15,8 @@ import { MapaModule } from './features/mapa/mapa.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MapaModule
-
+    MapaModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
