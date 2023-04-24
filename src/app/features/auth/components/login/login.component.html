@@ -3,6 +3,7 @@
 
   <form class="login-form" [formGroup]="loginForm">
     <mat-form-field class="login-form-full-width">
+      <mat-icon matPrefix>mail</mat-icon>
       <mat-label>Email</mat-label>
       <input
         type="email"
@@ -16,8 +17,17 @@
     </mat-form-field>
 
     <mat-form-field class="login-form-full-width">
+      <mat-icon matPrefix>lock</mat-icon>
+      <mat-icon matSuffix (click)="hide = !hide">{{
+        hide ? "visibility_off" : "visibility"
+      }}</mat-icon>
       <mat-label>Contraseña</mat-label>
-      <input matInput placeholder="Contraseña" formControlName="password" />
+      <input
+        matInput
+        placeholder="Contraseña"
+        [type]="hide ? 'password' : 'text'"
+        formControlName="password"
+      />
       <mat-error *ngIf="loginForm.get('password')?.invalid">{{
         getErrorMessage("password")
       }}</mat-error>
