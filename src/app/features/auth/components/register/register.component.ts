@@ -1,10 +1,10 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { AuthService } from '../../auth.service';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CustomValidators } from 'src/app/shared/validators/custom.validators';
+import { CustomValidators } from '../../../../shared/validators/custom.validators';
 
 enum RequiredMessages {
   email = 'El e-mail es requerido',
@@ -43,18 +43,21 @@ export class RegisterComponent {
   get f() {
     return this.registerForm
   }
-  register() {
+  async register() {
     if (!this.f.valid) {
       return;
     }
-    this.authService
-      .register(this.f.value)
+    (await this.authService
+      .register(this.f.value))
       .pipe(
-        tap(() => this.router.navigate(['../login'], { relativeTo: this.route }))
+        tap(() => this.router.navigate(['../login'], { relativeTo: this.route })),
+        catchError(error => throwError(() => new Error(`ERROR: ${error}`)))
       )
-      .subscribe((resp) => {
-        localStorage.setItem('token', resp.token)
-        console.log(resp)
+      .subscribe({
+        next: (resp: any) => {
+          localStorage.setItem('token', resp.token)
+          console.log(resp)
+        },
       });
   }
 

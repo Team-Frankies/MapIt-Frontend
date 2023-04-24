@@ -1,16 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
-  // TODO: Quitar any cuando el BackEnd este funcional
-  register(inputdata: any) {
-    // Mockeamos la data que debería de venir de la API
-    return of({ token: 'tokenForever'});
+  async register(inputdata: any) {
+    const { email, firstname, lastname, password } = inputdata;
+
+    return await this.http.post(`${this.apiUrl}/api/v1/auth-service/sign-up`, {
+      Email: email,
+      Nombre: firstname,
+      Apellido: lastname,
+      Password: password
+    });
   }
 }
