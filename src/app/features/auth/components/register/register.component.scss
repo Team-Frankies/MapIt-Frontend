@@ -1,22 +1,10 @@
-@import "@angular/material/theming";
-
-// Copy colour palettes individually
-$app-primary: mat-palette($mat-indigo);
-$app-accent: mat-palette($mat-pink);
-
-// Create variables to use in project
-$primary: mat-color($app-primary);
-$accent: mat-color($app-accent);
-
-::ng-deep app-register {
-  background-image: url('../../../../../assets/images/bg-register.jpg');
-}
 .login-container {
   margin-top: 50px;
   height: 100%;
   width: 100%;
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
 }
 
 form {
@@ -24,7 +12,8 @@ form {
 }
 
 .login-content {
-  width: 400px;
+  width: 80%;
+  max-width: 400px;
   display: block;
   margin: 0 auto;
 }
@@ -33,14 +22,6 @@ form {
 }
 .login-toolbar {
   justify-content: center;
-}
-::ng-deep {
-  .mdc-text-field--filled {
-    background-color: transparent !important;
-  }
-  .mat-mdc-form-field-focus-overlay {
-    background-color: $primary;
-  }
 }
 
 .mat-mdc-form-field {
@@ -61,4 +42,19 @@ mat-toolbar {
 .socialMediaFlex {
   display: flex;
   justify-content: space-around;
+}
+
+@media screen and (max-width: 600px) {
+  .mat-mdc-form-field {
+    font-size: 0.9rem;
+  }
+  mat-toolbar {
+    font-size: medium;
+  }
+  mat-label {
+    font-size: 0.9rem;
+  }
+  mat-error {
+    font-size: 0.8rem;
+  }
 }

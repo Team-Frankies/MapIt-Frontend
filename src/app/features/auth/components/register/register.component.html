@@ -6,7 +6,7 @@
     <mat-card-content>
       <form [formGroup]="registerForm" (ngSubmit)="register()">
 
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
           <mat-icon matPrefix>email</mat-icon>
           <input autofocus type="email" matInput placeholder="Escriba su email" formControlName="email">
@@ -15,24 +15,27 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field style="width: 50%; display: inline-block;">
-          <mat-label>Nombre</mat-label>
-          <mat-icon matPrefix>person_outline</mat-icon>
-          <input type="text" matInput placeholder="Escriba su nombre" formControlName="firstname">
-          <mat-error *ngIf="checkValidation('firstname')">
-            El nombre es requerido
-          </mat-error>
-        </mat-form-field>
+        <div style="display: flex; flex-direction: row;">
+          <mat-form-field appearance="outline" style="width: 50%; display: inline-block; padding-right:0.15rem">
+            <mat-label>Nombre</mat-label>
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <input type="text" matInput placeholder="Escriba su nombre" formControlName="firstname">
+            <mat-error *ngIf="checkValidation('firstname')">
+              El nombre es requerido
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field style="width: 50%; display: inline-block;">
-          <mat-label>Apellidos</mat-label>
-          <input type="text" matInput placeholder="Escriba sus apellidos" formControlName="lastname">
-          <mat-error *ngIf="checkValidation('lastname')">
-            Los apellidos son requeridos
-          </mat-error>
-        </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 50%; display: inline-block; padding-left: 0.15rem;">
+            <mat-label>Apellidos</mat-label>
+            <input type="text" matInput placeholder="Escriba sus apellidos" formControlName="lastname">
+            <mat-error *ngIf="checkValidation('lastname')">
+              Los apellidos son requeridos
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-        <mat-form-field>
+
+        <mat-form-field appearance="outline">
           <mat-label>Contraseña</mat-label>
           <mat-icon matPrefix>lock_outline</mat-icon>
           <input [type]="hide ? 'password' : 'text'" autocomplete="false" matInput placeholder="Contraseña *" formControlName="password">
@@ -44,7 +47,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field appearance="outline" style="padding-right: 0.1rem">
           <mat-label>Confirmar contraseña</mat-label>
           <mat-icon matPrefix>lock_outline</mat-icon>
           <input [type]="hide ? 'password' : 'text'" autocomplete="false" matInput placeholder="Confirmar contraseña *" formControlName="passwordConfirm">
