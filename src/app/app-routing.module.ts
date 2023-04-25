@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'mapa',
     loadChildren: () =>
-      import('./features/mapa/mapa.module').then((m) => m.MapaModule),
+      import('./features/map/map.module').then((m) => m.MapModule),
   }
 ];
 

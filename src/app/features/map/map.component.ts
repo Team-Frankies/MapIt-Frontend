@@ -6,11 +6,11 @@ import { catchError, map } from 'rxjs';
 
 
 @Component({
-  selector: 'app-mapa',
-  templateUrl: './mapa.component.html',
-  styleUrls: ['./mapa.component.scss']
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss']
 })
-export class MapaComponent {
+export class MapComponent {
   apiLoaded: Observable<boolean>;
 
   constructor(httpClient: HttpClient) {

@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapaComponent } from './mapa.component';
+import { MapComponent } from './map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [{ path: '' , redirectTo: 'mapa', pathMatch: 'full'},
+const routes: Routes = [{ path: '' , redirectTo: 'map', pathMatch: 'full'},
 {
     path: '',
-    component: MapaComponent
+    component: MapComponent
 
 },];
 
 @NgModule({
   declarations: [
-    MapaComponent
+    MapComponent
   ],
   imports: [
     CommonModule,
@@ -27,4 +27,4 @@ const routes: Routes = [{ path: '' , redirectTo: 'mapa', pathMatch: 'full'},
     RouterModule
   ]
 })
-export class MapaModule { }
+export class MapModule { }

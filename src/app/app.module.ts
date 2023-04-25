@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
-import { MapaModule } from './features/mapa/mapa.module';
+import { MapModule } from './features/map/map.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +15,7 @@ import { MapaModule } from './features/mapa/mapa.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MapaModule,
+    MapModule,
     SharedModule
   ],
   providers: [],
