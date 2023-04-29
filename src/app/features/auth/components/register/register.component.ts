@@ -6,7 +6,7 @@ import { catchError, tap, throwError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomValidators } from '../../../../shared/validators/custom.validators';
 
-enum RequiredMessages {
+export enum RequiredMessages {
   email = 'El e-mail es requerido',
   password = 'La contraseña es requerida',
   passwordConfirm = 'La confirmación de contraseña es requerida',
@@ -24,11 +24,11 @@ export class RegisterComponent {
   hide = true;
   registerForm = new FormGroup(
     {
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      firstname: new FormControl(null, [Validators.required]),
-      lastname: new FormControl(null, [Validators.required]),
-      password: new FormControl(null, [Validators.required, CustomValidators.checkPassword]),
-      passwordConfirm: new FormControl(null, [Validators.required, CustomValidators.checkPassword]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      firstname: new FormControl('', [Validators.required]),
+      lastname: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
+      passwordConfirm: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
     },
 
     { validators: [CustomValidators.passwordsMatching] }
@@ -47,17 +47,12 @@ export class RegisterComponent {
     if (!this.f.valid) {
       return;
     }
-    (await this.authService
-      .register(this.f.value))
-      .pipe(
-        tap(() => this.router.navigate(['../login'], { relativeTo: this.route })),
-        catchError(error => throwError(() => new Error(`ERROR: ${error}`)))
-      )
+    (await (this.authService
+      .register(this.f.value)))
       .subscribe({
-        next: (resp: any) => {
-          localStorage.setItem('token', resp.token)
-          console.log(resp)
-        },
+        next: (resp: any) => localStorage.setItem('token', resp.token),
+        error: (err) => console.error({err}),
+        complete: () => this.router.navigate(['../login'], { relativeTo: this.route })
       });
   }
 

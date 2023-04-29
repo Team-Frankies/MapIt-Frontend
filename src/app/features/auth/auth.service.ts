@@ -12,11 +12,11 @@ export class AuthService {
   async register(inputdata: any) {
     const { email, firstname, lastname, password } = inputdata;
 
-    return await this.http.post(`${this.apiUrl}/api/v1/auth-service/sign-up`, {
-      Email: email,
-      Nombre: firstname,
-      Apellido: lastname,
-      Password: password
+    return await this.http.post(`${this.apiUrl}/auth/sign-up`, {
+      email,
+      firstname,
+      lastname,
+      password
     });
   }
 }
