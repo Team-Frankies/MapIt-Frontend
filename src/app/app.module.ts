@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { MapModule } from './features/map/map.module';
+//import { SearchBarComponent } from './map/search-bar/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+   // SearchBarComponent,
   ],
   imports: [
     BrowserModule,
