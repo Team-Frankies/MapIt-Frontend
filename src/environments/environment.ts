@@ -1,3 +1,4 @@
 export const environment = {
-  apiUrl: 'http://localhost:8080',
+  production: true,
+  apiUrl: 'https://la_de_produccion.es',
 };
