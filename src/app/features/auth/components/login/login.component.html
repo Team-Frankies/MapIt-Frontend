@@ -1,7 +1,7 @@
 <section class="login-container">
   <h2>Iniciar sesión</h2>
 
-  <form class="login-form" [formGroup]="loginForm">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field class="login-form-full-width">
       <mat-icon matPrefix>mail</mat-icon>
       <mat-label>Email</mat-label>

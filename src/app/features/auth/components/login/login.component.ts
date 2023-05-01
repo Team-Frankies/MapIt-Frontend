@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,9 @@ export class LoginComponent {
     ]),
   });
   hide = true;
+  token = '';
+
+  constructor(private authService: AuthService) {}
 
   getErrorMessage(fieldName: string) {
     const field = this.loginForm.get(fieldName);
@@ -32,5 +36,13 @@ export class LoginComponent {
       : field?.dirty && field?.hasError('minlength')
       ? 'La contraseña debe contener mínimo 8 caracteres'
       : '';
+  }
+
+  onSubmit() {
+    /*this.authService
+      .login(this.loginForm.value.email, this.loginForm.value.password)
+      .subscribe((token: string) => {
+        this.token = token;
+      });*/
   }
 }
