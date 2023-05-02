@@ -43,13 +43,11 @@ a continuación esta variable es la que realmente se recorre en el*ngFor del HTM
     
   }
 
-  actualizarProv (event: any):void{
+  recommender (event: any):void{
     const valor = event.target?.value;
     if (valor != null) {
       this.searchTerm$.next(valor)
       console.log(valor)
     }}
     
-
-  
 }

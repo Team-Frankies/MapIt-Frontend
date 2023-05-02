@@ -9,7 +9,7 @@
             inicialmente como de tipo Subject <String> esta esperando un string como parámetro, a esto le vamos a pasar la 
             variable que se genera al realizar alguna acción dentro del input ($event) y enviamos el valor que esta dentro 
             de su target (input) quedando algo como: $event.target.value. (keyup)="searchTerm$.next($event.target.value)"-->
-        <input id="ciudad" type="text" class="search"placeholder="Busca una provincia"(keyup)="actualizarProv($event)">
+        <input id="ciudad" type="text" class="search"placeholder="Busca una provincia"(keyup)="recommender($event)">
       </div>
     <ul class="list">
       <li *ngFor="let item of listFiltered$ | async">
