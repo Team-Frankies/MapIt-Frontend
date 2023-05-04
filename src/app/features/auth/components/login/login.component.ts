@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,7 @@ export class LoginComponent {
   hide = true;
   token = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   getErrorMessage(fieldName: string) {
     const field = this.loginForm.get(fieldName);
@@ -38,11 +39,16 @@ export class LoginComponent {
       : '';
   }
 
-  onSubmit() {
-    /*this.authService
-      .login(this.loginForm.value.email, this.loginForm.value.password)
-      .subscribe((token: string) => {
-        this.token = token;
-      });*/
+  async login() {
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      (await this.authService.login(email, password)).subscribe({
+        next: (res: any) => localStorage.setItem('token', res.token),
+        error: (err) => console.error({ err }),
+        complete: () => this.router.navigate(['localhost:4200/']),
+      });
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
   }
 }
