@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularMaterialModule } from './modules/material/angular-material.module';
+import { StoreModule } from '@ngrx/store';
 
 
 
@@ -8,7 +9,8 @@ import { AngularMaterialModule } from './modules/material/angular-material.modul
   declarations: [],
   imports: [
     CommonModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    StoreModule.forRoot({}, {})
   ],
   exports: [ AngularMaterialModule ]
 })
