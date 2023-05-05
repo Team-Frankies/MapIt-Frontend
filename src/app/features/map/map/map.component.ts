@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { mapService } from '../map.service';
 
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs';
 
 
 @Component({
@@ -10,17 +8,23 @@ import { catchError, map } from 'rxjs';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent {
-  apiLoaded: Observable<boolean>;
+export class MapComponent implements OnInit{
 
-  constructor(httpClient: HttpClient) {
-    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=&callback=initMap', 'callback')
-    .pipe(
-      map(() => true),
-      catchError(() => of(false)),
+  //ejemplo
 
-    );
-    }
+  center = {lat: 24, lng: 12};
+  zoom = 15;
+  display?: google.maps.LatLngLiteral;
+
+  coordinates=  [50.055212613655925, 14.230025210187506];
+
+  constructor(private mapServ: mapService){}
+  
+  ngOnInit(){
+    this.mapServ.getMap(this.coordinates);
+   console.log(this.coordinates)
+  }
+
 }
 
 

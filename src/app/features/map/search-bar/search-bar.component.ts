@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -10,6 +12,7 @@ import { BehaviorSubject, Observable, Subject, debounceTime, distinctUntilChange
 export class SearchBarComponent implements OnInit{
   //creo elemento observable con valor por
   searchTerm$ = new BehaviorSubject<string>('');
+  apiUrl =environment.apiUrl;
   
   //utilizo lista de provincias como ejemplo
   private listTest = ['Alava','Albacete','Alicante','Almería','Asturias','Avila','Badajoz','Barcelona','Burgos','Cáceres',
@@ -17,6 +20,10 @@ export class SearchBarComponent implements OnInit{
   'Guipúzcoa','Huelva','Huesca','Islas Baleares','Jaén','León','Lérida','Lugo','Madrid','Málaga','Murcia','Navarra',
   'Orense','Palencia','Las Palmas','Pontevedra','La Rioja','Salamanca','Segovia','Sevilla','Soria','Tarragona',
   'Santa Cruz de Tenerife','Teruel','Toledo','Valencia','Valladolid','Vizcaya','Zamora','Zaragoza']
+
+  constructor (private http: HttpClient){}
+
+
   //creo elemento observable para  volcar listado de provincias
   listFiltered$ = new Observable<string[]> ;
 
@@ -43,11 +50,23 @@ a continuación esta variable es la que realmente se recorre en el*ngFor del HTM
     
   }
 
+  muestraSitio(event: any):void{
+      const valor =  event.target?.value;
+      if(valor != null){
+        console.log(valor)
+        
+      }
+  }
+
+  
+
   recommender (event: any):void{
     const valor = event.target?.value;
     if (valor != null) {
       this.searchTerm$.next(valor)
       console.log(valor)
     }}
+
+    
     
 }

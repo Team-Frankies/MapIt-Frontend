@@ -9,6 +9,7 @@ import { AngularMaterialModule } from './modules/material/angular-material.modul
   imports: [
     CommonModule,
     AngularMaterialModule
-  ]
+  ],
+  exports: [ AngularMaterialModule ]
 })
 export class SharedModule { }

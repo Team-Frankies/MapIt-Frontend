@@ -1,6 +1,11 @@
 <p>search-bar works!</p>
 
 <div class="container">
+
+
+  <div class= "search-bar">
+    <input type="text" class="search" placeholder="coordenadas" (keyup)="muestraSitio($event)">
+  </div>
     
     <div class="search-bar">
         <!--Creamos un input con su respectivo type, class, placeholder (para ayudar a la UX) y el evento (keyup)
@@ -9,13 +14,17 @@
             inicialmente como de tipo Subject <String> esta esperando un string como parámetro, a esto le vamos a pasar la 
             variable que se genera al realizar alguna acción dentro del input ($event) y enviamos el valor que esta dentro 
             de su target (input) quedando algo como: $event.target.value. (keyup)="searchTerm$.next($event.target.value)"-->
-        <input id="ciudad" type="text" class="search"placeholder="Busca una provincia"(keyup)="recommender($event)">
+        <input id="ciudad" type="text" class="search" placeholder="Busca una provincia" (keyup)="recommender($event)">
       </div>
     <ul class="list">
       <li *ngFor="let item of listFiltered$ | async">
         {{item}}
       </li>
     </ul>
+
+
+
+
   </div>
 
   
