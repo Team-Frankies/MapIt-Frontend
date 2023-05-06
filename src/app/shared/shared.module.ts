@@ -9,8 +9,8 @@ import { authReducer } from './stores/reducers/auth.reducer';
   imports: [
     CommonModule,
     AngularMaterialModule,
-    StoreModule.forRoot({ loggedIn: authReducer })
+    StoreModule.forRoot({ loggedIn: authReducer }),
   ],
-  exports: [AngularMaterialModule ]
+  exports: [AngularMaterialModule],
 })
-export class SharedModule { }
+export class SharedModule {}

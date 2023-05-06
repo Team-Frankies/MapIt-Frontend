@@ -1,5 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -36,7 +39,9 @@ describe('AuthService', () => {
       expect(response).toBeTruthy();
     });
 
-    const req = httpTestingController.expectOne(`${environment.apiUrl}/auth/sign-up`);
+    const req = httpTestingController.expectOne(
+      `${environment.apiUrl}/auth/sign-up`
+    );
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(inputData);
 

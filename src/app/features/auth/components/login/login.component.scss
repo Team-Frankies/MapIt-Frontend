@@ -1,0 +1,22 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  min-height: calc(100vh - 2rem);
+  padding: 1rem;
+}
+
+.login-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  &-full-width {
+    width: 100%;
+  }
+  &-btn {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
