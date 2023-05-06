@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+  <span class="fill-remaining-space" *ngIf="loggedIn$ | async; else notLogged">
+    <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger"
+      (mouseover)="menuTrigger.openMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <span (mouseleave)="menuTrigger.closeMenu()">
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar sesión</span>
+        </button>
+      </span>
+    </mat-menu>
+  </span>
+  <span class="fill-remaining-space">{{appTitle}}</span>
+
+  <button (click)="toggleTheme()" mat-icon-button aria-label="Cambiar tema">
+    <mat-icon>{{ theme ? 'bedtime' : 'sunny' }}</mat-icon>
+  </button>
+
+</mat-toolbar>
+
+<ng-template #notLogged>
+  <span class="fill-remaining-space">
+    <button mat-raised-button [routerLink]="['/auth/login']">
+      <mat-icon>login</mat-icon>
+      <span>Iniciar sesión</span>
+    </button>
+  </span>
+</ng-template>
