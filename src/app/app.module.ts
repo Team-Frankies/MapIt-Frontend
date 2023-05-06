@@ -6,11 +6,11 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-   // SearchBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
