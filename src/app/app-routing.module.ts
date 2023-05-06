@@ -8,12 +8,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/map/map.module').then((m) => m.MapModule),
   },
-  /*{
+  {
     path: 'auth',
     loadChildren: () =>
       import('./features/auth/auth.module').then((m) => m.AuthModule),
-  },*/
-  
+  },
+
 ];
 
 @NgModule({
