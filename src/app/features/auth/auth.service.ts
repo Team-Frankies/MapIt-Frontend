@@ -21,7 +21,13 @@ export class AuthService {
       email,
       firstname,
       lastname,
-      password
+      password,
+    });
+  }
+  async login(email: any, password: any) {
+    return await this.http.post(`${this.apiUrl}/auth/sign-in`, {
+      email,
+      password,
     });
   }
 

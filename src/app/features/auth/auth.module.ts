@@ -18,9 +18,13 @@ import { AngularMaterialModule } from '../../shared/modules/material/angular-mat
     LoginPageComponent,
     RegisterPageComponent,
   ],
-  imports: [CommonModule, AuthRoutingModule, AngularMaterialModule, FormsModule, ReactiveFormsModule],
-  exports: [
-    RouterModule
+  imports: [
+    CommonModule,
+    AuthRoutingModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
+  exports: [RouterModule],
 })
 export class AuthModule {}
