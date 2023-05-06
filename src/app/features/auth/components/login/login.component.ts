@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
+import { AuthLogin } from '../../../../models/auth.model';
+import { Store } from '@ngrx/store';
+import { login } from '../../../../shared/stores/actions/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +28,11 @@ export class LoginComponent {
   hide = true;
   token = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private store: Store<{ loggedIn: boolean }>
+  ) {}
 
   getErrorMessage(fieldName: string) {
     const field = this.loginForm.get(fieldName);
@@ -42,10 +49,13 @@ export class LoginComponent {
   async login() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      (await this.authService.login(email, password)).subscribe({
-        next: (res: any) => localStorage.setItem('token', res.token),
+      (await this.authService.login({ email, password } as AuthLogin)).subscribe({
+        next: (res: any) => {
+          localStorage.setItem('token', res.token),
+          this.store.dispatch(login())
+        },
         error: (err) => console.error({ err }),
-        complete: () => this.router.navigate(['localhost:4200/']),
+        complete: () => this.router.navigate(['/map']),
       });
     } else {
       this.loginForm.markAllAsTouched();

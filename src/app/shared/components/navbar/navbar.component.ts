@@ -21,7 +21,6 @@ export class NavbarComponent {
     private authService: AuthService
   ) {
     this.loggedIn$ = store.select('loggedIn')
-    this.store.dispatch(login())
   }
 
   toggleTheme() {

@@ -21,7 +21,7 @@ import { AngularMaterialModule } from '../../shared/modules/material/angular-mat
   imports: [
     CommonModule,
     AuthRoutingModule,
-    SharedModule,
+    AngularMaterialModule,
     FormsModule,
     ReactiveFormsModule,
   ],
