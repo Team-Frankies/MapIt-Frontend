@@ -1,0 +1,24 @@
+<!--
+
+
+  <div *ngIf="url | async">
+  <app-map></app-map>
+</div>
+<app-search-bar></app-search-bar>
+<app-map></app-map>
+
+
+
+<map-marker [position]="center"></map-marker>>-->
+
+  <p>mapa works!</p>
+
+  <google-map width="750px"
+            height="450px"
+            [center]="center"
+            [zoom]="zoom">
+</google-map>
+
+<script async
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJcM_hg-gAlGNUc_OUGq9g2UjhYqOwrxg&callback=initMap">
+</script>
