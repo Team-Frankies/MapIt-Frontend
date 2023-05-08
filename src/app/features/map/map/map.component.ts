@@ -1,5 +1,8 @@
+import { environment } from './../../../../environments/environment.development';
 import { Component, OnInit } from '@angular/core';
-import { mapService } from '../map.service';
+import { MapService } from '../map.service';
+import { catchError, map, Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -9,19 +12,32 @@ import { mapService } from '../map.service';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit{
-
+  apiLoaded: Observable<boolean>;
   //ejemplo
 
-  center = {lat: 24, lng: 12};
-  zoom = 15;
+  center = { lat: 40.41, lng: -3.7 };;
+  zoom = 10;
   display?: google.maps.LatLngLiteral;
 
-  coordinates=  [50.055212613655925, 14.230025210187506];
+  coordinates: google.maps.LatLngLiteral = { lat: 40.41, lng: -3.7 };;
+  markerOptions: google.maps.MarkerOptions = { draggable: false };
+  iPlaces: any;
 
-  constructor(private mapServ: mapService){}
-  
+  constructor(
+    private mapServ: MapService,
+    private httpClient: HttpClient
+  ){
+    this.apiLoaded = httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleAPIKey}`, 'callback')
+      .pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      );
+  }
+
   ngOnInit(){
-    this.mapServ.getMap(this.coordinates);
+    this.mapServ.getMap(this.coordinates).subscribe({
+      next: (data) => this.iPlaces = data,
+    });
    console.log(this.coordinates)
   }
 

@@ -37,6 +37,9 @@ export class NavbarComponent {
     const addClass = darkTheme ? darkClass : lightClass;
     document.body.classList.remove(removeClass);
     document.body.classList.add(addClass);
+    document.body.classList.add('mat-app-background');
+
+
   }
 
   logout() {
