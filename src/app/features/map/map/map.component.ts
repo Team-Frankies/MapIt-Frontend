@@ -17,7 +17,7 @@ export class MapComponent implements OnInit{
   zoom = 15;
 
   markerOptions: google.maps.MarkerOptions = {draggable: false};
-  markerPositions: google.maps.LatLngLiteral[] = [];
+  markerPositions: any[] = [];
 
 
   //coordinates= {lat: 50, lng: 14}; 
@@ -29,6 +29,8 @@ export class MapComponent implements OnInit{
       map(() => true),
       catchError(() => of(false)),
     );
+
+
 
     
   }
@@ -46,18 +48,22 @@ export class MapComponent implements OnInit{
   }
 
   move(event: google.maps.MapMouseEvent) {
- 
     this.display = event?.latLng?.toJSON();
+   
+   
   }
 
 
   //*********************markers**********************************/
   setMarkers(){
+    
     this.markerPositions=[]
     this.mapServ.getMap(this.display).subscribe({ 
-      next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markerPositions.push(e.location); console.log(e)})
+      next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markerPositions.push(e as google.maps.Marker)})
       })
      })
+
+     console.log(this.markerPositions)
   }
 
   addMarker(event: google.maps.MapMouseEvent) {
@@ -65,12 +71,6 @@ export class MapComponent implements OnInit{
     this.markerPositions.push(event.latLng.toJSON());}
   }
 
-
-}
-
-interface IPlace {
-  location: google.maps.LatLngLiteral;
-  place_id: string;
 }
 
 

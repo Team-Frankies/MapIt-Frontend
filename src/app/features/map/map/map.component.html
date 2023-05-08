@@ -7,7 +7,7 @@
             (mapClick)="moveMap($event)"
             (mapMousemove)="move($event)">
             <map-marker *ngFor="let markerPosition of markerPositions"
-              [position]="markerPosition"
+              [position]="markerPosition.location"
               [options]="markerOptions"></map-marker>
           
 </google-map>
