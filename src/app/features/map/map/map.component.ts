@@ -13,7 +13,7 @@ export class MapComponent implements OnInit{
 
   apiLoaded: Observable<boolean>;
 
-  center={lat: 40, lng: -3};
+  center={lat: 40.41, lng: -3.7};
   zoom = 15;
 
   markerOptions: google.maps.MarkerOptions = {draggable: false};
@@ -21,7 +21,7 @@ export class MapComponent implements OnInit{
 
 
   //coordinates= {lat: 50, lng: 14}; 
-  display?: google.maps.LatLngLiteral = {lat: 40, lng: -3}; //coordenadas iniciales se deben sustituir por la ubicación del usuario si disponemos de ella
+  display?: google.maps.LatLngLiteral = {lat: 40.41, lng: -3.7}; //coordenadas iniciales se deben sustituir por la ubicación del usuario si disponemos de ella
 
   constructor(private httpClient: HttpClient, private mapServ: mapService){
     this.apiLoaded = this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleAPIKey}`, 'callback')

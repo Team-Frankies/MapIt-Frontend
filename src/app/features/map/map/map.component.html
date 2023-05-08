@@ -1,7 +1,7 @@
 
 <div *ngIf="apiLoaded | async">
-  <google-map width="1080px"
-            height="600px"
+  <google-map width="100%"
+            height="80vh"
             [center]="center"
             [zoom]="zoom"
             (mapClick)="moveMap($event)"
