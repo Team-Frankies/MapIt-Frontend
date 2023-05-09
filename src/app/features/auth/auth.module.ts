@@ -7,8 +7,8 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { AuthRoutingModule } from './auth-routing.module';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AngularMaterialModule } from '../../shared/modules/material/angular-material.module';
 
 @NgModule({
   declarations: [
@@ -18,9 +18,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginPageComponent,
     RegisterPageComponent,
   ],
-  imports: [CommonModule, AuthRoutingModule, SharedModule, FormsModule, ReactiveFormsModule],
-  exports: [
-    RouterModule
+  imports: [
+    CommonModule,
+    AuthRoutingModule,
+    AngularMaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
+  exports: [RouterModule],
 })
 export class AuthModule {}
