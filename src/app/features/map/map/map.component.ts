@@ -11,11 +11,10 @@ import { GoogleMap, MapAnchorPoint, MapInfoWindow, MapMarker } from '@angular/go
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit{
-  @ViewChild('googleMap', { static: false })  map!: GoogleMap;
-  //@ViewChild('infoWindow',  { static: false })  info!: MapInfoWindow;
+ // @ViewChild('googleMap', { static: false })  map!: GoogleMap;
   @ViewChild(MapInfoWindow, { static: false })info!: MapInfoWindow;
 
-  infoContent ='click'
+  infoContent =''
 
   apiLoaded: Observable<boolean>;
 
@@ -23,7 +22,7 @@ export class MapComponent implements OnInit{
   zoom = 15;
 
   markerOptions: google.maps.MarkerOptions = {draggable: false};
-  markerPositions: any[] = [];
+  markers: any[] = [];
 
 
   //coordinates= {lat: 50, lng: 14}; 
@@ -57,35 +56,37 @@ export class MapComponent implements OnInit{
   //*********************markers**********************************/
   setMarkers(){
     
-    this.markerPositions=[]
+    this.markers=[]
     this.mapServ.getMap(this.display).subscribe({ 
-      next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markerPositions.push(e as google.maps.Marker)})
+      next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markers.push(e as google.maps.Marker)})
       })
      })
 
-     console.log(this.markerPositions)
+     console.log(this.markers)
   }
 
   addMarker(event: google.maps.MapMouseEvent) {
     if(event?.latLng?.toJSON()){
-    this.markerPositions.push(event.latLng.toJSON());}
+    this.markers.push(event.latLng.toJSON());}
   }
 
   infoPosition(marker: any){
+
     console.log(marker)
-  
-    
   }
 
  
-  infoE(marker: any){
-    console.log("clic")
-  
+  infoMarker(markerElem: MapMarker, marker: any){
+    console.log(this.infoContent)
     console.log(this.info)
-   
-    this.info.open(
-      marker     
-    )
+
+    this.setInfoMarker(marker);   
+    this.info.open(markerElem)
+  }
+
+  //actualiza ventana emergente
+  setInfoMarker(marker: any){
+    this.infoContent ="id: " + marker.place_id;
   }
 
 }

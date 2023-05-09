@@ -8,12 +8,12 @@
             (mapClick)="moveMap($event)"
             (mapMousemove)="move($event)">
             <map-marker 
-            #markerElem
-            *ngFor="let markerPosition of markerPositions"
-              [position]="markerPosition.location"
+            #markerElem="mapMarker"
+            *ngFor="let marker of markers"
+              [position]="marker.location"
               [options]="markerOptions"
-              (mapMouseover)="infoPosition(markerPosition)"
-              (mapClick)=" infoE(markerPosition)"></map-marker>
+              (mapMouseover)=" infoMarker(markerElem, marker)"
+              (mapClick)="infoPosition(marker)"></map-marker>
               <map-info-window #infoWindow>{{ infoContent }}</map-info-window>
           
 </google-map>
