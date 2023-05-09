@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { mapService } from '../map.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { GoogleMap, MapAnchorPoint, MapInfoWindow, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-map',
@@ -10,6 +11,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit{
+  @ViewChild('googleMap', { static: false })  map!: GoogleMap;
+  //@ViewChild('infoWindow',  { static: false })  info!: MapInfoWindow;
+  @ViewChild(MapInfoWindow, { static: false })info!: MapInfoWindow;
+
+  infoContent ='click'
 
   apiLoaded: Observable<boolean>;
 
@@ -29,30 +35,24 @@ export class MapComponent implements OnInit{
       map(() => true),
       catchError(() => of(false)),
     );
-
-
-
-    
   }
 
   ngOnInit(){
     this.setMarkers();
    
   }
+
 //*******************eventos de ratón************************/
   moveMap(event: google.maps.MapMouseEvent) {
     console.log(event)
     this.center = (event?.latLng?.toJSON()) || this.center;
     this.setMarkers();
-   
   }
 
   move(event: google.maps.MapMouseEvent) {
     this.display = event?.latLng?.toJSON();
    
-   
   }
-
 
   //*********************markers**********************************/
   setMarkers(){
@@ -71,7 +71,26 @@ export class MapComponent implements OnInit{
     this.markerPositions.push(event.latLng.toJSON());}
   }
 
+  infoPosition(marker: any){
+    console.log(marker)
+  
+    
+  }
+
+ 
+  infoE(marker: any){
+    console.log("clic")
+  
+    console.log(this.info)
+   
+    this.info.open(
+      marker     
+    )
+  }
+
 }
+
+ 
 
 
 
