@@ -49,10 +49,12 @@ export class LoginComponent {
   async login() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      (await this.authService.login({ email, password } as AuthLogin)).subscribe({
+      (
+        await this.authService.login({ email, password } as AuthLogin)
+      ).subscribe({
         next: (res: any) => {
           localStorage.setItem('token', res.token),
-          this.store.dispatch(login())
+            this.store.dispatch(login());
         },
         error: (err) => console.error({ err }),
         complete: () => this.router.navigate(['/map']),
@@ -60,5 +62,8 @@ export class LoginComponent {
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+  redirectSignUp() {
+    this.router.navigate(['/auth/register']);
   }
 }
