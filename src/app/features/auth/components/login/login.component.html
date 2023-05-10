@@ -1,4 +1,4 @@
-<section class="login-container">
+<section class="login-container" [ngClass]="theme">
   <h2>Iniciar sesión</h2>
 
   <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">

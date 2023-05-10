@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.development';
 import { logout } from '../../shared/stores/actions/auth.actions';
 import { AuthLogin } from '../../models/auth.model';
 
@@ -26,7 +26,7 @@ export class AuthService {
     });
   }
   async login(authLogin: AuthLogin) {
-    const { email, password } = authLogin
+    const { email, password } = authLogin;
     return await this.http.post(`${this.apiUrl}/auth/sign-in`, {
       email,
       password,
@@ -35,6 +35,6 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    this.store.dispatch(logout())
+    this.store.dispatch(logout());
   }
 }
