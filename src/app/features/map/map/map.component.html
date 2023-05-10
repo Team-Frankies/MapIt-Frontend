@@ -1,24 +1,29 @@
-<!--
+
+<!--<app-searchbar (searchResult)="handleSearchResult($event)"></app-searchbar>
+<app-mapa [searchResult]="searchResult"></app-mapa>
+  <app-search-bar></app-search-bar>
+-->
+<div *ngIf="apiLoaded | async">
 
 
-  <div *ngIf="url | async">
-  <app-map></app-map>
-</div>
-<app-search-bar></app-search-bar>
-<app-map></app-map>
-
-
-
-<map-marker [position]="center"></map-marker>>-->
-
-  <p>mapa works!</p>
-
-  <google-map width="750px"
-            height="450px"
+  <google-map width="100%"
+            height="80vh"
             [center]="center"
-            [zoom]="zoom">
+            [zoom]="zoom"
+            (mapClick)="moveMap($event)"
+            (mapMousemove)="move($event)">
+            <map-marker 
+            #markerElem="mapMarker"
+            *ngFor="let marker of markers"
+              [position]="marker.location"
+              [options]="markerOptions"
+              (mapMouseover)=" infoMarker(markerElem, marker)"
+              (mapClick)="infoPosition(marker)"></map-marker>
+              <map-info-window #infoWindow>{{ infoContent }}</map-info-window>
+          
 </google-map>
 
-<script async
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJcM_hg-gAlGNUc_OUGq9g2UjhYqOwrxg&callback=initMap">
-</script>
+
+<div>Latitude: {{display?.lat}}</div>
+<div>Longitude: {{display?.lng}}</div>
+</div>
