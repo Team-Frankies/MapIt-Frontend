@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { mapService } from '../map.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { GoogleMap, MapAnchorPoint, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-map',
@@ -11,8 +11,9 @@ import { GoogleMap, MapAnchorPoint, MapInfoWindow, MapMarker } from '@angular/go
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit{
- // @ViewChild('googleMap', { static: false })  map!: GoogleMap;
   @ViewChild(MapInfoWindow, { static: false })info!: MapInfoWindow;
+  //@ViewChild('searchBar', { static: false })searchBar!: ElementRef<HTMLInputElement>;
+  //@Input() address?: string;
 
   infoContent =''
 
@@ -24,24 +25,32 @@ export class MapComponent implements OnInit{
   markerOptions: google.maps.MarkerOptions = {draggable: false};
   markers: any[] = [];
 
-
   //coordinates= {lat: 50, lng: 14}; 
   display?: google.maps.LatLngLiteral = {lat: 40.41, lng: -3.7}; //coordenadas iniciales se deben sustituir por la ubicación del usuario si disponemos de ella
 
   constructor(private httpClient: HttpClient, private mapServ: mapService){
-    this.apiLoaded = this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleAPIKey}`, 'callback')
+    this.apiLoaded = this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleAPIKey}&libraries=places`, 'callback')
     .pipe(
       map(() => true),
       catchError(() => of(false)),
     );
+
+    console.log(3)
   }
 
+
   ngOnInit(){
+    console.log(4)
     this.setMarkers();
-   
+
+  }
+
+  getCenter(){
+    return this.center;
   }
 
 //*******************eventos de ratón************************/
+//mapa
   moveMap(event: google.maps.MapMouseEvent) {
     console.log(event)
     this.center = (event?.latLng?.toJSON()) || this.center;
@@ -52,8 +61,22 @@ export class MapComponent implements OnInit{
     this.display = event?.latLng?.toJSON();
    
   }
+//marcadores
+  infoMarker(markerElem: MapMarker, marker: any){
+    console.log(this.infoContent)
+    console.log(this.info)
 
-  //*********************markers**********************************/
+    this.setInfoMarker(marker);   
+    this.info.open(markerElem)
+  }
+
+  infoPosition(marker: any){
+
+    console.log(marker)
+  }
+
+
+  //********************* generación de markers**********************************/
   setMarkers(){
     
     this.markers=[]
@@ -70,24 +93,17 @@ export class MapComponent implements OnInit{
     this.markers.push(event.latLng.toJSON());}
   }
 
-  infoPosition(marker: any){
-
-    console.log(marker)
-  }
-
- 
-  infoMarker(markerElem: MapMarker, marker: any){
-    console.log(this.infoContent)
-    console.log(this.info)
-
-    this.setInfoMarker(marker);   
-    this.info.open(markerElem)
-  }
+  //********************* actualización de información **********************************/
 
   //actualiza ventana emergente
   setInfoMarker(marker: any){
     this.infoContent ="id: " + marker.place_id;
   }
+
+ /* updateSearchBar(address: string){
+
+  }
+*/
 
 }
 
