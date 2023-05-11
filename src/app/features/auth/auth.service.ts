@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { logout } from '../../shared/stores/actions/auth.actions';
 import { AuthLogin } from '../../models/auth.model';
 
