@@ -6,12 +6,12 @@ import { Observable, catchError, map, of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class mapService {
+export class markersService {
 apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  getMap(coordinates: any){
+  getMarkers(coordinates: any){
 
   return this.http.post(`${this.apiUrl}/maps/location/coords`, coordinates)
 

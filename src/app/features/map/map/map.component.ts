@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { mapService } from '../map.service';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { markersService } from '../services/markers.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -27,7 +27,7 @@ export class MapComponent implements OnInit{
   //coordinates= {lat: 50, lng: 14}; 
   display?: google.maps.LatLngLiteral = {lat: 40.41, lng: -3.7}; //coordenadas iniciales se deben sustituir por la ubicación del usuario si disponemos de ella
 
-  constructor(private httpClient: HttpClient, private mapServ: mapService){
+  constructor(private httpClient: HttpClient, private markerService: markersService){
     this.apiLoaded = this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleAPIKey}&libraries=places`, 'callback')
     .pipe(
       map(() => true),
@@ -77,7 +77,7 @@ export class MapComponent implements OnInit{
   setMarkers(){
     
     this.markers=[]
-    this.mapServ.getMap(this.display).subscribe({ 
+    this.markerService.getMarkers(this.display).subscribe({ 
       next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markers.push(e as google.maps.Marker)})
       })
      })
@@ -99,9 +99,7 @@ export class MapComponent implements OnInit{
 
   //actualiza mapa con el buscador de direcciones
   recieveLatLng($event: any) {
-
-    console.log('event' + $event)
-    console.log($event)
+  
     this.center = $event
     this.display = $event
     this.setMarkers()

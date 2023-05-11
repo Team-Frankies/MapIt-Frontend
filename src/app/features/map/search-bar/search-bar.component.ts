@@ -9,9 +9,6 @@ export class SearchBarComponent{
  @ViewChild('searchBar', { static: false })searchBar!: ElementRef<HTMLInputElement>;
  @Output('location') searchResult = new EventEmitter<google.maps.LatLngLiteral>();
 
-
-  text = '';
-
   ngAfterViewInit() {
     console.log(1)
     this.initAutocomplete();
@@ -32,7 +29,6 @@ export class SearchBarComponent{
  
       console.log("place: ")
       console.log( place)
-       //console.log(this.searchResult.arguments)
        const lat = place.geometry?.location?.lat() || 0
        const lng = place.geometry?.location?.lng() || 0
 
@@ -42,14 +38,7 @@ export class SearchBarComponent{
     });
   
   
-  // 
   }
 
-  /*search() {
-    // Aquí realizas la búsqueda y obtienes el resultado
-    const result = 'Resultado de búsqueda';
-    this.searchResult.emit(this.text);
-  }
-*/
 
 }}
