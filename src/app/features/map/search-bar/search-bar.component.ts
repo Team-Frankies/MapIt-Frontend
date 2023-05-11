@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-search-bar',
@@ -7,7 +7,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class SearchBarComponent{
  @ViewChild('searchBar', { static: false })searchBar!: ElementRef<HTMLInputElement>;
- //@Output() searchResult = new EventEmitter<string>();
+ @Output('location') searchResult = new EventEmitter<google.maps.LatLngLiteral>();
+
 
   text = '';
 
@@ -28,11 +29,20 @@ export class SearchBarComponent{
     );
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
+ 
+      console.log("place: ")
+      console.log( place)
+       //console.log(this.searchResult.arguments)
+       const lat = place.geometry?.location?.lat() || 0
+       const lng = place.geometry?.location?.lng() || 0
+
       // Aquí puedes manejar la selección de un lugar en el buscador
+      
+      this.searchResult.emit({lat, lng})
     });
   
-  }
   
+  // 
   }
 
   /*search() {
@@ -42,5 +52,4 @@ export class SearchBarComponent{
   }
 */
 
-}
-
+}}

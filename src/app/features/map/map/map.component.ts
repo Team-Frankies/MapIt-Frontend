@@ -12,8 +12,7 @@ import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 })
 export class MapComponent implements OnInit{
   @ViewChild(MapInfoWindow, { static: false })info!: MapInfoWindow;
-  //@ViewChild('searchBar', { static: false })searchBar!: ElementRef<HTMLInputElement>;
-  //@Input() address?: string;
+  @Input() address?:  google.maps.LatLngLiteral;
 
   infoContent =''
 
@@ -45,9 +44,7 @@ export class MapComponent implements OnInit{
 
   }
 
-  getCenter(){
-    return this.center;
-  }
+  
 
 //*******************eventos de ratón************************/
 //mapa
@@ -100,10 +97,17 @@ export class MapComponent implements OnInit{
     this.infoContent ="id: " + marker.place_id;
   }
 
- /* updateSearchBar(address: string){
+  //actualiza mapa con el buscador de direcciones
+  recieveLatLng($event: any) {
 
+    console.log('event' + $event)
+    console.log($event)
+    this.center = $event
+    this.display = $event
+    this.setMarkers()
   }
-*/
+  
+
 
 }
 
