@@ -27,9 +27,6 @@ export class LoginComponent {
   });
   hide = true;
   token = '';
-  theme = document.body.classList.contains('dark-theme')
-    ? 'dark-theme'
-    : 'light-theme';
 
   constructor(
     private authService: AuthService,
@@ -38,7 +35,6 @@ export class LoginComponent {
   ) {}
 
   getErrorMessage(fieldName: string) {
-    console.log(this.theme);
     const field = this.loginForm.get(fieldName);
     if (field?.touched && field?.hasError('required')) {
       return 'Ingresa un valor';
