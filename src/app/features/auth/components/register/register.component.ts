@@ -2,9 +2,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 
 import { AuthService } from '../../auth.service';
-import { catchError, tap, throwError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomValidators } from '../../../../shared/validators/custom.validators';
+import { AuthRegister } from '../../../../models/auth.model';
+
 
 export enum RequiredMessages {
   email = 'El e-mail es requerido',
@@ -48,9 +49,9 @@ export class RegisterComponent {
       return;
     }
     (await (this.authService
-      .register(this.f.value)))
+      .register(this.f.value as AuthRegister)))
       .subscribe({
-        next: (resp: any) => localStorage.setItem('token', resp.token),
+        next: (resp) => localStorage.setItem('token', resp.token),
         error: (err) => console.error({err}),
         complete: () => this.router.navigate(['../login'], { relativeTo: this.route })
       });

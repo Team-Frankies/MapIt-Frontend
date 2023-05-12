@@ -2,7 +2,6 @@ import { AuthService } from './../../../features/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { login, logout } from '../../stores/actions/auth.actions';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   appTitle = 'HelpDesk';
   theme = false;
   loggedIn$: Observable<boolean>;
