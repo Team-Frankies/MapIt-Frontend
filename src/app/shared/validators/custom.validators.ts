@@ -17,8 +17,8 @@ export class CustomValidators {
   }
 
   static checkPassword(control: AbstractControl): ValidationErrors | null {
-      let enteredPassword = control.value;
-      let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.{6,})/;
+      const enteredPassword = control.value;
+      const passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.{6,})/;
 
       return !passwordCheck.test(enteredPassword) && enteredPassword
         ? { requirements: true }

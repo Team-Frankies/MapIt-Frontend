@@ -1,3 +1,4 @@
+import { Token } from './../../../../models/auth.model';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { RegisterComponent, RequiredMessages } from './register.component';
@@ -8,10 +9,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from 'src/app/shared/modules/material/angular-material.module';
 import { AuthService } from '../../auth.service';
 import { LoginComponent } from '../login/login.component';
-import { of, Observable, throwError } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 class AuthServiceStub {
-  register(): Observable<any> {
+  register(): Observable<Token> {
     return of({ token: 'tokenJWT' });
   }
 }
@@ -80,7 +81,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should have a password validator that requires at least 6 characters, 1 uppercase letter, and 1 number', () => {
-    let passwordControl = component.f.controls.password;
+    const passwordControl = component.f.controls.password;
     passwordControl.setValue('invalid');
     expect(passwordControl.hasError('requirements')).toBeTruthy();
     passwordControl.setValue('Valid1');
@@ -88,8 +89,8 @@ describe('RegisterComponent', () => {
   });
 
   it('should have a passwordsMatching validator that requires password and passwordConfirm fields to match', () => {
-    let passwordControl = component.f.controls.password;
-    let passwordConfirmControl = component.f.controls.passwordConfirm;
+    const passwordControl = component.f.controls.password;
+    const passwordConfirmControl = component.f.controls.passwordConfirm;
     passwordControl.setValue('Valid1');
     passwordConfirmControl.setValue('Invalid');
     expect(component.f.hasError('passwordsNotMatching')).toBeTruthy();

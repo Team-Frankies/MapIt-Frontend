@@ -5,6 +5,6 @@ export const initialState = false;
 
 export const authReducer = createReducer(
   initialState,
-  on(login, (state) => true),
-  on(logout, (state) => false),
+  on(login, () => true),
+  on(logout, () => false),
 );
