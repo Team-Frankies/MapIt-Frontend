@@ -1,12 +1,7 @@
-interface Point {
-    location : Location[];
-  }
-  interface Location {
-    lat: number;
-    lng: number;
-  }
 
-  interface IPlace {
-    location: google.maps.LatLngLiteral;
-    place_id: string;
+  interface PlaceInterface {
+    formatted_address: string;
+    name: String;
+    rating: DoubleRange;
+    accesible: Boolean;
   }

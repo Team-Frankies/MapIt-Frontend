@@ -9,10 +9,9 @@ export class PlacesService {
   apiUrl = environment.apiUrl;
   constructor (private http: HttpClient) { }
 
-  getDataPlace(coordinates: any){
-
-    return this.http.post(`${this.apiUrl}/maps/:place_id`, coordinates)
-  
+  getDataPlace(placeId: any){
+    
+      return this.http.get(`${this.apiUrl}/places/`+ placeId)
     }
   
 }

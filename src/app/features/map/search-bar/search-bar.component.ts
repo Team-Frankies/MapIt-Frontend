@@ -10,12 +10,10 @@ export class SearchBarComponent{
  @Output('location') searchResult = new EventEmitter<google.maps.LatLngLiteral>();
 
   ngAfterViewInit() {
-    console.log(1)
     this.initAutocomplete();
   }
 
   initAutocomplete() {
-    console.log(2)
     if (this.searchBar && this.searchBar.nativeElement instanceof HTMLInputElement) {
     const autocomplete = new google.maps.places.Autocomplete(
 
@@ -24,7 +22,7 @@ export class SearchBarComponent{
         types: ['geocode'],
       }
     );
-    autocomplete.addListener('place_changed', () => {
+      autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
  
       console.log("place: ")
@@ -36,9 +34,6 @@ export class SearchBarComponent{
       
       this.searchResult.emit({lat, lng})
     });
-  
-  
   }
-
 
 }}

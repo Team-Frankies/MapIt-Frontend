@@ -3,14 +3,16 @@ import { CommonModule } from '@angular/common';
 import { MapComponent } from './map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { MapRoutingModule } from './map-routing.module';
+import { InfoWindowComponent } from './info-window/info-window.component';
 
 @NgModule({
   declarations: [
     MapComponent,
     SearchBarComponent,
+    InfoWindowComponent,
 
   ],
   imports: [
