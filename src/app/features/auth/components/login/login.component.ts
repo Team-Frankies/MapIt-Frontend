@@ -17,7 +17,7 @@ export class LoginComponent {
       Validators.required,
       Validators.email,
       Validators.pattern(
-        /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
+        /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
       ),
     ]),
     password: new FormControl('', [
@@ -49,10 +49,13 @@ export class LoginComponent {
   async login() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      (await this.authService.login({ email, password } as AuthLogin)).subscribe({
-        next: (res: any) => {
+      (
+        await this.authService.login({ email, password } as AuthLogin)
+      ).subscribe({
+        next: (res) => {
+          console.log(res);
           localStorage.setItem('token', res.token),
-          this.store.dispatch(login())
+            this.store.dispatch(login());
         },
         error: (err) => console.error({ err }),
         complete: () => this.router.navigate(['/map']),
@@ -60,5 +63,8 @@ export class LoginComponent {
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+  redirectSignUp() {
+    this.router.navigate(['/auth/register']);
   }
 }

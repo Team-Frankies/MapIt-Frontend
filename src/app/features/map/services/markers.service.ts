@@ -10,11 +10,8 @@ apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  getMarkers(coordinates: any){
-
+  getMap(coordinates: google.maps.LatLngLiteral){
   return this.http.post(`${this.apiUrl}/maps/location/coords`, coordinates)
 
   }
-
-  
 }

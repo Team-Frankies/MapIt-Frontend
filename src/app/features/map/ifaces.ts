@@ -1,5 +1,4 @@
-
-  interface PlaceInterface {
+interface PlaceInterface {
     formatted_address: string;
     name: String;
     rating: DoubleRange;

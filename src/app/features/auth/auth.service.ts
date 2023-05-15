@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
 import { logout } from '../../shared/stores/actions/auth.actions';
-import { AuthLogin } from '../../models/auth.model';
+import { AuthLogin, AuthRegister, Token } from '../../models/auth.model';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
@@ -15,19 +17,19 @@ export class AuthService {
     private store: Store<{ loggedIn: boolean }>
   ) {}
 
-  async register(inputdata: any) {
+  register(inputdata: AuthRegister): Observable<Token> {
     const { email, firstname, lastname, password } = inputdata;
 
-    return await this.http.post(`${this.apiUrl}/auth/sign-up`, {
+    return this.http.post<Token>(`${this.apiUrl}/auth/sign-up`, {
       email,
       firstname,
       lastname,
       password,
     });
   }
-  async login(authLogin: AuthLogin) {
-    const { email, password } = authLogin
-    return await this.http.post(`${this.apiUrl}/auth/sign-in`, {
+  login(authLogin: AuthLogin): Observable<Token> {
+    const { email, password } = authLogin;
+    return this.http.post<Token>(`${this.apiUrl}/auth/sign-in`, {
       email,
       password,
     });
@@ -35,6 +37,6 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    this.store.dispatch(logout())
+    this.store.dispatch(logout());
   }
 }

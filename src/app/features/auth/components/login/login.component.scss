@@ -6,6 +6,7 @@
   gap: 1rem;
   min-height: calc(100vh - 2rem);
   padding: 1rem;
+  background-color: inherit;
 }
 
 .login-form {
@@ -18,5 +19,6 @@
   &-btn {
     display: flex;
     justify-content: flex-end;
+    gap: 5rem;
   }
 }

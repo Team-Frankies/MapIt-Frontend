@@ -26,8 +26,8 @@ export class MapComponent implements OnInit{
   markerOptions: google.maps.MarkerOptions = {draggable: false};
   markers: any[] = [];
 
-  //coordinates= {lat: 50, lng: 14}; 
-  display?: google.maps.LatLngLiteral = {lat: 40.41, lng: -3.7}; //coordenadas iniciales se deben sustituir por la ubicación del usuario si disponemos de ella
+  //coordinates= {lat: 50, lng: 14};
+  display: google.maps.LatLngLiteral = {lat: 40.41, lng: -3.7}; //coordenadas iniciales se deben sustituir por la ubicación del usuario si disponemos de ella
 
   constructor(private httpClient: HttpClient,private markerService: MarkersService, private infoPlace: PlacesService){
     this.apiLoaded = this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleAPIKey}&libraries=places`, 'callback')
@@ -56,8 +56,8 @@ export class MapComponent implements OnInit{
   }
 
   move(event: google.maps.MapMouseEvent) {
-    this.display = event?.latLng?.toJSON();
-   
+    this.display = event?.latLng?.toJSON() || this.display;
+
   }
 //marcadores
   infoMarker(markerElem: MapMarker, marker: any){
@@ -67,8 +67,8 @@ export class MapComponent implements OnInit{
       next:  (data)=>  {this.setInfoMarker(data, markerElem)}
       })
 
-    //this.setInfoMarker(marker, markerElem);   
-    //this.info.open(markerElem)
+    this.setInfoMarker(marker, markerElem);   
+   // this.info.open(markerElem)
   }
 
   infoPosition(marker: any){
@@ -79,9 +79,9 @@ export class MapComponent implements OnInit{
 
   //********************* generación de markers**********************************/
   setMarkers(){
-    
+
     this.markers=[]
-    this.markerService.getMarkers(this.display).subscribe({ 
+    this.markerService.getMap(this.display).subscribe({ 
       next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markers.push(e as google.maps.Marker)})
       })
      })
@@ -136,7 +136,7 @@ export class MapComponent implements OnInit{
 
 }
 
- 
+
 
 
 
