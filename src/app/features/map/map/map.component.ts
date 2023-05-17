@@ -15,8 +15,11 @@ export class MapComponent implements OnInit{
   @ViewChild(MapInfoWindow, { static: false })info!: MapInfoWindow;
   @Input() address?:  google.maps.LatLngLiteral;
 
+  sizeMap = 'w-full';
   infoContent = '';
-  place?: any ;
+  place?: any | google.maps.Marker ;
+  infoSite= false;
+
 
   apiLoaded: Observable<boolean>;
 
@@ -36,7 +39,6 @@ export class MapComponent implements OnInit{
       catchError(() => of(false)),
     );
 
-
   }
 
 
@@ -51,6 +53,8 @@ export class MapComponent implements OnInit{
 //mapa
   moveMap(event: google.maps.MapMouseEvent) {
     console.log(event)
+    this.infoSite = false;
+    this.sizeMap = 'w-full';
     this.center = (event?.latLng?.toJSON()) || this.center;
     this.setMarkers();
   }
@@ -61,8 +65,7 @@ export class MapComponent implements OnInit{
   }
 //marcadores
   infoMarker(markerElem: MapMarker, marker: any){
-    //console.log(this.infoContent)
-    //console.log(this.info)
+  
     this.infoPlace.getDataPlace(marker.place_id).subscribe({ 
       next:  (data)=>  {this.setInfoMarker(data, markerElem)}
       })
@@ -71,10 +74,11 @@ export class MapComponent implements OnInit{
    // this.info.open(markerElem)
   }
 
-  infoPosition(marker: any){
-
-    //console.log(marker)
+  showInfoSite(marker: any){
+    this.infoSite = true;
+    this.sizeMap = 'w-2/3';
   }
+
 
 
   //********************* generación de markers**********************************/

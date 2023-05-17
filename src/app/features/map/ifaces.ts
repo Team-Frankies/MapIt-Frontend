@@ -1,6 +1,6 @@
 interface PlaceInterface {
     formatted_address: string;
-    name: String;
+    name: string;
     rating: DoubleRange;
-    accesible: Boolean;
+    accesible: boolean;
   }
