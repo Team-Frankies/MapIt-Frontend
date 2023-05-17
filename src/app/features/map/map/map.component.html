@@ -24,7 +24,16 @@
         (mapMouseout)="closeInfoMarker()"
         (mapClick)="showInfoSite(marker)"
         ></map-marker>
-        <map-info-window #infoWindow>{{ infoContent }}</map-info-window>
+        <map-info-window #infoWindow >
+          <div class="address"> 
+            <div jstcache="3" class="title full-width font-semibold text-center" jsan="7.title,7.full-width">{{infoContent[4]}}</div> 
+            <div jstcache="4" jsinstance="0" class="address-line full-width text-center" jsan="7.address-line,7.full-width">{{infoContent[0]}}, {{infoContent[1]}}</div>
+            <div jstcache="4" jsinstance="0" class="address-line full-width text-center" jsan="7.address-line,7.full-width">{{infoContent[2]}}</div>
+            <div jstcache="4" jsinstance="0" class="address-line full-width text-center" jsan="7.address-line,7.full-width">{{infoContent[3]}}</div>
+            <div jstcache="4" jsinstance="0" class="address-line full-width text-center" jsan="7.address-line,7.full-width">Accesible en silla de ruedas: {{infoContent[6]}}</div>
+            <div jstcache="4" jsinstance="*2" class="address-line full-width text-center" jsan="7.address-line,7.full-width">valoración: {{infoContent[5]}}</div>
+          </div> 
+        </map-info-window>
   
           
     </google-map>
@@ -33,7 +42,11 @@
 
 </div>
 
-<!--<div class="w-full" *ngIf="apiLoaded | async">
+<!--
+  
+  *ngIf="place!= null"
+  
+  <div class="w-full" *ngIf="apiLoaded | async">
   <app-search-bar  class="w-full"  (location)="recieveLatLng($event)"></app-search-bar>
 
   <div class="relative">

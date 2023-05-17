@@ -16,7 +16,8 @@ export class MapComponent implements OnInit{
   @Input() address?:  google.maps.LatLngLiteral;
 
   sizeMap = 'w-full';
-  infoContent = '';
+  //infoContent = '';
+  infoContent: string[] =[]
   place?: any | google.maps.Marker ;
   infoSite= false;
 
@@ -53,7 +54,7 @@ export class MapComponent implements OnInit{
 //mapa
   moveMap(event: google.maps.MapMouseEvent) {
     if(!this.infoSite){
-    console.log(event)
+    //console.log(event)
     this.center = (event?.latLng?.toJSON()) || this.center;
     this.setMarkers();}
     else{
@@ -72,7 +73,6 @@ export class MapComponent implements OnInit{
       next:  (data)=>  {this.setInfoMarker(data, markerElem)}
       })
 
-    this.setInfoMarker(marker, markerElem);   
    // this.info.open(markerElem)
   }
 
@@ -84,8 +84,8 @@ export class MapComponent implements OnInit{
       next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markers.push(e as google.maps.Marker)})
       })
      })
-     console.log('markers')
-     console.log(this.markers)
+     //console.log('markers')
+     //console.log(this.markers)
 
      
   }
@@ -97,24 +97,17 @@ export class MapComponent implements OnInit{
 
   //********************* actualización de información **********************************/
 
-  placeToString(){
-
-    /**div jstcache="2">  <div class="address"> <div jstcache="3" class="title full-width" jsan="7.title,7.full-width">Shoko Madrid</div><div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width">C. de Toledo, 86</div><div jstcache="4" jsinstance="1" class="address-line full-width" jsan="7.address-line,7.full-width">28005 Madrid</div><div jstcache="4" jsinstance="*2" class="address-line full-width" jsan="7.address-line,7.full-width">España</div> </div> </div> */
-   /* return `<div class="address"><div jstcache="3" class="title full-width" jsan="7.title,7.full-width">${this.place.name}</div> 
-    <div jstcache="4" jsinstance="0" class="address-line full-width" jsan="7.address-line,7.full-width">${this.place.formatted_address}</div>
-    <div jstcache="4" jsinstance="*2" class="address-line full-width" jsan="7.address-line,7.full-width">estrellas: ${this.place.rating}</div> </div> </div> 
-    `;*/
-
-    return `${this.place.name},  ${this.place.formatted_address}, estrellas: ${this.place.rating}`;
-  }
-
   //actualiza informacion de punto
   setInfoMarker(place: any, markerElem: MapMarker){
-    
+      
       this.place = place;
-      console.log(place);
-      this.infoContent = this.placeToString()
+     // this.infoContent = this.placeToString()
+     console.log(1)
+     console.log(place)
+     if(place != null){
+     this.placeSetInfo();
       this.info.open(markerElem)
+     }
   
   }
 
@@ -130,11 +123,28 @@ export class MapComponent implements OnInit{
     this.setMarkers()
   }
 
+  //********************* generando inforamción para map-info-window **********************************/
+  placeSetInfo(){
+    this.infoContent =[]
+    
+    this.infoContent = this.place.formatted_address.split(",", 5); 
+  
+    this.infoContent.push(this.place.name)
+    this.infoContent.push(this.place.rating)
+    if(this.place.wheelchair_accessible_entrance){
+    this.infoContent.push("si")}
+    else{
+      this.infoContent.push("no")
+    }
+
+    console.log(this.infoContent)
+      }
+
 
   //********************* ventana emergente **********************************/
   showInfoSite(marker: any){
     this.infoSite = true;
-    this.sizeMap = 'w-2/3';
+    this.sizeMap = 'w-3/4';
   }
 
   closeInfoSite(){
