@@ -1,4 +1,5 @@
-import { Component} from '@angular/core';
+import { Component, Input} from '@angular/core';
+import { PlaceInterface } from '../ifaces';
 
 @Component({
   selector: 'app-info-window',
@@ -6,12 +7,7 @@ import { Component} from '@angular/core';
   styleUrls: ['./info-window.component.scss']
 })
 export class InfoWindowComponent {
-  //@ViewChild('', { static: false })info!: ElementRef;
 
-  mostrarElemento = true;
+  @Input() place!: PlaceInterface;
 
-  nomostrar(){
-    console.log('mostrar')
-    this.mostrarElemento = !this.mostrarElemento
-  }
 }

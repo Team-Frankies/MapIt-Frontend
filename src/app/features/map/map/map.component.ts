@@ -52,11 +52,13 @@ export class MapComponent implements OnInit{
 //*******************eventos de ratón************************/
 //mapa
   moveMap(event: google.maps.MapMouseEvent) {
+    if(!this.infoSite){
     console.log(event)
-    this.infoSite = false;
-    this.sizeMap = 'w-full';
     this.center = (event?.latLng?.toJSON()) || this.center;
-    this.setMarkers();
+    this.setMarkers();}
+    else{
+     this.closeInfoSite();
+    }
   }
 
   move(event: google.maps.MapMouseEvent) {
@@ -73,13 +75,6 @@ export class MapComponent implements OnInit{
     this.setInfoMarker(marker, markerElem);   
    // this.info.open(markerElem)
   }
-
-  showInfoSite(marker: any){
-    this.infoSite = true;
-    this.sizeMap = 'w-2/3';
-  }
-
-
 
   //********************* generación de markers**********************************/
   setMarkers(){
@@ -113,9 +108,8 @@ export class MapComponent implements OnInit{
     return `${this.place.name},  ${this.place.formatted_address}, estrellas: ${this.place.rating}`;
   }
 
-  //actualiza ventana emergente
+  //actualiza informacion de punto
   setInfoMarker(place: any, markerElem: MapMarker){
-   
     
       this.place = place;
       console.log(place);
@@ -135,8 +129,18 @@ export class MapComponent implements OnInit{
     this.display = $event
     this.setMarkers()
   }
-  
 
+
+  //********************* ventana emergente **********************************/
+  showInfoSite(marker: any){
+    this.infoSite = true;
+    this.sizeMap = 'w-2/3';
+  }
+
+  closeInfoSite(){
+    this.infoSite = false;
+    this.sizeMap = 'w-full';
+  }
 
 }
 
