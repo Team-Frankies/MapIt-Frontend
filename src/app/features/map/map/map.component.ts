@@ -1,17 +1,21 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MarkersService } from '../services/markers.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { PlacesService } from '../services/places.service';
+import {GeolocationService} from '@ng-web-apis/geolocation';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit{
+export class MapComponent{
   @ViewChild(MapInfoWindow, { static: false })info!: MapInfoWindow;
   @Input() address?:  google.maps.LatLngLiteral;
 
@@ -21,11 +25,12 @@ export class MapComponent implements OnInit{
   place?: any | google.maps.Marker ;
   infoSite= false;
 
-
-  apiLoaded: Observable<boolean>;
-
   center={lat: 40.41, lng: -3.7};
   zoom = 15;
+  openMap = false;
+
+  
+  apiLoaded: Observable<boolean>;
 
   markerOptions: google.maps.MarkerOptions = {draggable: false};
   markers: any[] = [];
@@ -33,18 +38,20 @@ export class MapComponent implements OnInit{
   //coordinates= {lat: 50, lng: 14};
   display: google.maps.LatLngLiteral = {lat: 40.41, lng: -3.7}; //coordenadas iniciales se deben sustituir por la ubicación del usuario si disponemos de ella
 
-  constructor(private httpClient: HttpClient,private markerService: MarkersService, private infoPlace: PlacesService){
+  constructor(private httpClient: HttpClient,private markerService: MarkersService, private infoPlace: PlacesService, private readonly geolocation$: GeolocationService, public snackBar: MatSnackBar){
+    
     this.apiLoaded = this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleAPIKey}&libraries=places`, 'callback')
     .pipe(
       map(() => true),
       catchError(() => of(false)),
-    );
-
-  }
+    );   
 
 
-  ngOnInit(){
-    this.setMarkers();
+    geolocation$.pipe(take(1)).subscribe(position =>  {
+      this.center={lat: position.coords.latitude, lng: position.coords.longitude}
+      , this.display=this.center; this.setMarkers(), this.openMap =true}, (error: GeolocationPositionError) =>{this.setMarkers(),  this.openMap =true, this.snackBar.open('Ubicación no disponible', undefined, {
+        duration:400
+      })});
 
   }
 
@@ -78,7 +85,9 @@ export class MapComponent implements OnInit{
 
   //********************* generación de markers**********************************/
   setMarkers(){
-
+   
+   
+    console.log(2)
     this.markers=[]
     this.markerService.getMap(this.display).subscribe({ 
       next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markers.push(e as google.maps.Marker)})
@@ -106,6 +115,7 @@ export class MapComponent implements OnInit{
      console.log(place)
      if(place != null){
      this.placeSetInfo();
+    
       this.info.open(markerElem)
      }
   
@@ -127,7 +137,7 @@ export class MapComponent implements OnInit{
   placeSetInfo(){
     this.infoContent =[]
     
-    this.infoContent = this.place.formatted_address.split(",", 5); 
+    this.infoContent = this.place.formatted_address.split(",", 4); 
   
     this.infoContent.push(this.place.name)
     this.infoContent.push(this.place.rating)
