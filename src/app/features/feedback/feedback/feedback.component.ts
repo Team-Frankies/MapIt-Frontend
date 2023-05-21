@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FeedbackService } from '../feedback.service';
-import { Feedback } from '../../../models/feedback.model';
+// import { FeedbackService } from '../feedback.service';
+// import { Feedback } from '../../../models/feedback.model';
 
 export enum RequiredMessages {
   email = 'El e-mail es requerido',
