@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 // import { FeedbackService } from '../feedback.service';
-// import { Feedback } from '../../../models/feedback.model';
+import { Feedback } from '../../../models/feedback.model';
 
 export enum RequiredMessages {
   email = 'El e-mail es requerido',
@@ -14,6 +14,9 @@ export enum RequiredMessages {
   styleUrls: ['./feedback.component.scss'],
 })
 export class FeedbackComponent {
+
+  // constructor(private FeedbackService: FeedbackService) {}
+
   feedbackForm = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     lastname: new FormControl('', [Validators.required]),
@@ -43,5 +46,23 @@ export class FeedbackComponent {
       this.form.get(input)?.invalid &&
       this.form.get(input)?.pristine;
     return validation;
+  }
+
+  // TODO: Añadir async/await
+  sendFeedback(){
+    let feedbackValues = this.form.value as Feedback;
+    console.log(feedbackValues);
+    
+    // if (this.form.invalid) {
+    //   return;
+    // }
+    // await this.FeedbackService
+    //   .sendFeedback(this.form.value as Feedback)
+    //   .subscribe({
+    //     next: (res) => console.log(res),
+    //     error: (err) => console.error(err),
+    //     complete: () => console.log('Feedback sent')
+    //   })
+
   }
 }

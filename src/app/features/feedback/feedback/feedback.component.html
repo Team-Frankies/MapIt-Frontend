@@ -5,7 +5,7 @@
 
 
       <mat-card-content>
-        <form class="FeedbackForm" [formGroup]="feedbackForm" > <!-- TODO: add (ngSubmit)="onSubmit()" -->
+        <form class="FeedbackForm" [formGroup]="feedbackForm" (ngSubmit)="sendFeedback()" >
 
           <mat-form-field appearance="outline" style="width: 50%; display: inline-block; padding-left: 0.15rem;">
             <mat-label>Nombre</mat-label>
