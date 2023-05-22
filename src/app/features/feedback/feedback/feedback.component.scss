@@ -1,7 +1,6 @@
 .feedback-container {
-  margin-top: 50px;
-  height: 100%;
   width: 100%;
+  height: calc(100vh - 64px);
   align-items: center;
   display: flex;
   flex-wrap: wrap;
@@ -9,11 +8,12 @@
 
 mat-form-field {
   width: 100%;
+  margin-bottom: 0.4rem;
 }
 
 .feedback-content {
   width: 80%;
-  max-width: 400px;
+  max-width: 350px;
   display: block;
   margin: 0 auto;
 
@@ -25,10 +25,6 @@ mat-form-field {
 
 mat-toolbar {
   margin-bottom: 1rem;
-}
-
-small {
-  margin-left: -15px;
 }
 
 textarea {

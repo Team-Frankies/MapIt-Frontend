@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
-// import { Feedback } from '../../models/feedback.model';
+import { Feedback } from '../../models/feedback.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SendModalComponent } from './components/send-modal/send-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +13,26 @@ export class FeedbackService {
 
   constructor(
     private http: HttpClient,
+    private _snackBar: MatSnackBar
   ) { }
   
   // TODO: Add feedback to the database
-  // sendFeedback(feedback: Feedback) {
-  //    return this.http.post(`${this.apiUrl}/feedback`, feedback);
-  // }
+  sendFeedback(
+    feedback: Feedback  
+    ) {
+
+      this.showConfirmationMessage();
+      console.log("Mensaje Enviado", feedback);
+  
+      return this.http.post(`${this.apiUrl}/feedback`, feedback);
+  }
+
+
+  private showConfirmationMessage() {
+    this._snackBar.openFromComponent(SendModalComponent, {
+      duration: 2500,
+    });
+  }
 
 
 }
