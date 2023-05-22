@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-// import { FeedbackService } from '../feedback.service';
 import { Feedback } from '../../../models/feedback.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+// import { FeedbackService } from '../feedback.service';
 
 export enum RequiredMessages {
   email = 'El e-mail es requerido',
@@ -16,6 +18,7 @@ export enum RequiredMessages {
 export class FeedbackComponent {
 
   // constructor(private FeedbackService: FeedbackService) {}
+  constructor(private _snackBar: MatSnackBar) {}
 
   feedbackForm = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
@@ -48,9 +51,9 @@ export class FeedbackComponent {
     return validation;
   }
 
-  // TODO: Añadir async/await
+  // TODO: Añadir async/await y enlace con servicio
   sendFeedback(){
-    let feedbackValues = this.form.value as Feedback;
+    const feedbackValues = this.form.value as Feedback;
     console.log(feedbackValues);
     
     // if (this.form.invalid) {
@@ -64,5 +67,28 @@ export class FeedbackComponent {
     //     complete: () => console.log('Feedback sent')
     //   })
 
+    this.form.reset();
+    this._snackBar.openFromComponent(SendModalComponent, {
+      duration: 2500,
+    });
+
   }
 }
+
+@Component({
+  selector: 'snack-bar-component-snack',
+  template: `
+    <div class="send-message">
+      <p>Mensaje Enviado</p> <mat-icon>done_outline</mat-icon>
+    </div>`,
+  styles: [
+    `
+      .send-message {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+    `
+  ]
+})
+export class SendModalComponent {}
