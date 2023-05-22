@@ -10,7 +10,6 @@ import { FeedbackService } from '../feedback.service';
   styleUrls: ['./feedback.component.scss'],
 })
 export class FeedbackComponent {
-  enableValidations: boolean = true;
 
   constructor(
     private router: Router,

@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class mapService {
+export class MarkersService {
 apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
@@ -14,6 +14,4 @@ apiUrl = environment.apiUrl;
   return this.http.post(`${this.apiUrl}/maps/location/coords`, coordinates)
 
   }
-
-
 }
