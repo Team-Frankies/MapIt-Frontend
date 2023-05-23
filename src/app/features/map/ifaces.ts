@@ -16,3 +16,13 @@ export interface PlaceInterface {
     v: DoubleRange
    
   }
+
+  export interface PlaceInterface{
+    formattedAddress: string;
+    address_components: Array<string[]>;
+    name: string;
+    formattedPoneNumbre: string;
+    weekdayText: Array<string[]>;
+    wheelchairAccesibleEntrance: boolean
+    photos: any[]
+  }
