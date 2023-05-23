@@ -7,7 +7,8 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 })
 export class SearchBarComponent{
  @ViewChild('searchBar', { static: false })searchBar!: ElementRef<HTMLInputElement>;
-  searchResult = new EventEmitter<google.maps.LatLngLiteral>()
+ @Output() searchResult = new EventEmitter<google.maps.LatLngLiteral>();
+ 
 
   ngAfterViewInit() {
     this.initAutocomplete();
