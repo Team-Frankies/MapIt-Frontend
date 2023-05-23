@@ -24,7 +24,7 @@ export class FeedbackService {
       this.showConfirmationMessage();
       console.log("Mensaje Enviado", feedback);
   
-      return this.http.post(`${this.apiUrl}/feedback`, feedback);
+      // return this.http.post(`${this.apiUrl}/feedback`, feedback);
   }
 
 

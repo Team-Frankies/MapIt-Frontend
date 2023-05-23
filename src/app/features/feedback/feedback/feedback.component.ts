@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Feedback } from '../../../models/feedback.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FeedbackService } from '../feedback.service';
+import { CustomValidators } from 'src/app/shared/validators/custom.validators';
 
 @Component({
   selector: 'app-feedback',
@@ -19,7 +20,7 @@ export class FeedbackComponent {
 
   feedbackForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, CustomValidators.checkEmail]),
     subject: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     message: new FormControl('', [Validators.required, Validators.maxLength(500)]),
   });
@@ -40,12 +41,12 @@ export class FeedbackComponent {
     
     await this.FeedbackService
       .sendFeedback(feedbackValues)
-      .subscribe({
-        next: (res) => console.log(res),
-        error: (err) => console.error(err),
-        complete: () => console.log('Feedback sent')
-      })
-    // this.router.navigate(['/home'])
+      // .subscribe({
+      //   next: (res) => console.log(res),
+      //   error: (err) => console.error(err),
+      //   complete: () => console.log('Feedback sent')
+      // })
+    this.router.navigate([''])
 
     this.form.reset();
   }
