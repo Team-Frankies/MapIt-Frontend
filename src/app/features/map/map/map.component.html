@@ -44,9 +44,9 @@
     </google-map>
 
 
-    <div *ngIf="infoSite" class="absolute inset-y-0 left-0 items-center justify-left w-1/3">
+    <div *ngIf="infoSite" class="absolute inset-y-0 left-0 items-center justify-left w-1/4">
       <div class="wfull h-full bg-red-50">
-        <app-info-window  [placeId]="marker.place_id" ></app-info-window>
+         <app-info-window  [placeId]="idPlaceInfoWindow" [place]="placeInfoWindow" ></app-info-window>
       </div>
     </div>
   </div>

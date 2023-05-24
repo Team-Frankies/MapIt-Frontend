@@ -18,11 +18,11 @@ export interface PlaceInterface {
   }
 
   export interface PlaceInterface{
-    formattedAddress: string;
+    formatted_address: string;
     address_components: Array<string[]>;
     name: string;
-    formattedPoneNumbre: string;
-    weekdayText: Array<string[]>;
-    wheelchairAccesibleEntrance: boolean
+    formatted_phone_number: string;
+    weekday_text: Array<string>;
+    wheelchair_accesible_entrance: boolean
     photos: any[]
   }

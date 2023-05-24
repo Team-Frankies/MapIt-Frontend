@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MarkersService } from '../services/markers.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of, take } from 'rxjs';
@@ -7,7 +7,8 @@ import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { PlacesService } from '../services/places.service';
 import {GeolocationService} from '@ng-web-apis/geolocation';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouterTestingHarness } from '@angular/router/testing';
+import { PlaceInterface } from '../ifaces';
+import { MapService } from '../services/map.service';
 
 
 
@@ -20,17 +21,15 @@ export class MapComponent{
   @ViewChild(MapInfoWindow, { static: false })info!: MapInfoWindow;
   @Input() address?:  google.maps.LatLngLiteral;
 
-  sizeMap = 'w-full';
   infoContent: string[] =[]
-  place?: any | google.maps.Marker ;
-  PlaceDetail?: google.maps.Marker ;
-  infoSite= false;
+  place!: PlaceInterface ;
 
   center={lat: 40.41, lng: -3.7};
   zoom = 15;
   openMap = false;
   
   apiLoaded: Observable<boolean> | undefined;
+  mapLoaded: Observable<boolean> | undefined;
 
   markerOptions: google.maps.MarkerOptions = {draggable: false};
   markers: any[] = [];
@@ -38,12 +37,15 @@ export class MapComponent{
 
   display: google.maps.LatLngLiteral = {lat: 40.41, lng: -3.7}; //coordenadas iniciales se deben sustituir por la ubicación del usuario si disponemos de ella
 
-  constructor(private httpClient: HttpClient,private markerService: MarkersService, private infoPlace: PlacesService, private readonly geolocation$: GeolocationService, public snackBar: MatSnackBar){
-    
+    //variables de ventana emergente
+    idPlaceInfoWindow?: string | any;
+    placeInfoWindow?: PlaceInterface | any;
+    infoSite= false;
+
+  constructor(private httpClient: HttpClient,private mapService: MapService, private markerService: MarkersService, private infoPlace: PlacesService, private readonly geolocation$: GeolocationService, public snackBar: MatSnackBar){
     
     this.getMap()
     this.getUserLocation()
-   
 
   }
 
@@ -53,7 +55,7 @@ export class MapComponent{
     .pipe(
       map(() => true),
       catchError(() => of(false)),
-    );   
+    );  
   }
 
   
@@ -74,17 +76,21 @@ export class MapComponent{
   }
 //obtener información de marker
   infoMarker(markerElem: MapMarker, marker: any){
-    console.log("marker: ")
-    console.log(marker)
+    //console.log("marker: ")
+    //console.log(marker)
+
+    let auxPlace: PlaceInterface;
 
     console.log("id place: " + marker.place_id)
     this.infoPlace.getDataPlace(marker.place_id).subscribe({ 
-      next:  (data)=> Object.entries(data).map((elem: any) => { console.log("elem"), console.log(elem[1].address_components), this.setInfoMarker(elem[1], markerElem)})
-      //this.setInfoMarker(data, markerElem)
+      next: (data) => Object.entries(data).map ((elem:any) => {auxPlace = (elem[1] as PlaceInterface), this.setInfoMarker(auxPlace, markerElem)})
+      
+
+      
       })
 
-   // this.info.open(markerElem)
   }
+
 
   //********************* generación de markers**********************************/
   setMarkers(){
@@ -113,14 +119,13 @@ export class MapComponent{
   }
 
   //actualiza informacion de punto
-  setInfoMarker(place: any, markerElem: MapMarker){
-    console.log(place)
+  setInfoMarker(place: PlaceInterface, markerElem: MapMarker){
+   // console.log(place)
     this.place = place;
     if(place != null){
       this.placeSetInfo();
       this.info.open(markerElem)
      }
-  
   }
 
   closeInfoMarker(){
@@ -161,14 +166,15 @@ export class MapComponent{
   //********************* ventana emergente **********************************/
   //abrir ventana emergente
   showInfoSite(marker: any){
-    this.marker=marker;
+    console.log("abrir")
+    this.idPlaceInfoWindow = marker.place_id;
+    this.placeInfoWindow = this.place;
     this.infoSite = true;
   }
 
   //cerrar ventana emergente
   closeInfoSite(){
     this.infoSite = false;
-    this.sizeMap = 'w-full';
   }
 
 }

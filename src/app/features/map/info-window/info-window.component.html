@@ -2,9 +2,28 @@
 <!--https://lh5.googleusercontent.com/p/AF1QipMqsQJJXhqZL4m0RPUIguyyae74Z2dtYz7SxxfZ=w203-h113-k-no
  <h2>{{place.name}}</h2>-->
 <div >
-   <h2>{{placeId}}</h2>
-    <img class= "w-full" src="https://lh5.googleusercontent.com/p/AF1QipMqsQJJXhqZL4m0RPUIguyyae74Z2dtYz7SxxfZ=w203-h113-k-no" alt="">
-<div><p>info-window works!</p></div>
+   <h1>{{place.name}}</h1>
+ 
+    <img class= "w-full" [src]="cosa" alt="">
+<div>
+    <p>{{place.formatted_address}}</p>
+    <p>Teléfono: {{place.formatted_phone_number}}</p>
+
+    <div *ngIf="weeklySchedule">
+        <h3>Horario de apertura: </h3>
+        <ul>
+            <li>Lunes: {{weeklySchedule[0]}}</li>
+            <li>Martes: {{weeklySchedule[1]}}</li>
+            <li>Miércoles: {{weeklySchedule[2]}}</li>
+            <li>Jueves: {{weeklySchedule[3]}}</li>
+            <li>Viernes: {{weeklySchedule[4]}}</li>
+            <li>Sábado: {{weeklySchedule[5]}}</li>
+            <li>Domingo: {{weeklySchedule[6]}}</li>
+        </ul>
+    </div>
+
+    <p></p>
+</div>
 
 
 <h4>Comentarios</h4>
