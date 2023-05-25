@@ -27,6 +27,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   `]
 })
 export class StarRatingComponent{
+  @Input() editable: boolean = true;
   @Input() rating?: number;
   @Output() ratingChange = new EventEmitter<number>();
   hoveredRating?: number;
@@ -43,19 +44,24 @@ export class StarRatingComponent{
   }
 
   setRating(index: number) {
-    this.rating = index + 1;
-    this.ratingChange.emit(this.rating);
-    // Emite el valor de rating a la variable myRating de info-window.component.ts
-    console.log(this.rating);
-    
+    if (this.editable) { 
+      this.rating = index + 1;
+      this.ratingChange.emit(this.rating);
+      // Emite el valor de rating a la variable myRating de info-window.component.ts
+      console.log(this.rating);
+    } 
   }
 
   highlightStars(index: number) {
-    this.hoveredRating = index + 1;
+    if (this.editable) {
+      this.hoveredRating = index + 1;
+    } 
   }
 
   resetStars() {
-    this.hoveredRating = undefined;
+    if (this.editable) {
+      this.hoveredRating = undefined;
+    } 
   }
 }
 

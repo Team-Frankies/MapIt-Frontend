@@ -10,10 +10,7 @@ export class InfoWindowComponent {
 
   @Input() place!: PlaceInterface;
 
-  myRating?: number = 4;
-
-
-  
-
+  myRating: number = 4;
+  myRatingEditable: number = 1;
 
 }
