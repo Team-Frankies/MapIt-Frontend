@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, } from '@angular/core';
 import { PlaceInterface } from '../ifaces';
 
 @Component({
@@ -9,5 +9,11 @@ import { PlaceInterface } from '../ifaces';
 export class InfoWindowComponent {
 
   @Input() place!: PlaceInterface;
+
+  myRating?: number = 4;
+
+
+  
+
 
 }

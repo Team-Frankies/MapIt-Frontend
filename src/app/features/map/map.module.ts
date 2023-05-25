@@ -7,13 +7,14 @@ import { RouterModule } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { MapRoutingModule } from './map-routing.module';
 import { InfoWindowComponent } from './info-window/info-window.component';
+import { StarRatingComponent } from './star-rating/star-rating.component';
 
 @NgModule({
   declarations: [
     MapComponent,
     SearchBarComponent,
     InfoWindowComponent,
-
+    StarRatingComponent
   ],
   imports: [
     CommonModule,
