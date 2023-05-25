@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { FeedbackService } from '../feedback.service';
 import { CustomValidators } from 'src/app/shared/validators/custom.validators';
 
-
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
@@ -19,7 +18,7 @@ export class FeedbackComponent {
   ) {}
 
   feedbackForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, CustomValidators.checkEmail]),
     subject: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     message: new FormControl('', [Validators.required, Validators.maxLength(500)]),

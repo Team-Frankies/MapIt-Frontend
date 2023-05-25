@@ -1,29 +1,87 @@
 
-<!--<app-searchbar (searchResult)="handleSearchResult($event)"></app-searchbar>
-<app-mapa [searchResult]="searchResult"></app-mapa>
-  <app-search-bar></app-search-bar>
--->
-<div *ngIf="apiLoaded | async">
 
+<!--
 
-  <google-map width="100%"
-            height="80vh"
-            [center]="center"
-            [zoom]="zoom"
-            (mapClick)="moveMap($event)"
-            (mapMousemove)="move($event)">
-            <map-marker 
-            #markerElem="mapMarker"
-            *ngFor="let marker of markers"
-              [position]="marker.location"
-              [options]="markerOptions"
-              (mapMouseover)=" infoMarker(markerElem, marker)"
-              (mapClick)="infoPosition(marker)"></map-marker>
-              <map-info-window #infoWindow>{{ infoContent }}</map-info-window>
+<div class="w-full" *ngIf="apiLoaded | async">
+  <app-search-bar  class="w-full"  (location)="recieveLatLng($event)"></app-search-bar>
+
+  <div class="flex">
+    <app-info-window class="w-1/4" *ngIf="infoSite" [place]="place" ></app-info-window>
+    <div [class]="sizeMap">
+    <google-map 
+      width=" 100%"
+      height="80vh"
+      [center]="center"
+      [zoom]="zoom"
+      (mapClick)="moveMap($event)"
+      (mapMousemove)="move($event)">
+      <map-marker 
+        #markerElem="mapMarker"
+        *ngFor="let marker of markers"
+        [position]="marker.location"
+        [options]="markerOptions"
+        (mapMouseover)=" infoMarker(markerElem, marker)"
+        (mapMouseout)="closeInfoMarker()"
+        (mapClick)="showInfoSite(marker)"
+        ></map-marker>
+        <map-info-window #infoWindow >
+          <div class="address"> 
+            <div jstcache="3" class="title full-width font-semibold text-center" jsan="7.title,7.full-width">{{infoContent[4]}}</div> 
+            <div jstcache="4" jsinstance="0" class="address-line full-width text-center" jsan="7.address-line,7.full-width">{{infoContent[0]}}, {{infoContent[1]}}</div>
+            <div jstcache="4" jsinstance="0" class="address-line full-width text-center" jsan="7.address-line,7.full-width">{{infoContent[2]}}</div>
+            <div jstcache="4" jsinstance="0" class="address-line full-width text-center" jsan="7.address-line,7.full-width">{{infoContent[3]}}</div>
+            <div jstcache="4" jsinstance="0" class="address-line full-width text-center" jsan="7.address-line,7.full-width">Accesible en silla de ruedas: {{infoContent[6]}}</div>
+            <div jstcache="4" jsinstance="*2" class="address-line full-width " jsan="7.address-line,7.full-width">valoración: {{infoContent[5]}}</div>
+          </div> 
+        </map-info-window>
+  
           
-</google-map>
+    </google-map>
+  </div>
+</div>
+
+</div>
 
 
-<div>Latitude: {{display.lat}}</div>
-<div>Longitude: {{display.lng}}</div>
+  
+  *ngIf="place!= null"
+
+  -->
+  
+  <div class="w-full" *ngIf="apiLoaded | async">
+  <app-search-bar  class="w-full"  (location)="recieveLatLng($event)"></app-search-bar>
+    
+  
+  <div class="relative">
+    
+    <div class="w-full">
+    <google-map *ngIf="openMap"
+      width=" 100%"
+      height="80vh"
+      [center]="center"
+      [zoom]="zoom"
+      (mapClick)="moveMap($event)"
+      (mapMousemove)="move($event)">
+      <map-marker 
+        #markerElem="mapMarker"
+        *ngFor="let marker of markers"
+        [position]="marker.location"
+        [options]="markerOptions"
+        (mapMouseover)=" infoMarker(markerElem, marker)"
+        (mapMouseout)="closeInfoMarker()"
+        (mapClick)="showInfoSite(marker)"
+        ></map-marker>
+        <map-info-window #infoWindow>{{ infoContent }}</map-info-window>
+          
+    </google-map>
+
+
+    <div *ngIf="infoSite" class="absolute inset-y-0 left-0 items-center justify-left w-1/3">
+      <div class="wfull h-full bg-red-50">
+        <app-info-window   [place]="place" ></app-info-window>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
