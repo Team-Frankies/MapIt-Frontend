@@ -37,7 +37,6 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Mensaje</mat-label>
-            <mat-icon matPrefix>message</mat-icon>
             <textarea matInput placeholder="Escriba su nombre" rows="5" formControlName="message"></textarea>
             <mat-error [hidden]="form.get('message')?.valid || form.get('message')?.pristine">
               <small *ngIf="form.get('message')?.errors?.['required']">El mensaje es requerido</small>
