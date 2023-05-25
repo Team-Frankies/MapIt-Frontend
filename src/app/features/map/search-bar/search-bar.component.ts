@@ -8,13 +8,16 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 export class SearchBarComponent{
  @ViewChild('searchBar', { static: false })searchBar!: ElementRef<HTMLInputElement>;
  @Output() searchResult = new EventEmitter<google.maps.LatLngLiteral>();
+
  
+ result: any = undefined;
 
   ngAfterViewInit() {
     this.initAutocomplete();
   }
 
   initAutocomplete() {
+
     if (this.searchBar && this.searchBar.nativeElement instanceof HTMLInputElement) {
     const autocomplete = new google.maps.places.Autocomplete(
 
@@ -24,16 +27,20 @@ export class SearchBarComponent{
       }
     );
       autocomplete.addListener('place_changed', () => {
+        this.result = undefined;
       const place = autocomplete.getPlace();
  
-      console.log("place: ")
-      console.log( place)
+      if(place.place_id){
        const lat = place.geometry?.location?.lat() || 0
        const lng = place.geometry?.location?.lng() || 0
 
       // Aquí puedes manejar la selección de un lugar en el buscador
+      this.result={lat, lng};
+      }
+
+      console.log(this.result)
+      this.searchResult.emit(this.result)
       
-      this.searchResult.emit({lat, lng})
     });
   }
 

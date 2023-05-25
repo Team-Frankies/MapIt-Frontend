@@ -135,10 +135,16 @@ export class MapComponent{
 
   //actualiza mapa con el buscador de direcciones
   recieveLatLng($event: any) {
+    if($event != undefined){
 
     this.center = $event
     this.display = $event
-    this.setMarkers()
+    this.zoom = 15
+    this.setMarkers()}
+    else{
+      this.snackBar.open('Ubicación no localizada', undefined, {
+        duration:400})
+    }
   }
 
   //********************* generando información para map-info-window **********************************/
