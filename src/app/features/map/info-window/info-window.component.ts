@@ -19,8 +19,6 @@ export class InfoWindowComponent implements OnInit{
   comments?: CommentInterface[];
   haveComments = false;
 
-  weeklySchedule!: string[] | any[];
-  haveWeeklySchedule = false;
   texto: string[] | any;
   cosa: any;
 
@@ -30,11 +28,9 @@ export class InfoWindowComponent implements OnInit{
   }
 
   ngOnInit(){
-    console.log(1)
+  
     console.log(this.place)
-    this.getWeeklySchedule()
-    console.log(this.weeklySchedule)
-
+   
     this.getPhotos()
     
     console.log(this.cosa)
@@ -47,33 +43,15 @@ export class InfoWindowComponent implements OnInit{
       this.cosa = url});*/
       this.cosa="https://lh3.googleusercontent.com/places/ANJU3DvEjvWRT6DR3UClDdq6qMe9BQEkqsXQoyzNdOQpvsmv9UXVMfmjhTlx-vyPHmZdenW25h-BZ1qu9k1gJoi2aUp8HuMHq7qsFx0=s1600-w400"
   }
-/**this.markerService.getMap(this.display).subscribe({ 
-      next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markers.push(e as google.maps.Marker)})
-      })
-     })     
+
+  getWheelchairAccesibleEntrance(){
+    let access= "no"
+    if(this.place.wheelchairAccesibleEntrance){
+      access =  "si";
+    }
+    return access;
+  }
      
-       
-    this.infoPlace.getDataPlace(marker.place_id).subscribe({ 
-      next:  (data)=>  {this.setInfoMarker(data, markerElem)}
-      })
-*/
-
-      getWeeklySchedule(){
-        this.weeklySchedule= [];
-
-        this.place.weekday_text.forEach(day =>{
-          if(!day.includes("Closed")){
-          this.weeklySchedule.push(day.split("day: ", 2)[1])
-        }
-          
-          else{
-            this.weeklySchedule.push("cerrado")
-          }
-        })
-        console.log(this.weeklySchedule)
-       
-
-      }
   getComments(){
     this.comments = []
     const  aux: Array<CommentInterface[]> = []; 

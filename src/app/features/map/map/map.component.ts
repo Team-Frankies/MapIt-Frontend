@@ -122,6 +122,7 @@ export class MapComponent{
   setInfoMarker(place: PlaceInterface, markerElem: MapMarker){
    // console.log(place)
     this.place = place;
+    console.log(place)
     if(place != null){
       this.placeSetInfo();
       this.info.open(markerElem)
@@ -148,7 +149,7 @@ export class MapComponent{
 
     //this.infoContent =  this.place.address_components;
 
-    this.place.address_components.forEach((element: any) => {
+    this.place.longName.forEach((element: any) => {
       this.infoContent.push(element.long_name)
     });
    
