@@ -24,4 +24,13 @@ export class CustomValidators {
         ? { requirements: true }
         : null;
   }
+
+  static checkEmail(control: AbstractControl): ValidationErrors | null {
+    const enteredEmail = control.value;
+    const emailCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    return !emailCheck.test(enteredEmail) && enteredEmail
+      ? { email: true }
+      : null;
+  }
 }

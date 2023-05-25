@@ -10,9 +10,9 @@
           <mat-form-field appearance="outline">
             <mat-label>Nombre y Apellido</mat-label>
             <mat-icon matPrefix>person_outline</mat-icon>
-            <input autofocus type="text" matInput placeholder="Nombre" formControlName="username">
-            <mat-error [hidden]="form.get('username')?.valid || form.get('username')?.pristine">
-              <small *ngIf="form.get('username')?.errors?.['required']">El nombre es requerido</small>
+            <input autofocus type="text" matInput placeholder="Nombre" formControlName="name">
+            <mat-error [hidden]="form.get('name')?.valid || form.get('name')?.pristine">
+              <small *ngIf="form.get('name')?.errors?.['required']">El nombre es requerido</small>
             </mat-error>
           </mat-form-field>
 

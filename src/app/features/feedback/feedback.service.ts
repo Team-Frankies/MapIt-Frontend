@@ -16,21 +16,13 @@ export class FeedbackService {
     private _snackBar: MatSnackBar
   ) { }
   
-  // TODO: Add feedback to the database
-  sendFeedback(
-    feedback: Feedback  
-    ) {
-
-      this.showConfirmationMessage();
-      console.log("Mensaje Enviado", feedback);
-  
-      return this.http.post(`${this.apiUrl}/feedback`, feedback);
+  sendFeedback(feedback: Feedback) {
+      return this.http.post(`${this.apiUrl}/contact`, feedback);
   }
 
-
-  private showConfirmationMessage() {
+  showConfirmationMessage() {
     this._snackBar.openFromComponent(SendModalComponent, {
-      duration: 2500,
+      duration: 2000,
     });
   }
 
