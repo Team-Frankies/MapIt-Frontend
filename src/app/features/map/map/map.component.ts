@@ -1,9 +1,9 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MarkersService } from '../services/markers.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { GoogleMap, GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { PlacesService } from '../services/places.service';
 import {GeolocationService} from '@ng-web-apis/geolocation';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,8 +18,10 @@ import { MapService } from '../services/map.service';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent{
+  @ViewChild('#mapRef') map!: any;
   @ViewChild(MapInfoWindow, { static: false })info!: MapInfoWindow;
   @Input() address?:  google.maps.LatLngLiteral;
+
 
   infoContent: string[] =[]
   place!: PlaceInterface | undefined ;
@@ -49,7 +51,6 @@ export class MapComponent{
     
     
   }
-
   /*******************generando mapa***************************/
   getMap(){
     this.apiLoaded = this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleAPIKey}&libraries=places`, 'callback')
@@ -81,6 +82,12 @@ export class MapComponent{
     this.zoom =0;
     this.zoom = 15;
   }
+
+  resizedMap(event: any){
+    console.log(event)
+  }
+
+  
 //obtener información de marker
   infoMarker(markerElem: MapMarker, marker: any){
     

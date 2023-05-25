@@ -2,8 +2,7 @@ import { Component, Input, OnInit} from '@angular/core';
 import { PlaceInterface, CommentInterface } from '../ifaces';
 import { CommentsService } from '../services/comments.service';
 import { PhotosService } from '../services/photos.service';
-import { Inject } from '@angular/core';
-import { catchError, map, of } from 'rxjs';
+import { DataRowOutlet } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-info-window',
@@ -15,29 +14,26 @@ export class InfoWindowComponent implements OnInit{
   @Input() placeId!: string;
   @Input() place!: PlaceInterface;
 
-  
+  showComments= false;
   comments?: CommentInterface[];
   haveComments = false;
 
   texto: string[] | any;
   cosa: any;
+  comentInput ="";
 
-  constructor(private commentsList: CommentsService, private gPhotoService: PhotosService){
+  constructor(private commentsService: CommentsService, private gPhotoService: PhotosService){
     
     
   }
 
   ngOnInit(){
-  
-    console.log(this.place)
-   
-    this.getPhotos()
-    
-    console.log(this.cosa)
-   
+     
+    this.getPhotos() 
+    this.getComments()
 
   }
-
+/**************************** información de place ********************************/
   getPhotos(){
     /*this.gPhotoService.getPhotoPlace(this.place.photos[1].photo_reference).subscribe((url: any) => {
       this.cosa = url});*/
@@ -45,42 +41,60 @@ export class InfoWindowComponent implements OnInit{
   }
 
   getWheelchairAccesibleEntrance(){
-    let access= "no"
+    let access= "no";
     if(this.place.wheelchairAccesibleEntrance){
       access =  "si";
     }
     return access;
   }
+
+  /***************************comments**************************** */
      
   getComments(){
+    console.log("cosa")
     this.comments = []
     const  aux: Array<CommentInterface[]> = []; 
-    this.commentsList.getComents(this.placeId).subscribe({
-      next: (data) => { Object.entries(data).map((elem: any) => { aux.push(elem[1])}), 
+    this.commentsService.getCommentsbyPlaceId(this.placeId).subscribe({
+      next: (data) => { Object.entries(data).map((elem: any) => { console.log(elem), aux.push(elem[1])}), 
       aux[1].forEach((element: any) => {
         this.comments?.push(element  as CommentInterface)
       }),
-      console.log(this.comments),
-      this.getTexto();
-      this.haveComments=true 
+      console.log(this.comments)
+      //this.getTexto();
+      //this.haveComments=true 
       
       }})
  
-    
   }
 
-  getTexto(){
-   this.texto=[]
-   console.log(this.texto);
-   if(this.comments){
-    this.comments.forEach(element => {
-      console.log(element)
-         this.texto.push(element.content);
-         this.cosa +=element.content
-    });
-  }
+    getWritenBy(writenBy: any){
+
+      let author ="";
+
+      if(writenBy.firstname){
+        author += writenBy.firstname + " "
+      }
+      if(writenBy.lastname){
+        author += writenBy.lastname
+      }
+      return author;
+    }
+
+    sendComment(){
+      this.commentsService.sendComment(this.comentInput, this.placeId).subscribe({
+        next: (data) =>{console.log(data)},
+        error: (error) =>{ console.log(error) }}
+        )
+    }
+
+    showInfoPlace(){
+      this.showComments = false;
+    }
+
+    showCommentsPlace(){
+      this.showComments=true;
+    }
+
   
-  }
-
 
 }

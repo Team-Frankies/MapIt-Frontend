@@ -6,7 +6,13 @@
         <h1>{{place.name}}</h1>
     
         <img class= "w-full" [src]="cosa" alt="">
-        aqui va la valoración
+        <p>aqui va la valoración</p>
+
+        <button (click)="showInfoPlace()">información</button>
+        <button (click)="showCommentsPlace()">comentarios</button>
+    </section>
+
+    <section *ngIf="!showComments">
         <div>
             <p>{{place.formatAddress}}</p>
             <p>Teléfono: {{place.formattedPhoneNumber}}</p>
@@ -27,9 +33,21 @@
             <p>Accesibilidad con silla de ruedas: {{getWheelchairAccesibleEntrance()}}</p>
         </div>
     </section>
+    <section *ngIf="showComments">
 
+        <h4>Comentarios</h4>
 
-<h4>Comentarios</h4>
-<p *ngIf="haveComments">{{ cosa}}</p>
+        <input type="text" [(ngModel)]="comentInput">
+        <button  (click)="sendComment()">enviar comentario</button>
+
+        <p *ngIf="haveComments">{{ cosa}}</p>
+        <ul>
+            <li *ngFor="let comment of comments">
+                <h4>{{getWritenBy(comment.writenBy)}}</h4>
+                <p>{{comment.content}}</p>
+            </li>
+          </ul>
+          
+    </section>
 
 </div>

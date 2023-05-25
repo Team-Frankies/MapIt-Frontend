@@ -13,6 +13,7 @@
       height="80vh"
       [center]="center"
       [zoom]="zoom"
+      (mapZoomChange)="resizedMap($event)"
       (mapClick)="moveMap($event)"
       (mapMousemove)="move($event)">
       <map-marker 

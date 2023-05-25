@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { MapRoutingModule } from './map-routing.module';
 import { InfoWindowComponent } from './info-window/info-window.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { InfoWindowComponent } from './info-window/info-window.component';
     GoogleMapsModule,
     HttpClientModule,
     HttpClientJsonpModule,
-
+    FormsModule,
     MapRoutingModule,
   ],
   exports: [

@@ -7,14 +7,27 @@ import { environment } from 'src/environments/environment';
 })
 export class CommentsService {
   apiUrl = environment.apiUrl;
+  private token = localStorage.getItem('token')
+  private user ="646f455667fc6a7680fc774b"
+
   constructor(private http: HttpClient) { }
 
-  getComents(place: string){
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNjQ2YjgzZmYyZmM2NzcxMGQxZDdlZmY4IiwiZXhwIjoxNjg0ODYwNzI0LCJpYXQiOjE2ODQ4NTk4MjR9.waVaIcRSLW_Y2ZsKKwmTPwifceg8YLY5te5AtbvRRhw"
-    const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + token)
-    place ="ChIJxS2q1AiprI8RT24H4qVdbLg"
-    
-    return this.http.get(`${this.apiUrl}/comments/`+place,{headers});
+  getCommentsbyPlaceId(place: string){
+    const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+    return this.http.get(`${this.apiUrl}/comments/${place}`,{headers});
   }
+// /comments/:placeId?page=1&limit=4
+  getCommentByUser(place: string){
+    const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+    return this.http.get(`${this.apiUrl}/comments/user/${place}/${this.user}`,{headers});
+  }
+
+  sendComment(comment: string, place: string){
+     
+    const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+    const us = this.user
+    return this.http.post(`${this.apiUrl}/comments`,{headers, us, comment, place});
+  }
+
 
 }
