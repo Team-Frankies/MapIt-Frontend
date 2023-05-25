@@ -18,7 +18,7 @@ export class FeedbackComponent {
   ) {}
 
   feedbackForm = new FormGroup({
-    username: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, CustomValidators.checkEmail]),
     subject: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     message: new FormControl('', [Validators.required, Validators.maxLength(500)]),
