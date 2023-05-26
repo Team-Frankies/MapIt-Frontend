@@ -54,7 +54,7 @@ export class LoginComponent {
       ).subscribe({
         next: (res) => {
           console.log(res);
-          localStorage.setItem('token', res.token),
+          this.authService.setTokenId(res);
             this.store.dispatch(login());
         },
         error: (err) => console.error({ err }),
