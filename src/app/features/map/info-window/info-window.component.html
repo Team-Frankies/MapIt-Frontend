@@ -1,53 +1,50 @@
-
 <!--https://lh5.googleusercontent.com/p/AF1QipMqsQJJXhqZL4m0RPUIguyyae74Z2dtYz7SxxfZ=w203-h113-k-no
  <h2>{{place.name}}</h2>-->
-<div >
+<div>
     <section>
         <h1>{{place.name}}</h1>
-    
-        <img class= "w-full" [src]="cosa" alt="">
+
+        <img class="w-full" [src]="cosa" alt="">
         <p>aqui va la valoración</p>
-
-        <button (click)="showInfoPlace()">información</button>
-        <button (click)="showCommentsPlace()">comentarios</button>
     </section>
 
-    <section *ngIf="!showComments">
-        <div>
-            <p>{{place.formatAddress}}</p>
-            <p>Teléfono: {{place.formattedPhoneNumber}}</p>
-
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab label="Información">
             <div>
-                <h3>Horario de apertura: </h3>
-                <ul>
-                    <li>{{place.weekday[1]}}</li>
-                    <li>{{place.weekday[2]}}</li>
-                    <li>{{place.weekday[3]}}</li>
-                    <li>{{place.weekday[4]}}</li>
-                    <li>{{place.weekday[5]}}</li>
-                    <li>{{place.weekday[6]}}</li>
-                    <li>{{place.weekday[7]}}</li>
-                </ul>
+                <p>{{place.formatAddress}}</p>
+                <p>Teléfono: {{place.formattedPhoneNumber}}</p>
+
+                <div>
+                    <h3>Horario de apertura: </h3>
+                    <ul>
+                        <li *ngFor="let weekday of place.weekday">{{ weekday | titlecase }}</li>
+                    </ul>
+                </div>
+
+                <p>Accesibilidad con silla de ruedas: {{getWheelchairAccesibleEntrance()}}</p>
             </div>
+        </mat-tab>
 
-            <p>Accesibilidad con silla de ruedas: {{getWheelchairAccesibleEntrance()}}</p>
-        </div>
-    </section>
-    <section *ngIf="showComments">
+        <mat-tab label="Comentarios">
+            <form>
+                <mat-form-field class="full-width">
+                    <mat-label>Comentario</mat-label>
+                    <input type="text" matInput [(ngModel)]="comentInput" [ngModelOptions]="{standalone: true}" placeholder="Comentario">
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
+            </form>
 
-        <h4>Comentarios</h4>
+            <p *ngIf="haveComments">{{ cosa }}</p>
+            <ul>
+                <li *ngFor="let comment of comments">
+                    <h4>{{getWritenBy(comment.writenBy)}}</h4>
+                    <p>{{comment.content}}</p>
+                </li>
+            </ul>
+        </mat-tab>
+    </mat-tab-group>
 
-        <input type="text" [(ngModel)]="comentInput">
-        <button  (click)="sendComment()">enviar comentario</button>
-
-        <p *ngIf="haveComments">{{ cosa}}</p>
-        <ul>
-            <li *ngFor="let comment of comments">
-                <h4>{{getWritenBy(comment.writenBy)}}</h4>
-                <p>{{comment.content}}</p>
-            </li>
-          </ul>
-          
-    </section>
 
 </div>
+
+

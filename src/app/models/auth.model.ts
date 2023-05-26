@@ -5,6 +5,7 @@ export interface AuthLogin {
 
 export interface Token {
   token: string;
+  id: string;
 }
 
 export interface AuthRegister {
