@@ -1,0 +1,56 @@
+<section class="feedback-container">
+  <div class="feedback-content">
+    <mat-card>
+      <mat-toolbar class="feedback-toolbar" color="primary">AYÚDANOS A MEJORAR</mat-toolbar>
+
+
+      <mat-card-content>
+        <form class="feedbackForm" [formGroup]="feedbackForm" (ngSubmit)="sendFeedback()" >
+
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre y Apellido</mat-label>
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <input autofocus type="text" matInput placeholder="Nombre" formControlName="name">
+            <mat-error [hidden]="form.get('name')?.valid || form.get('name')?.pristine">
+              <small *ngIf="form.get('name')?.errors?.['required']">El nombre es requerido</small>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <mat-icon matPrefix>email</mat-icon>
+            <input type="email" matInput placeholder="Escriba su email" formControlName="email">
+            <mat-error [hidden]="form.get('email')?.valid || form.get('email')?.pristine">
+              <small *ngIf="form.get('email')?.errors?.['required']">El email es requerido</small>
+              <small *ngIf="form.get('email')?.errors?.['email']">El email debe ser válido</small>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Asunto</mat-label>
+            <mat-icon matPrefix>subject</mat-icon>
+            <input type="text" matInput placeholder="Escriba su nombre" formControlName="subject">
+            <mat-error [hidden]="form.get('subject')?.valid || form.get('subject')?.pristine">
+              <small *ngIf="form.get('subject')?.errors?.['required']">El asunto es requerido</small>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Mensaje</mat-label>
+            <textarea matInput placeholder="Escriba su nombre" rows="5" formControlName="message"></textarea>
+            <mat-error [hidden]="form.get('message')?.valid || form.get('message')?.pristine">
+              <small *ngIf="form.get('message')?.errors?.['required']">El mensaje es requerido</small>
+            </mat-error>
+          </mat-form-field>
+
+          <div class="btn-feedback-container">
+            <button style="width: 50%" [disabled]="feedbackForm.invalid" type="submit" mat-raised-button
+              color="primary">Enviar</button>
+          </div>
+
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+</section>
