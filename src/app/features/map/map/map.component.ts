@@ -8,9 +8,6 @@ import { PlacesService } from '../services/places.service';
 import {GeolocationService} from '@ng-web-apis/geolocation';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlaceInterface } from '../ifaces';
-import { MapService } from '../services/map.service';
-
-
 
 @Component({
   selector: 'app-map',
@@ -44,7 +41,7 @@ export class MapComponent{
     placeInfoWindow?: PlaceInterface | any;
     infoSite= false;
 
-  constructor(private httpClient: HttpClient,private mapService: MapService, private markerService: MarkersService, private infoPlace: PlacesService, private readonly geolocation$: GeolocationService, public snackBar: MatSnackBar){
+  constructor(private httpClient: HttpClient, private markerService: MarkersService, private infoPlace: PlacesService, private readonly geolocation$: GeolocationService, public snackBar: MatSnackBar){
     
     this.getUserLocation()
     this.getMap()
