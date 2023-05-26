@@ -8,6 +8,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { MapRoutingModule } from './map-routing.module';
 import { InfoWindowComponent } from './info-window/info-window.component';
 import { FormsModule } from '@angular/forms';
+import { AngularMaterialModule } from 'src/app/shared/modules/material/angular-material.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     HttpClientJsonpModule,
     FormsModule,
     MapRoutingModule,
+    AngularMaterialModule
   ],
   exports: [
     RouterModule

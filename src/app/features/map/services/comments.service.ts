@@ -1,16 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentsService {
   apiUrl = environment.apiUrl;
-  private token = localStorage.getItem('token')
+  private token = this.authService.getTokenId('token');
   private user ="646f455667fc6a7680fc774b"
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getCommentsbyPlaceId(place: string){
     const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
@@ -23,11 +24,14 @@ export class CommentsService {
   }
 
   sendComment(comment: string, place: string){
-     
     const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
-    const us = this.user
-    return this.http.post(`${this.apiUrl}/comments`,{headers, us, comment, place});
+    const writenBy = this.authService.getTokenId('id');
+    const body = {
+      writenBy,
+      content: comment,
+      placeId: place,
+      stars: 5
+    }
+    return this.http.post(`${this.apiUrl}/comments`, body, { headers } );
   }
-
-
 }

@@ -14,7 +14,6 @@ export class InfoWindowComponent implements OnInit{
   @Input() placeId!: string;
   @Input() place!: PlaceInterface;
 
-  showComments= false;
   comments?: CommentInterface[];
   haveComments = false;
 
@@ -86,15 +85,5 @@ export class InfoWindowComponent implements OnInit{
         error: (error) =>{ console.log(error) }}
         )
     }
-
-    showInfoPlace(){
-      this.showComments = false;
-    }
-
-    showCommentsPlace(){
-      this.showComments=true;
-    }
-
-  
 
 }
