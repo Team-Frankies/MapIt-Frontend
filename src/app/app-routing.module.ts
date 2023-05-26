@@ -13,6 +13,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'feedback',
+    loadChildren: () =>
+      import('./features/feedback/feedback.module').then((m) => m.FeedbackModule),
+  },
+
 
 ];
 
