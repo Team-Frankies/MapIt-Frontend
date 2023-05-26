@@ -29,7 +29,7 @@
             <form>
                 <mat-form-field class="full-width">
                     <mat-label>Comentario</mat-label>
-                    <input type="text" matInput [(ngModel)]="comentInput" placeholder="Comentario">
+                    <input type="text" matInput [(ngModel)]="comentInput" [ngModelOptions]="{standalone: true}" placeholder="Comentario">
                 </mat-form-field>
                 <button mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
             </form>
