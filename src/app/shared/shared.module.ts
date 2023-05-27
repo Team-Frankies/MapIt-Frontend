@@ -14,7 +14,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterModule,
     AngularMaterialModule,
-    StoreModule.forRoot({ loggedIn: authReducer }),
+    StoreModule.forFeature(authReducer),
+
   ],
   exports: [AngularMaterialModule, NavbarComponent ]
 })

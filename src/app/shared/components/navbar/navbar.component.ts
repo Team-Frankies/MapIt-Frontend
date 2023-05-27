@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthActions } from '../../stores/actions/auth.actions';
+import { fromAuth } from '../../stores/selectors/auth.selector';
 
 @Component({
   selector: 'app-navbar',
@@ -15,23 +17,21 @@ export class NavbarComponent implements OnInit {
   loggedIn$: Observable<boolean>;
 
   constructor(
-    private store: Store<{ loggedIn: boolean }>,
+    private store: Store,
     private router: Router,
     private authService: AuthService
   ) {
-    this.loggedIn$ = store.select('loggedIn');
+    this.loggedIn$ = this.store.select(fromAuth.isLoggedIn);
   }
   ngOnInit() {
     const token = localStorage.getItem('token');
     if (!token) {
-      this.router.navigate(['/auth']);
+      this.logout();
     }
   }
 
   toggleTheme() {
-    //console.log(this.theme);
     this.theme = !this.theme;
-    //console.log(this.theme);
     this.setTheme(this.theme);
   }
 
@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+    this.store.dispatch(AuthActions.logout({ loggedIn: false }));
     this.router.navigate(['/auth']);
   }
 }

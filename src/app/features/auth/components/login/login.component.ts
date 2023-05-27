@@ -4,7 +4,8 @@ import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 import { AuthLogin } from '../../../../models/auth.model';
 import { Store } from '@ngrx/store';
-import { login } from '../../../../shared/stores/actions/auth.actions';
+import { Observable } from 'rxjs';
+import { fromAuth } from 'src/app/shared/stores/selectors/auth.selector';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,8 @@ import { login } from '../../../../shared/stores/actions/auth.actions';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  loggedIn$: Observable<boolean> = this.store.select(fromAuth.isLoggedIn)
+
   loginForm = new FormGroup({
     email: new FormControl('', [
       Validators.required,
@@ -31,8 +34,18 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private store: Store<{ loggedIn: boolean }>
-  ) {}
+    private store: Store
+  ) {
+    this.isAlreadyLogged();
+  }
+
+  isAlreadyLogged() {
+    return this.loggedIn$.subscribe((data) => {
+      if (data) {
+        this.router.navigate(['/map']);
+      }
+    });
+  }
 
   getErrorMessage(fieldName: string) {
     const field = this.loginForm.get(fieldName);
@@ -49,17 +62,17 @@ export class LoginComponent {
   async login() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      (
-        await this.authService.login({ email, password } as AuthLogin)
-      ).subscribe({
-        next: (res) => {
-          console.log(res);
-          localStorage.setItem('token', res.token),
-            this.store.dispatch(login());
-        },
-        error: (err) => console.error({ err }),
-        complete: () => this.router.navigate(['/map']),
-      });
+
+        const login = await this.authService.login({ email, password } as AuthLogin).subscribe({
+          next: (response) => {
+            console.log({response})
+          },
+          error: (err) => {
+            console.error({ err })
+            return err
+          },
+        })
+        console.log({login})
     } else {
       this.loginForm.markAllAsTouched();
     }

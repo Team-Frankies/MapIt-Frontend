@@ -1,13 +1,11 @@
 import { RouterModule, Routes } from '@angular/router';
-import { MapComponent } from './map/map.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 import { NgModule } from '@angular/core';
-import { authGuardFn } from 'src/app/shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    canActivate: [authGuardFn],
-    component: MapComponent,
+    component: FeedbackComponent,
   },
 ];
 
@@ -15,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MapRoutingModule {}
+export class FeedbackRoutingModule {}

@@ -8,13 +8,27 @@ export interface Token {
 }
 
 export interface User {
-  id: string;
+  _id: string;
   email: string;
   firstname: string;
   lastname: string;
   createdAt: string;
   updatedAt: string;
   comments: Comment[];
+}
+
+export interface UserData {
+  user: {
+    user: {
+      _id: string;
+      email: string;
+      firstname: string;
+      lastname: string;
+      createdAt: string;
+      updatedAt: string;
+      comments: Comment[];
+    }
+  }
 }
 
 export interface Comment {

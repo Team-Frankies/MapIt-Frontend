@@ -17,9 +17,13 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     console.log({request})
     if (request.url.includes(environment.apiUrl) && localStorage.getItem('token')) {
-      request = request.clone({
-        headers: request.headers.set('authorization', localStorage.getItem('token') || ''),
-      });
+      const token = localStorage.getItem('token') || '';
+      console.log(token)
+      if (token) {
+        request = request.clone({
+          headers: request.headers.set('authorization', `Bearer ${token.replace(/^"(.*)"$/, '$1')}`),
+        });
+      }
     }
     console.log({ request });
 
