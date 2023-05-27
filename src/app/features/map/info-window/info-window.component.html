@@ -1,5 +1,3 @@
-<!--https://lh5.googleusercontent.com/p/AF1QipMqsQJJXhqZL4m0RPUIguyyae74Z2dtYz7SxxfZ=w203-h113-k-no
- <h2>{{place.name}}</h2>-->
 
 <mat-card class="h-full" style="width: 350px; margin: 1.5rem 0 1.5rem 1.5rem; height: 90%;">
     <mat-card-header style="justify-content: center; align-items: center; margin-bottom: 0.5rem;">
@@ -20,6 +18,7 @@
                         <div>
                             <p>{{place.formatAddress}}</p>
                             <p>Teléfono: {{place.formattedPhoneNumber}}</p>
+                            <p>Accesibilidad con silla de ruedas: {{ getWheelchairAccesibleEntrance() }}</p>
 
                             <div>
                                 <h3>Horario de apertura: </h3>
@@ -28,7 +27,7 @@
                                 </ul>
                             </div>
 
-                            <p>Accesibilidad con silla de ruedas: {{ getWheelchairAccesibleEntrance() }}</p>
+                           
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -44,10 +43,16 @@
                                 [ngModelOptions]="{standalone: true}" placeholder="Escribe aquí tu comentario"
                                 rows="2"></textarea>
                         </mat-form-field>
-                        <app-star-rating [(rating)]="ratingUserComment" [editable]="true"></app-star-rating>
-                        <button mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
+                        <app-star-rating [(rating)]="userRating" [editable]="true"></app-star-rating>
+                        <button *ngIf="!comentedByUser" userComment mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
+                        <button *ngIf="comentedByUser" userComment mat-raised-button color="primary" (click)="updateComment()">Actualizar comentario</button>
                     </form>
-                    <ul>
+                    <section *ngIf="comments === undefined"  class="text-center"> 
+                        <p >No hay comentarios sobre este lugar</p>
+                        <p>¿Quieres enviar uno?</p>
+                    </section>
+                    
+                    <ul *ngIf="comments">
                         <li *ngFor="let comment of comments">
                             <mat-card>
                                 <mat-card-header>
@@ -56,15 +61,25 @@
                                 <mat-card-content>
                                     <p>{{comment.content}}</p>
                                 </mat-card-content>
+                                <mat-card-footer>
+
+                                </mat-card-footer>
+                            
                             </mat-card>
                         </li>
                     </ul>
 
                     <mat-card-footer style="display: flex; justify-content: center; align-items: center;">
-                        <button mat-flat-button>
+                        <button *ngIf="previousPage === undefined" mat-flat-button disabled>
                             <mat-icon>navigate_before</mat-icon>
                         </button>
-                        <button mat-flat-button>
+                        <button *ngIf="previousPage !== undefined" mat-flat-button (click)="getComments(previousPage)" >
+                            <mat-icon>navigate_before</mat-icon>
+                        </button>
+                        <button *ngIf="nextPage === undefined" mat-flat-button disabled>
+                            <mat-icon>navigate_next</mat-icon>
+                        </button>
+                        <button *ngIf="nextPage !== undefined" mat-flat-button (click)="getComments(nextPage)" >
                             <mat-icon>navigate_next</mat-icon>
                         </button>
                     </mat-card-footer>

@@ -20,11 +20,13 @@ export class InfoWindowComponent implements OnChanges{
   comments?: CommentInterface[];
   haveComments = false;
   rating: DoubleRange | undefined;
+  userComment: CommentInterface | undefined
+  userRating: number | undefined
+  comentedByUser= false;
   
   texto: string[] | any;
   cosa: any;
   comentInput ="";
-  ratingUserComment?: number;
 
   constructor(private commentsService: CommentsService, private gPhotoService: PhotosService){
     
@@ -39,6 +41,7 @@ export class InfoWindowComponent implements OnChanges{
 
   updateInfoWindow(){
     this.getPhotos() 
+    this.getCommentByUser()
     this.getComments(1)
     this.getRating()
   }
@@ -59,7 +62,7 @@ export class InfoWindowComponent implements OnChanges{
     let aux;
     
     this.commentsService.getRating(this.placeId).subscribe({
-     next: (data) => {Object.entries(data)}
+     next: (data) => {console.log(data)}
    })
 
     console.log("rating:")
@@ -68,14 +71,22 @@ export class InfoWindowComponent implements OnChanges{
 
 
   /***************************comments**************************** */
+
+  getCommentByUser(){
+    this.comentInput = "";
+    this.commentsService.getCommentByUser(this.placeId).subscribe({
+      next: (data: any) => {if(data.comments[0]){
+        this.userComment = data.comments[0], console.log(this.userComment), this.comentInput= this.userComment!.content, this.userRating = (this.userComment!.stars as number),  this.comentedByUser= true;
+      }
+      }
+    })
+  }
      
   getComments(page: number){
-
     this.commentsService.getCommentsbyPlaceId(this.placeId,1).subscribe({
       next: (data: any) => { console.log(data)
         this.setPaginatorInfo(data.next, data.previous), 
-        
-        data.comments! ? this.comments= data.comments: console.log("no mensajes");
+        this.comments = data.comments;
       
       console.log(this.comments)
 
@@ -85,8 +96,8 @@ export class InfoWindowComponent implements OnChanges{
   }
 
   setPaginatorInfo(nextPage: any, previousPage: any){
-    nextPage != null? this.nextPage= nextPage: this.nextPage =undefined;
-    previousPage != null? this.previousPage=previousPage: this.previousPage= undefined;
+    typeof nextPage  === "number" ? this.nextPage= nextPage: this.nextPage =undefined;
+    typeof previousPage  == "number"? this.previousPage=previousPage: this.previousPage= undefined;
   }
 
     getWritenBy(writenBy: any){
@@ -107,6 +118,15 @@ export class InfoWindowComponent implements OnChanges{
         next: (data) =>{console.log(data)},
         error: (error) =>{ console.log(error) }}
         )
+    }
+
+    updateComment(){
+      console.log(this.userComment!.id)
+      this.commentsService.updateComment(this.userComment!.id, this.comentInput ,this.userRating).subscribe({
+        next: (data) =>{console.log(data)},
+        error: (error) =>{ console.log(error) }}
+        )     
+
     }
              
 }
