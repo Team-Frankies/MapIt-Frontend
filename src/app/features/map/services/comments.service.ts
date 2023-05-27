@@ -30,14 +30,14 @@ export class CommentsService {
     return this.http.get(`${this.apiUrl}/comments/user/${place}/${this.user}`,{headers});
   }
 
-  sendComment(comment: string, place: string){
+  sendComment(comment: string, place: string, stars: number | undefined = undefined){
     const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
     const writenBy = this.authService.getTokenId('id');
     const body = {
       writenBy,
       content: comment,
       placeId: place,
-      stars: 5
+      stars,
     }
     return this.http.post(`${this.apiUrl}/comments`, body, { headers } );
   }

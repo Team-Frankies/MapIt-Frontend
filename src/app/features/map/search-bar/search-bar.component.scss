@@ -1,14 +1,18 @@
 .recom {
-    float: left;
-    margin-right: 15px;
-    width: 150px;
-    height: 100px;
-    border-radius: 5px;
-    background-color: rgb(207,232,220);
-    padding: 1em;
-  }
+  float: left;
+  margin-right: 15px;
+  width: 150px;
+  height: 100px;
+  border-radius: 5px;
+  background-color: rgb(207, 232, 220);
+  padding: 1em;
+}
 
-  ::ng-deep mat-form-field div:nth-child(2){
-    margin: 0;
-    padding: 0;
-  }
+::ng-deep mat-form-field div:nth-child(2) {
+  margin: 0;
+  padding: 0;
+}
+
+div.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align-ng-tns-c21-4 {
+  height: 0 !important;
+}
