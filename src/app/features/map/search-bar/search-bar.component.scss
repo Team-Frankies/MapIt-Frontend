@@ -7,4 +7,8 @@
     background-color: rgb(207,232,220);
     padding: 1em;
   }
-  
+
+  ::ng-deep mat-form-field div:nth-child(2){
+    margin: 0;
+    padding: 0;
+  }

@@ -13,11 +13,18 @@ export class CommentsService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getCommentsbyPlaceId(place: string){
+  getCommentsbyPlaceId(place: string, page: number){
     const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
     return this.http.get(`${this.apiUrl}/comments/${place}`,{headers});
   }
-// /comments/:placeId?page=1&limit=4
+
+// /comments/${place}?page=${page}&limit=4
+
+  getRating(place:string){
+    const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
+    return this.http.get(`${this.apiUrl}/comments/rate/${place}`,{headers});
+  }
+
   getCommentByUser(place: string){
     const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
     return this.http.get(`${this.apiUrl}/comments/user/${place}/${this.user}`,{headers});
@@ -34,4 +41,6 @@ export class CommentsService {
     }
     return this.http.post(`${this.apiUrl}/comments`, body, { headers } );
   }
+
+
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { PlaceInterface, CommentInterface } from '../ifaces';
 import { CommentsService } from '../services/comments.service';
 import { PhotosService } from '../services/photos.service';
@@ -9,13 +9,16 @@ import { DataRowOutlet } from '@angular/cdk/table';
   templateUrl: './info-window.component.html',
   styleUrls: ['./info-window.component.scss']
 })
-export class InfoWindowComponent implements OnInit{
+export class InfoWindowComponent implements OnChanges{
 
   @Input() placeId!: string;
   @Input() place!: PlaceInterface;
 
+  nextPage: number | undefined = undefined
+  previousPage: number | undefined = undefined
   comments?: CommentInterface[];
   haveComments = false;
+  rating: DoubleRange | undefined;
 
   texto: string[] | any;
   cosa: any;
@@ -23,15 +26,28 @@ export class InfoWindowComponent implements OnInit{
 
   constructor(private commentsService: CommentsService, private gPhotoService: PhotosService){
     
-    
   }
 
-  ngOnInit(){
-     
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['placeId']){
+      this.updateInfoWindow();
+    }
+  }
+
+  updateInfoWindow(){
     this.getPhotos() 
-    this.getComments()
-
+    this.getComments(1)
+    let aux;
+    
+     this.commentsService.getRating(this.placeId).subscribe({
+      next: (data) => { aux = Object.entries(data)}
+    })
+   // console.log("rating")
+   // console.log(aux)
   }
+
+ 
 /**************************** información de place ********************************/
   getPhotos(){
     /*this.gPhotoService.getPhotoPlace(this.place.photos[1].photo_reference).subscribe((url: any) => {
@@ -47,23 +63,28 @@ export class InfoWindowComponent implements OnInit{
     return access;
   }
 
+
   /***************************comments**************************** */
      
-  getComments(){
-    console.log("cosa")
-    this.comments = []
-    const  aux: Array<CommentInterface[]> = []; 
-    this.commentsService.getCommentsbyPlaceId(this.placeId).subscribe({
-      next: (data) => { Object.entries(data).map((elem: any) => { console.log(elem), aux.push(elem[1])}), 
-      aux[1].forEach((element: any) => {
-        this.comments?.push(element  as CommentInterface)
-      }),
+  getComments(page: number){
+
+   // let  aux: Array<CommentInterface[]> = []; 
+    this.commentsService.getCommentsbyPlaceId(this.placeId,1).subscribe({
+      next: (data: any) => { console.log(data)
+        this.setPaginatorInfo(data.next, data.previous), 
+        
+        data.comments! ? this.comments= data.comments: console.log("no mensajes");
+      
       console.log(this.comments)
-      //this.getTexto();
-      //this.haveComments=true 
+
       
       }})
  
+  }
+
+  setPaginatorInfo(nextPage: any, previousPage: any){
+    nextPage != null? this.nextPage= nextPage: this.nextPage =undefined;
+    previousPage != null? this.previousPage=previousPage: this.previousPage= undefined;
   }
 
     getWritenBy(writenBy: any){
@@ -85,5 +106,5 @@ export class InfoWindowComponent implements OnInit{
         error: (error) =>{ console.log(error) }}
         )
     }
-
+             
 }

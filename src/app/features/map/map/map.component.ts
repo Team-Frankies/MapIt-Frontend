@@ -184,6 +184,7 @@ export class MapComponent{
   //********************* ventana emergente **********************************/
   //abrir ventana emergente
   showInfoSite(marker: any){
+    this.infoSite = false;
     if(this.place){
     this.idPlaceInfoWindow = marker.place_id;
     this.placeInfoWindow = this.place;
