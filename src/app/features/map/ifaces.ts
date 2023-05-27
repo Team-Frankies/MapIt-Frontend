@@ -6,7 +6,7 @@ export interface PlaceInterface {
   }
 
   export interface CommentInterface{
-    id: string;
+    _id: string;
     placeId: string;
     content: string
     createdAt: string

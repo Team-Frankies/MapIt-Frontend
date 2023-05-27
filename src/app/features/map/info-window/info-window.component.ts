@@ -40,6 +40,7 @@ export class InfoWindowComponent implements OnChanges{
   }
 
   updateInfoWindow(){
+   this.comentedByUser= false;
     this.getPhotos() 
     this.getCommentByUser()
     this.getComments(1)
@@ -121,8 +122,9 @@ export class InfoWindowComponent implements OnChanges{
     }
 
     updateComment(){
-      console.log(this.userComment!.id)
-      this.commentsService.updateComment(this.userComment!.id, this.comentInput ,this.userRating).subscribe({
+      console.log(this.userComment!._id)
+      console.log(this.userRating)
+      this.commentsService.updateComment(this.userComment!._id, this.comentInput ,this.userRating).subscribe({
         next: (data) =>{console.log(data)},
         error: (error) =>{ console.log(error) }}
         )     
