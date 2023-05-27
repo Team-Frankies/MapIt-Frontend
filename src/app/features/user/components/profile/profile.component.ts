@@ -1,21 +1,17 @@
-import { AfterContentInit, Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, Observable, of, ReplaySubject, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/models/auth.model';
 
-import { Store } from '@ngrx/store';
-
-import { UserData } from '../../../../models/auth.model';
 import { UserService } from '../../user.service';
-
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
 
   userForm: FormGroup;
   user$: Observable<User> | undefined;
@@ -49,9 +45,7 @@ export class ProfileComponent implements OnInit {
     })
 
   }
-  ngOnInit(): void {
 
-  }
   saveChanges() {
     if (this.userForm.valid) {
       const name = this.userForm.value.name;
