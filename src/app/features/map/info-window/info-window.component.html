@@ -1,70 +1,76 @@
 <!--https://lh5.googleusercontent.com/p/AF1QipMqsQJJXhqZL4m0RPUIguyyae74Z2dtYz7SxxfZ=w203-h113-k-no
  <h2>{{place.name}}</h2>-->
-<div class="h-full">
-    <mat-card class="h-full" >
-        <mat-card-header>
-            <mat-card-title>{{place.name}}</mat-card-title>
-        </mat-card-header>
 
-        <img mat-card-image class="w-full" [src]="cosa" alt="">
-        <p>aqui va la valoración</p>
+<mat-card class="h-full" style="width: 350px; margin: 1.5rem 0 1.5rem 1.5rem; height: 90%;">
+    <mat-card-header style="justify-content: center; align-items: center; margin-bottom: 0.5rem;">
+        <mat-card-title >{{place.name}}</mat-card-title>
+    </mat-card-header>
 
-        <mat-card-content class="overflow-hidden">
-            <mat-tab-group class="h-full" mat-stretch-tabs="false" mat-align-tabs="start">
-                <mat-tab label="Información"  class ="overflow-y-auto">
-                    <mat-card>
-                        <mat-card-content>
+    <img mat-card-image class="w-full" [src]="cosa" alt="">
+    <div class="star-rating-container">
+        <app-star-rating [rating]="ratingPlace" [editable]="false"></app-star-rating>
+
+    </div>
+
+    <mat-card-content class="overflow-hidden">
+        <mat-tab-group class="h-full" mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab label="Información" class="overflow-y-auto">
+                <mat-card>
+                    <mat-card-content>
+                        <div>
+                            <p>{{place.formatAddress}}</p>
+                            <p>Teléfono: {{place.formattedPhoneNumber}}</p>
+
                             <div>
-                                <p>{{place.formatAddress}}</p>
-                                <p>Teléfono: {{place.formattedPhoneNumber}}</p>
-
-                                <div>
-                                    <h3>Horario de apertura: </h3>
-                                    <ul>
-                                        <li *ngFor="let weekday of place.weekday">{{ weekday | titlecase }}</li>
-                                    </ul>
-                                </div>
-
-                                <p>Accesibilidad con silla de ruedas: {{getWheelchairAccesibleEntrance()}}</p>
+                                <h3>Horario de apertura: </h3>
+                                <ul>
+                                    <li *ngFor="let weekday of place.weekday">{{ weekday | titlecase }}</li>
+                                </ul>
                             </div>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-tab>
 
-                <mat-tab label="Comentarios" >
-                    <mat-card >
-                        <form>
-                            <mat-form-field class="full-width">
-                                <mat-label>Mi opinión</mat-label>
-                                <textarea type="text" matInput [(ngModel)]="comentInput" [ngModelOptions]="{standalone: true}"
-                                    placeholder="Escribe aquí tu comentario"></textarea>
-                            </mat-form-field>
-                            <button mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
-                        </form> 
-                        <ul>
-                            <li *ngFor="let comment of comments">
-                                <mat-card>
-                                    <mat-card-header>
-                                        <p>{{getWritenBy(comment.writenBy)}}</p>
-                                    </mat-card-header>
-                                    <mat-card-content>
-                                        <p>{{comment.content}}</p>
-                                    </mat-card-content>
-                                </mat-card>
-                            </li>
-                        </ul>
+                            <p>Accesibilidad con silla de ruedas: {{ getWheelchairAccesibleEntrance() }}</p>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </mat-tab>
 
-                        <mat-card-footer>
-                            <button mat-flat-button><mat-icon aria-hidden="false" aria-label="comentarios anteriores" fontIcon="caret-left"></mat-icon>
-                        </button><button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
-                            <mat-icon>favorite</mat-icon>
-                          </button>
-                        
-                        </mat-card-footer>
-                        
-                    </mat-card>
-                </mat-tab>
-            </mat-tab-group>
-        </mat-card-content>
-    </mat-card>
-</div>
+            <mat-tab label="Comentarios">
+                <mat-card>
+                    <form
+                        style="padding: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <mat-form-field class="full-width">
+                            <mat-label>Mi opinión</mat-label>
+                            <textarea appearance="outline" type="text" matInput [(ngModel)]="comentInput"
+                                [ngModelOptions]="{standalone: true}" placeholder="Escribe aquí tu comentario"
+                                rows="2"></textarea>
+                        </mat-form-field>
+                        <app-star-rating [(rating)]="ratingUserComment" [editable]="true"></app-star-rating>
+                        <button mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
+                    </form>
+                    <ul>
+                        <li *ngFor="let comment of comments">
+                            <mat-card>
+                                <mat-card-header>
+                                    <p>{{getWritenBy(comment.writenBy)}}</p>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <p>{{comment.content}}</p>
+                                </mat-card-content>
+                            </mat-card>
+                        </li>
+                    </ul>
+
+                    <mat-card-footer style="display: flex; justify-content: center; align-items: center;">
+                        <button mat-flat-button>
+                            <mat-icon>navigate_before</mat-icon>
+                        </button>
+                        <button mat-flat-button>
+                            <mat-icon>navigate_next</mat-icon>
+                        </button>
+                    </mat-card-footer>
+
+                </mat-card>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

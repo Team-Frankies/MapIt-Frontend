@@ -13,16 +13,18 @@ export class InfoWindowComponent implements OnChanges{
 
   @Input() placeId!: string;
   @Input() place!: PlaceInterface;
-
+  @Input() ratingPlace?: number = 3;
+  
   nextPage: number | undefined = undefined
   previousPage: number | undefined = undefined
   comments?: CommentInterface[];
   haveComments = false;
   rating: DoubleRange | undefined;
-
+  
   texto: string[] | any;
   cosa: any;
   comentInput ="";
+  ratingUserComment?: number;
 
   constructor(private commentsService: CommentsService, private gPhotoService: PhotosService){
     
@@ -39,7 +41,6 @@ export class InfoWindowComponent implements OnChanges{
     this.getPhotos() 
     this.getComments(1)
     this.getRating()
-
   }
 
  
@@ -51,11 +52,7 @@ export class InfoWindowComponent implements OnChanges{
   }
 
   getWheelchairAccesibleEntrance(){
-    let access= "no";
-    if(this.place.wheelchairAccesibleEntrance){
-      access =  "si";
-    }
-    return access;
+    return this.place.wheelchairAccesibleEntrance ? "si" : "no";
   }
 
   getRating(){
@@ -106,7 +103,7 @@ export class InfoWindowComponent implements OnChanges{
     }
 
     sendComment(){
-      this.commentsService.sendComment(this.comentInput, this.placeId).subscribe({
+      this.commentsService.sendComment(this.comentInput, this.placeId, this.ratingPlace).subscribe({
         next: (data) =>{console.log(data)},
         error: (error) =>{ console.log(error) }}
         )
