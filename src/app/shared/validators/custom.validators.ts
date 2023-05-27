@@ -16,6 +16,21 @@ export class CustomValidators {
     }
   }
 
+  static newpasswordsMatching(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('newpassword')?.value;
+    const passwordConfirm = control.get('newpasswordConfirm')?.value;
+
+    if (
+      password === passwordConfirm &&
+      password !== null &&
+      passwordConfirm !== null
+    ) {
+      return null;
+    } else {
+      return { passwordsNotMatching: true };
+    }
+  }
+
   static checkPassword(control: AbstractControl): ValidationErrors | null {
       const enteredPassword = control.value;
       const passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.{6,})/;

@@ -1,18 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/models/auth.model';
+import { User, UserUpdateProfile } from 'src/app/models/auth.model';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
+  private currentUserId = localStorage.getItem('id') || '';
+  
+
   constructor(
     private http: HttpClient,
   ) { }
 
   getCurrentUser() {
-    return this.http.get<User>(`${environment.apiUrl}/auth/user/6457c9f734a2c46401ac41ed`)
+    return this.http.get<User>(`${this.apiUrl}/auth/user/${this.currentUserId}`)
   }
+
+  updateProfile(user: UserUpdateProfile): Observable<UserUpdateProfile> {
+    console.log("El user está llegando", user);
+    
+    return this.http.put<UserUpdateProfile>(`${this.apiUrl}/auth/user/${this.currentUserId}`, user)
+  }
+
 }

@@ -1,69 +1,84 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/models/auth.model';
+import { User, UserUpdateProfile } from 'src/app/models/auth.model';
 
 import { UserService } from '../../user.service';
+import { CustomValidators } from 'src/app/shared/validators/custom.validators';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
-  userForm: FormGroup;
-  user$: Observable<User> | undefined;
-  user: User = {
-    _id: 'ttt',
-    email: 'ttt',
-    firstname: 'tt',
-    lastname: 'tt',
+  user$: Observable<any> | undefined;
+  userForm = new FormGroup(
+    {
+      firstname: new FormControl('', [Validators.required]),
+      lastname: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
+      newpassword: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
+      newpasswordConfirm: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
+    },
+
+    { validators: [CustomValidators.newpasswordsMatching] }
+  );
+
+  userData: User = {
+    _id: '',
+    email: '',
+    firstname: '',
+    lastname: '',
     createdAt: '',
     updatedAt: '',
     comments: [],
-  };
+  }
+
+
 
   constructor(
-    private fb: FormBuilder,
     private userService: UserService,
     private route: ActivatedRoute
   ) {
-    this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.minLength(6)],
-      confirmPassword: [''],
-    });
+  }
 
-    this.userService.getCurrentUser().subscribe({
-      next: (data) =>  {
-        return Object.entries(data).map((elem: any) => this.user = elem)
+  ngOnInit(): void {
+    this.user$ = this.userService.getCurrentUser();
+    this.user$.subscribe({
+      next: (data) => {
+        console.log(data);
+        this.userData = data.user;
+        console.log(this.userData);
       },
+      error: (err) => console.log(err),
+    });
+  }
 
-    })
-
+  get putForm() {
+    return this.userForm;
   }
 
   saveChanges() {
     if (this.userForm.valid) {
-      const name = this.userForm.value.name;
-      const email = this.userForm.value.email;
-      const password = this.userForm.value.password;
-      const confirmPassword = this.userForm.value.confirmPassword;
-
-      if (password !== confirmPassword) {
-        // Show error message: Passwords do not match
-        return;
+      // Update user profile information
+     const userUpdateProfile: UserUpdateProfile = {
+        firstname: this.userForm.get('firstname')?.value,
+        lastname: this.userForm.get('lastname')?.value,
+        password: this.userForm.get('password')?.value,
+        newpassword: this.userForm.get('newpassword')?.value,
       }
 
       // Update user profile information using the service
-      // this.userService.updateProfile(name, email, password);
+      this.userService.updateProfile(userUpdateProfile);
 
       // Show success message: Information updated successfully
+      console.log('Information updated successfully');
     } else {
       // Show error message: All fields must be completed
+      console.error('All fields must be completed');
     }
   }
 }

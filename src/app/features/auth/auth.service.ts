@@ -55,7 +55,6 @@ export class AuthService {
           const token = data.token;
           if (!data) {
             this.store.dispatch(AuthActions.logout({ loggedIn: false }));
-
             return this.router.navigate(['/auth/login']);
           }
           localStorage.setItem('token', JSON.stringify(token));
@@ -68,5 +67,12 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     this.store.dispatch(AuthActions.login({ loggedIn: false }));
+  }
+
+  setTokenId(res: any) {
+    const token = res.token;
+    const id = res.id;
+    localStorage.setItem('token', token);
+    localStorage.setItem('id', id);
   }
 }

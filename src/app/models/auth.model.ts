@@ -17,18 +17,11 @@ export interface User {
   comments: Comment[];
 }
 
-export interface UserData {
-  user: {
-    user: {
-      _id: string;
-      email: string;
-      firstname: string;
-      lastname: string;
-      createdAt: string;
-      updatedAt: string;
-      comments: Comment[];
-    }
-  }
+export interface UserUpdateProfile {
+  firstname?: string | null;
+  lastname?: string | null;
+  password?: string | null;
+  newpassword?: string | null;
 }
 
 export interface Comment {

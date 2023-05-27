@@ -65,7 +65,8 @@ export class LoginComponent {
 
         const login = await this.authService.login({ email, password } as AuthLogin).subscribe({
           next: (response) => {
-            console.log({response})
+            console.log({response}),
+            this.authService.setTokenId(response)
           },
           error: (err) => {
             console.error({ err })
@@ -77,6 +78,7 @@ export class LoginComponent {
       this.loginForm.markAllAsTouched();
     }
   }
+
   redirectSignUp() {
     this.router.navigate(['/auth/register']);
   }

@@ -3,9 +3,10 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-white shadow-md rounded px-8 py-6 mb-4 sm:mb-0">
         <h2 class="text-lg font-semibold mb-4">User Information</h2>
-        <!-- <p><strong>Nombre:</strong> {{ user | json }}</p> -->
-        <!-- <p><strong>Apellidos:</strong> {{ user.user.lastname }}</p> -->
-        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Nombre:</strong> {{ userData | json }}</p>
+        <p><strong>Nombre:</strong> {{ userData.firstname }}</p>
+        <p><strong>Apellidos:</strong> {{ userData.lastname }}</p>
+        <p><strong>Email:</strong> {{ userData.email }}</p>
 
       </div>
 
@@ -13,23 +14,28 @@
         <h2 class="text-lg font-semibold mb-4">Edit User</h2>
         <form (ngSubmit)="saveChanges()" [formGroup]="userForm">
           <mat-form-field class="w-full mb-4">
-            <mat-label>Name:</mat-label>
-            <input matInput formControlName="name" placeholder="Name">
+            <mat-label>Nombre:</mat-label>
+            <input matInput formControlName="firstname" placeholder="Nombre">
           </mat-form-field>
 
           <mat-form-field class="w-full mb-4">
-            <mat-label>Email:</mat-label>
-            <input matInput formControlName="email" placeholder="Email">
+            <mat-label>Apellidos:</mat-label>
+            <input matInput formControlName="lastname" placeholder="Apellidos">
           </mat-form-field>
 
           <mat-form-field class="w-full mb-4">
-            <mat-label>Password:</mat-label>
-            <input matInput formControlName="password" type="password" placeholder="Password">
+            <mat-label>Contraseña:</mat-label>
+            <input matInput formControlName="password" type="password" placeholder="Contraseña">
           </mat-form-field>
 
           <mat-form-field class="w-full mb-4">
-            <mat-label>Confirm Password:</mat-label>
-            <input matInput formControlName="confirmPassword" type="password" placeholder="Confirm Password">
+            <mat-label>Nueva contraseña:</mat-label>
+            <input matInput formControlName="newpassword" type="password" placeholder="Nueva contraseña">
+          </mat-form-field>
+          
+          <mat-form-field class="w-full mb-4">
+            <mat-label>Confirma nueva contraseña:</mat-label>
+            <input matInput formControlName="newpasswordConfirm" type="password" placeholder="Confirmar nueva contraseña">
           </mat-form-field>
 
           <button mat-raised-button color="primary" class="bg-blue-500 text-white px-4 py-2 rounded" type="submit">Save
@@ -39,4 +45,3 @@
     </div>
   </div>
 </div>
-<div>{{ user$ | async | json }}</div>
