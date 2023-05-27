@@ -38,13 +38,8 @@ export class InfoWindowComponent implements OnChanges{
   updateInfoWindow(){
     this.getPhotos() 
     this.getComments(1)
-    let aux;
-    
-     this.commentsService.getRating(this.placeId).subscribe({
-      next: (data) => { aux = Object.entries(data)}
-    })
-   // console.log("rating")
-   // console.log(aux)
+    this.getRating()
+
   }
 
  
@@ -63,12 +58,22 @@ export class InfoWindowComponent implements OnChanges{
     return access;
   }
 
+  getRating(){
+    let aux;
+    
+    this.commentsService.getRating(this.placeId).subscribe({
+     next: (data) => {Object.entries(data)}
+   })
+
+    console.log("rating:")
+    console.log(aux)
+  }
+
 
   /***************************comments**************************** */
      
   getComments(page: number){
 
-   // let  aux: Array<CommentInterface[]> = []; 
     this.commentsService.getCommentsbyPlaceId(this.placeId,1).subscribe({
       next: (data: any) => { console.log(data)
         this.setPaginatorInfo(data.next, data.previous), 

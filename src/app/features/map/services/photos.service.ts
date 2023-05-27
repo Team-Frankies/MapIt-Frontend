@@ -14,7 +14,8 @@ export class PhotosService {
   }
 
   getPhotoPlace(photoReference: string){
-    //return this.http.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoReference}&key=${environment.googleAPIKey}`)
+    return this.http.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoReference}&key=${environment.googleAPIKey}`)
+    //return this.http.get(`https://maps.googleapis.com/maps/api/place/photo?maxwid//th=400&photo_reference=${photoReference}&key=${environment.googleAPIKey}`)
    
   }
 
