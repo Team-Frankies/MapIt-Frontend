@@ -90,9 +90,7 @@ export class InfoWindowComponent implements OnChanges{
     this.commentsService.getCommentsbyPlaceId(this.placeId,page).subscribe({
       next: (data: any) => {this.setPaginatorInfo(data.next, data.previous), 
         this.comments = data.comments;
-      
-      console.log(this.comments)
-
+  
       
       }})
  
@@ -125,7 +123,7 @@ export class InfoWindowComponent implements OnChanges{
     sendComment(){
       this.commentsService.sendComment(this.comentInput, this.placeId, this.userRating).subscribe({
         next: ()=> {this.showMessage("opinicón enviada")},
-        error: (error) =>{ console.log(error), this.showMessage("no se ha podido enviar la opinión, inténtalo de nuevo mas tarde")}
+        error: (error) =>{ this.showMessage("no se ha podido enviar la opinión, inténtalo de nuevo mas tarde")}
       });
 
 
@@ -134,8 +132,8 @@ export class InfoWindowComponent implements OnChanges{
     updateComment(){
 
       this.commentsService.updateComment(this.userComment!._id, this.comentInput ,this.userRating).subscribe({
-        next: (data) =>{console.log(data), this.showMessage("opición actualizada")},
-        error: (error) =>{ console.log(error), this.showMessage("no se ha podido actualizar la opinión, inténtalo de nuevo mas tarde")}}
+        next: (data) =>{this.showMessage("opición actualizada")},
+        error: (error) =>{this.showMessage("no se ha podido actualizar la opinión, inténtalo de nuevo mas tarde")}}
         )     
 
     }

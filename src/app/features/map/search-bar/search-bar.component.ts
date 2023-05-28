@@ -38,7 +38,6 @@ export class SearchBarComponent{
       this.result={lat, lng};
       }
 
-      console.log(this.result)
       this.searchResult.emit(this.result)
       
     });

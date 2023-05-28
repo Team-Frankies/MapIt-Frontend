@@ -80,7 +80,6 @@ export class MapComponent{
     
     let auxPlace: PlaceInterface;
 
-    console.log("id place: " + marker.place_id)
     this.infoPlace.getDataPlace(marker.place_id).subscribe({ 
       next: (data) => Object.entries(data).map ((elem:any) => {auxPlace = (elem[1] as PlaceInterface), this.setInfoMarker(auxPlace, markerElem)}), 
       error: () => {
