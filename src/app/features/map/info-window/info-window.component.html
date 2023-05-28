@@ -6,7 +6,8 @@
         <mat-card-title >{{place.name}}</mat-card-title>
     </mat-card-header>
 
-    <img mat-card-image class="self-center" [src]="place.photos[0]" alt="" style="height: 300px; width: 400px">
+    <img *ngIf="place.photos" mat-card-image class="self-center" [src]="place.photos[0]" alt="" style="height: 300px; width: 400px">
+    <p *ngIf="!place.photos" class="self-center">Imágenes del lugar no disponibles</p>
     <div class="star-rating-container">
         <app-star-rating [rating]="rating" [editable]="false"></app-star-rating>
 
@@ -19,16 +20,16 @@
                     <mat-card-content>
                         <div>
                             <p>{{place.formatAddress}}</p>
-                            <p>Teléfono: {{place.formattedPhoneNumber}}</p>
+                            <p *ngIf="place.formattedPhoneNumber">Teléfono: {{place.formattedPhoneNumber}}</p>
                             <p>Accesibilidad con silla de ruedas: {{ getWheelchairAccesibleEntrance() }}</p>
 
-                            <div *ngIf="haveWeekday">
+                            <div *ngIf="place.weekday">
                                 <h3>Horario de apertura: </h3>
                                 <ul>
                                     <li *ngFor="let weekday of place.weekday">{{ weekday | titlecase }}</li>
                                 </ul>
                             </div>
-                            <div *ngIf="!haveWeekday" class="text-neutral-400">
+                            <div *ngIf="!place.weekday" class="text-neutral-400">
                                 <p>Horario de apertura no disponible</p>
                             </div>
 
