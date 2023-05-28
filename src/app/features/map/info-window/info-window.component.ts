@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { PlaceInterface, CommentInterface } from '../ifaces';
 import { CommentsService } from '../services/comments.service';
-import { PhotosService } from '../services/photos.service';
-import { DataRowOutlet } from '@angular/cdk/table';
+
 
 @Component({
   selector: 'app-info-window',
@@ -19,7 +18,7 @@ export class InfoWindowComponent implements OnChanges{
   previousPage: number | undefined = undefined
   comments?: CommentInterface[];
   haveComments = false;
-  rating: DoubleRange | undefined;
+  rating: number | undefined;
   userComment: CommentInterface | undefined
   userRating: number | undefined
   comentedByUser= false;
@@ -28,7 +27,7 @@ export class InfoWindowComponent implements OnChanges{
   cosa: any;
   comentInput ="";
 
-  constructor(private commentsService: CommentsService, private gPhotoService: PhotosService){
+  constructor(private commentsService: CommentsService){
     
   }
 
@@ -41,7 +40,6 @@ export class InfoWindowComponent implements OnChanges{
 
   updateInfoWindow(){
    this.comentedByUser= false;
-    this.getPhotos() 
     this.getCommentByUser()
     this.getComments(1)
     this.getRating()
@@ -49,25 +47,19 @@ export class InfoWindowComponent implements OnChanges{
 
  
 /**************************** información de place ********************************/
-  getPhotos(){
-    /*this.gPhotoService.getPhotoPlace(this.place.photos[1].photo_reference).subscribe((url: any) => {
-      this.cosa = url});*/
-      this.cosa="https://lh3.googleusercontent.com/places/ANJU3DvEjvWRT6DR3UClDdq6qMe9BQEkqsXQoyzNdOQpvsmv9UXVMfmjhTlx-vyPHmZdenW25h-BZ1qu9k1gJoi2aUp8HuMHq7qsFx0=s1600-w400"
-  }
 
   getWheelchairAccesibleEntrance(){
     return this.place.wheelchairAccesibleEntrance ? "si" : "no";
   }
 
   getRating(){
-    let aux;
+  
     
     this.commentsService.getRating(this.placeId).subscribe({
-     next: (data) => {console.log(data)}
+     next: (data: any) => { this.rating = Math.round( data.commentsRate )}
    })
 
-    console.log("rating:")
-    console.log(aux)
+  
   }
 
 
@@ -84,8 +76,8 @@ export class InfoWindowComponent implements OnChanges{
   }
      
   getComments(page: number){
-    this.commentsService.getCommentsbyPlaceId(this.placeId,1).subscribe({
-      next: (data: any) => { console.log(data)
+    this.commentsService.getCommentsbyPlaceId(this.placeId,page).subscribe({
+      next: (data: any) => { console.log("Pagina:"),console.log(page), console.log(data)
         this.setPaginatorInfo(data.next, data.previous), 
         this.comments = data.comments;
       
@@ -97,33 +89,30 @@ export class InfoWindowComponent implements OnChanges{
   }
 
   setPaginatorInfo(nextPage: any, previousPage: any){
-    typeof nextPage  === "number" ? this.nextPage= nextPage: this.nextPage =undefined;
-    typeof previousPage  == "number"? this.previousPage=previousPage: this.previousPage= undefined;
+    typeof nextPage  != undefined ? this.nextPage= nextPage.page: this.nextPage =undefined;
+    previousPage != undefined ? this.previousPage=previousPage.page: this.previousPage= undefined;
   }
 
-    getWritenBy(writenBy: any){
+    getWrittenBy(writtenBy: any){
 
       let author ="";
 
-      if(writenBy.firstname){
-        author += writenBy.firstname + " "
+      if(writtenBy.firstname){
+        author += writtenBy.firstname + " "
       }
-      if(writenBy.lastname){
-        author += writenBy.lastname
+      if(writtenBy.lastname){
+        author += writtenBy.lastname
       }
       return author;
     }
 
     sendComment(){
-      this.commentsService.sendComment(this.comentInput, this.placeId, this.ratingPlace).subscribe({
-        next: (data) =>{console.log(data)},
-        error: (error) =>{ console.log(error) }}
-        )
+      this.commentsService.sendComment(this.comentInput, this.placeId, this.userRating)
     }
 
     updateComment(){
       console.log(this.userComment!._id)
-      console.log(this.userRating)
+      console.log("rating nuevo: ", this.userRating)
       this.commentsService.updateComment(this.userComment!._id, this.comentInput ,this.userRating).subscribe({
         next: (data) =>{console.log(data)},
         error: (error) =>{ console.log(error) }}

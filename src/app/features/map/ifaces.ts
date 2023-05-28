@@ -12,7 +12,7 @@ export interface PlaceInterface {
     createdAt: string
     stars: DoubleRange;
     updatedAt: string
-    writenBy: string;
+    writtenBy: string;
     v: DoubleRange
    
   }

@@ -15,7 +15,7 @@ export class CommentsService {
 
   getCommentsbyPlaceId(place: string, page: number){
     const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
-    return this.http.get(`${this.apiUrl}/comments/${place}/${this.user}?page=${page}&limit=4`,{headers});
+    return this.http.get(`${this.apiUrl}/comments/places/${place}/${this.user}?page=${page}&limit=4`,{headers});
   }
 
 // /comments/${place}?page=${page}&limit=4
@@ -30,7 +30,7 @@ export class CommentsService {
     return this.http.get(`${this.apiUrl}/comments/user/${this.user}/${place}`,{headers});
   }
 
-  sendComment(comment: string, place: string, stars: number | undefined = undefined){
+  sendComment(comment: string, place: string, stars: number | undefined){
     const headers  = new HttpHeaders().set('Authorization', 'Bearer ' + this.token)
     const body = {
       writtenBy: this.user,
@@ -47,7 +47,7 @@ export class CommentsService {
       content: comment,
       stars,
     }
-    return this.http.put(`${this.apiUrl}/comments/${comentId}`, body, { headers } );
+    return this.http.patch(`${this.apiUrl}/comments/${comentId}`, body, { headers } );
   }
 
 

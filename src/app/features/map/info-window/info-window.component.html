@@ -4,9 +4,9 @@
         <mat-card-title >{{place.name}}</mat-card-title>
     </mat-card-header>
 
-    <img mat-card-image class="w-full" [src]="cosa" alt="">
+    <img mat-card-image class="w-full" [src]="place.photos[0]" alt="">
     <div class="star-rating-container">
-        <app-star-rating [rating]="ratingPlace" [editable]="false"></app-star-rating>
+        <app-star-rating [rating]="rating" [editable]="false"></app-star-rating>
 
     </div>
 
@@ -47,16 +47,16 @@
                         <button *ngIf="!comentedByUser" userComment mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
                         <button *ngIf="comentedByUser" userComment mat-raised-button color="primary" (click)="updateComment()">Actualizar comentario</button>
                     </form>
-                    <section *ngIf="comments === undefined"  class="text-center"> 
+                    <section *ngIf="comments === []"  class="text-center"> 
                         <p >No hay comentarios sobre este lugar</p>
-                        <p>¿Quieres enviar uno?</p>
+                        <p>de otros usuarios</p>
                     </section>
                     
                     <ul *ngIf="comments">
                         <li *ngFor="let comment of comments">
                             <mat-card>
                                 <mat-card-header>
-                                    <p>{{getWritenBy(comment.writenBy)}}</p>
+                                    <p>{{getWrittenBy(comment.writtenBy)}}</p>
                                 </mat-card-header>
                                 <mat-card-content>
                                     <p>{{comment.content}}</p>
