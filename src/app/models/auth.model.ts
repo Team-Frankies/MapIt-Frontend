@@ -18,10 +18,10 @@ export interface User {
 }
 
 export interface UserUpdateProfile {
-  firstname?: string | null;
-  lastname?: string | null;
-  password?: string | null;
-  newpassword?: string | null;
+  firstname: string;
+  lastname: string;
+  password: string;
+  newpassword: string;
 }
 
 export interface Comment {

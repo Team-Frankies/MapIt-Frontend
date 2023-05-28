@@ -29,7 +29,6 @@ export class LoginComponent {
     ]),
   });
   hide = true;
-  token = '';
 
   constructor(
     private authService: AuthService,

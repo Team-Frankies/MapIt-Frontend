@@ -57,7 +57,6 @@ export class AuthService {
             this.store.dispatch(AuthActions.logout({ loggedIn: false }));
             return this.router.navigate(['/auth/login']);
           }
-          localStorage.setItem('token', JSON.stringify(token));
           this.store.dispatch(AuthActions.login({ loggedIn: true }));
           return this.router.navigate(['/map']);
         })
@@ -74,5 +73,16 @@ export class AuthService {
     const id = res.id;
     localStorage.setItem('token', token);
     localStorage.setItem('id', id);
+  }
+
+  getTokenId() {
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('id');
+    return { token, id };
+  }
+
+  removeTokenId() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
   }
 }

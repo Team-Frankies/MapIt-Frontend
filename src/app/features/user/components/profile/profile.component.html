@@ -2,7 +2,7 @@
   <div class="max-w-3xl w-full">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-white shadow-md rounded px-8 py-6 mb-4 sm:mb-0">
-        <h2 class="text-lg font-semibold mb-4">User Information</h2>
+        <h2 class="text-lg font-semibold mb-4">Informacion del usuario</h2>
         <p><strong>Nombre:</strong> {{ userData | json }}</p>
         <p><strong>Nombre:</strong> {{ userData.firstname }}</p>
         <p><strong>Apellidos:</strong> {{ userData.lastname }}</p>
@@ -11,35 +11,47 @@
       </div>
 
       <div class="bg-white shadow-md rounded px-8 py-6">
-        <h2 class="text-lg font-semibold mb-4">Edit User</h2>
+        <h2 class="text-lg font-semibold mb-4">Editar Usuario</h2>
         <form (ngSubmit)="saveChanges()" [formGroup]="userForm">
-          <mat-form-field class="w-full mb-4">
+          
+          <mat-form-field appearance="outline" class="w-full mb-4">
             <mat-label>Nombre:</mat-label>
             <input matInput formControlName="firstname" placeholder="Nombre">
           </mat-form-field>
 
-          <mat-form-field class="w-full mb-4">
+          <mat-form-field appearance="outline" class="w-full mb-4">
             <mat-label>Apellidos:</mat-label>
             <input matInput formControlName="lastname" placeholder="Apellidos">
           </mat-form-field>
 
-          <mat-form-field class="w-full mb-4">
+          <mat-form-field appearance="outline" class="w-full mb-4">
             <mat-label>Contraseña:</mat-label>
-            <input matInput formControlName="password" type="password" placeholder="Contraseña">
+            <input [type]="hide ? 'password' : 'text'" autocomplete="false" matInput
+              placeholder="Contraseña *" formControlName="password">
+            <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hide = !hide">
+              <mat-icon> {{ hide ? 'visibility_off' : 'visibility' }} </mat-icon>
+            </button>
           </mat-form-field>
 
-          <mat-form-field class="w-full mb-4">
+          <mat-form-field appearance="outline" class="w-full mb-4">
             <mat-label>Nueva contraseña:</mat-label>
-            <input matInput formControlName="newpassword" type="password" placeholder="Nueva contraseña">
-          </mat-form-field>
-          
-          <mat-form-field class="w-full mb-4">
-            <mat-label>Confirma nueva contraseña:</mat-label>
-            <input matInput formControlName="newpasswordConfirm" type="password" placeholder="Confirmar nueva contraseña">
+            <input [type]="hide ? 'password' : 'text'" autocomplete="false" matInput
+              placeholder="Nueva contraseña *" formControlName="newpassword">
+            <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hide = !hide">
+              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
           </mat-form-field>
 
-          <button mat-raised-button color="primary" class="bg-blue-500 text-white px-4 py-2 rounded" type="submit">Save
-            Changes</button>
+          <mat-form-field appearance="outline" class="w-full mb-4">
+            <mat-label>Confirma nueva contraseña:</mat-label>
+            <input [type]="hide ? 'password' : 'text'" autocomplete="false" matInput
+              placeholder="Confirmar nueva contraseña *" formControlName="newpasswordConfirm">
+            <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hide = !hide">
+              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" class="bg-blue-500 text-white px-4 py-2 rounded" type="submit">Guardar Cambios</button>
         </form>
       </div>
     </div>

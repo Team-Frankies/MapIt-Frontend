@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User, UserUpdateProfile } from 'src/app/models/auth.model';
@@ -13,7 +13,7 @@ import { CustomValidators } from 'src/app/shared/validators/custom.validators';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-
+  hide = true;
   user$: Observable<any> | undefined;
   userForm = new FormGroup(
     {
@@ -58,24 +58,28 @@ export class ProfileComponent implements OnInit {
   }
 
   get putForm() {
-    return this.userForm;
+    return this.userForm as FormGroup;
   }
 
   saveChanges() {
     if (this.userForm.valid) {
       // Update user profile information
-     const userUpdateProfile: UserUpdateProfile = {
-        firstname: this.userForm.get('firstname')?.value,
-        lastname: this.userForm.get('lastname')?.value,
-        password: this.userForm.get('password')?.value,
-        newpassword: this.userForm.get('newpassword')?.value,
+      const userUpdateProfile: UserUpdateProfile = {
+        firstname: this.putForm.value.firstname,
+        lastname: this.putForm.value.lastname,
+        password: this.putForm.value.password,
+        newpassword: this.putForm.value.newpassword,
       }
 
       // Update user profile information using the service
-      this.userService.updateProfile(userUpdateProfile);
+      this.userService.updateProfile(userUpdateProfile).subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+        error: (err) => console.log(err),
+      })
 
       // Show success message: Information updated successfully
-      console.log('Information updated successfully');
     } else {
       // Show error message: All fields must be completed
       console.error('All fields must be completed');
