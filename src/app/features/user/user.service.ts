@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageModalComponent } from './components/message-modal/message-modal.component';
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private _snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   getCurrentUser() {
@@ -25,6 +27,9 @@ export class UserService {
   }
 
   updateProfile(user: UserUpdateProfile) {
+    this.showConfirmationMessage()
+    this.authService.logout()
+    this.router.navigate(['/auth'])
     return this.http.put(`${this.apiUrl}/auth/user/${this.currentUserId}`, user )
   }
 

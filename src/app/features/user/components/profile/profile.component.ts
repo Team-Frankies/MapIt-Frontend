@@ -80,7 +80,7 @@ export class ProfileComponent implements OnInit {
         next: () => {
           this.userService.showConfirmationMessage();
           this.authService.logout();
-          this.router.navigate(['/']);
+          this.router.navigate(['/auth']);
         },
         error: (err) => console.error(err),
       })
