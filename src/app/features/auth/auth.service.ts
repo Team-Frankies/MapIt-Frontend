@@ -62,25 +62,21 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    this.removeTokenId();
     this.store.dispatch(AuthActions.login({ loggedIn: false }));
   }
 
-  setTokenId(res: any) {
-    const token = res.token;
-    const id = res.id;
-    localStorage.setItem('token', token);
-    localStorage.setItem('id', id);
+  setTokenId(res: Token) {
+    return localStorage.setItem('userData', JSON.stringify(res));
   }
 
-  getTokenId() {
-    const token = localStorage.getItem('token');
-    const id = localStorage.getItem('id');
-    return { token, id };
+  getTokenId(what: string) {
+    const res = JSON.parse(localStorage.getItem('userData') || '{}');
+    return what === 'token' ? res.token : res.id;
   }
 
   removeTokenId() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
+    return localStorage.removeItem('userData');
   }
+
 }

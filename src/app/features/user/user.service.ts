@@ -4,17 +4,20 @@ import { User, UserUpdateProfile } from 'src/app/models/auth.model';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageModalComponent } from './components/message-modal/message-modal.component';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private apiUrl = environment.apiUrl;
-  private currentUserId = localStorage.getItem('id');
+  private token = this.authService.getTokenId('token');
+  private currentUserId = this.authService.getTokenId('id');
 
   constructor(
     private http: HttpClient,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private authService: AuthService
   ) { }
 
   getCurrentUser() {
