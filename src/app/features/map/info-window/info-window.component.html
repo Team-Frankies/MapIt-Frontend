@@ -1,8 +1,83 @@
 
-<!--https://lh5.googleusercontent.com/p/AF1QipMqsQJJXhqZL4m0RPUIguyyae74Z2dtYz7SxxfZ=w203-h113-k-no-->
-<div >
-    <h2>{{place.name}}</h2>
-    <img class= "w-full" src="https://lh5.googleusercontent.com/p/AF1QipMqsQJJXhqZL4m0RPUIguyyae74Z2dtYz7SxxfZ=w203-h113-k-no" alt="">
-    <div><p>info-window works!</p></div>
+<mat-card class="w-[350px] m-[1.5rem] mt-[2rem] mr-[0] h-[90%]">
+    <mat-card-header class="justify-center items-center mb-[0.5rem]">
+        <mat-card-title >{{place.name}}</mat-card-title>
+    </mat-card-header>
 
-</div>
+    <img mat-card-image class="w-full" [src]="place.photos[0]" alt="fotos de lugares">
+    <div class="star-rating-container">
+        <app-star-rating [rating]="rating" [editable]="false"></app-star-rating>
+
+    </div>
+
+    <mat-card-content class="overflow-hidden p-0">
+        <mat-tab-group class="h-full" mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab label="Información" class="overflow-y-auto">
+                <mat-card>
+                    <mat-card-content>
+                        <div>
+                            <p>{{place.formatAddress}}</p>
+                            <p>Teléfono: {{place.formattedPhoneNumber}}</p>
+                            <p>Accesibilidad con silla de ruedas: {{ getWheelchairAccesibleEntrance() }}</p>
+
+                            <div>
+                                <h3>Horario de apertura: </h3>
+                                <ul>
+                                    <li *ngFor="let weekday of place.weekday">{{ weekday | titlecase }}</li>
+                                </ul>
+                            </div>
+
+                           
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </mat-tab>
+
+            <mat-tab label="Comentarios">
+                <mat-card>
+                    <form class="flex flex-col justify-center align-center p-[1rem]">
+                        <mat-form-field class="full-width w-[260px]">
+                            <mat-label>Mi opinión</mat-label>
+                            <textarea appearance="outline" type="text" matInput [(ngModel)]="comentInput"
+                                [ngModelOptions]="{standalone: true}" placeholder="Escribe aquí tu comentario"
+                                rows="3"></textarea>
+                        </mat-form-field>
+                        <app-star-rating [(rating)]="userRating" [editable]="true"></app-star-rating>
+                        <button *ngIf="!comentedByUser" userComment mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
+                        <button *ngIf="comentedByUser" userComment mat-raised-button color="primary" (click)="updateComment()">Actualizar comentario</button>
+                    </form>
+                    <section>
+                        <p *ngIf="comments !== [] else noCommentsFound">
+                            <mat-card class="comments" *ngFor="let comment of comments">
+                                <mat-card-header>
+                                    <mat-card-title>{{ getWrittenBy(comment.writtenBy) | titlecase }}</mat-card-title>
+                                    <mat-card-subtitle>{{ comment.content | titlecase }}</mat-card-subtitle>
+                                </mat-card-header>
+                            </mat-card>
+                        </p>
+                        <!-- templade para cuando no hay comentarios -->
+                        <ng-template #noCommentsFound>
+                            <p class="text-center">No hay comentarios sobre este lugar <br> de otros usuarios</p>
+                        </ng-template>
+                    </section>
+
+                    <mat-card-footer class="flex justify-center items-center">
+                        <button *ngIf="previousPage === undefined" mat-flat-button disabled>
+                            <mat-icon>navigate_before</mat-icon>
+                        </button>
+                        <button *ngIf="previousPage !== undefined" mat-flat-button (click)="getComments(previousPage)" >
+                            <mat-icon>navigate_before</mat-icon>
+                        </button>
+                        <button *ngIf="comments === []" mat-flat-button disabled>
+                            <mat-icon>navigate_next</mat-icon>
+                        </button>
+                        <button *ngIf="nextPage !== undefined" mat-flat-button (click)="getComments(nextPage)" >
+                            <mat-icon>navigate_next</mat-icon>
+                        </button>
+                    </mat-card-footer>
+
+                </mat-card>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

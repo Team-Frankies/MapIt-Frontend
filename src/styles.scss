@@ -107,3 +107,7 @@ $mat-dark-theme: mat.define-dark-theme((
 * {
   border-style: hidden;
 }
+
+.mat-mdc-form-field-subscript-wrapper {
+  height: 0 !important;
+  }
