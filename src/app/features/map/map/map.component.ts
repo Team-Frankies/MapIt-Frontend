@@ -61,12 +61,10 @@ export class MapComponent{
 //*******************eventos de ratón************************/
 //mapa
   moveMap(event: google.maps.MapMouseEvent) {
-    if(!this.infoSite){
+    
     this.center = (event?.latLng?.toJSON()) || this.center;
-    this.setMarkers();}
-    else{
-     this.closeInfoSite();
-    }
+    this.setMarkers();
+   
   }
 
   move(event: google.maps.MapMouseEvent) {
@@ -74,15 +72,6 @@ export class MapComponent{
 
   }
 
-  resizeMap(){
-    console.log(1)
-    this.zoom =0;
-    this.zoom = 15;
-  }
-
-  resizedMap(event: any){
-    console.log(event)
-  }
 
   
 //obtener información de marker
@@ -92,8 +81,8 @@ export class MapComponent{
 
     console.log("id place: " + marker.place_id)
     this.infoPlace.getDataPlace(marker.place_id).subscribe({ 
-      next: (data) => Object.entries(data).map ((elem:any) => {auxPlace = (elem[1] as PlaceInterface), console.log(auxPlace), this.setInfoMarker(auxPlace, markerElem)}), 
-      error: (error) => {
+      next: (data) => Object.entries(data).map ((elem:any) => {auxPlace = (elem[1] as PlaceInterface), this.setInfoMarker(auxPlace, markerElem)}), 
+      error: () => {
         this.place=undefined;
       }
     
@@ -123,7 +112,7 @@ export class MapComponent{
   getUserLocation(){
     this.geolocation$.pipe(take(1)).subscribe(position =>  {
       this.center={lat: position.coords.latitude, lng: position.coords.longitude}
-      , this.display=this.center; this.setMarkers(), this.openMap =true}, (error: GeolocationPositionError) =>{this.setMarkers(),  this.openMap =true, this.getErrorMessage('Ubicación no disponible')
+      , this.display=this.center; this.setMarkers(), this.openMap =true}, (error: GeolocationPositionError) =>{this.setMarkers(),  this.openMap =true, this.showMessage('Ubicación no disponible')
        
     });
   }
@@ -145,17 +134,17 @@ export class MapComponent{
   recieveLatLng($event: any) {
  
     if($event != undefined){
-    this.resizeMap();
+   
     this.center = $event
     this.display = $event
     
     this.setMarkers()}
     else{
-      this.getErrorMessage('Ubicación no localizada')
+      this.showMessage('Ubicación no localizada, inténtalo de nuevo mas tarde')
     }
   }
 
-  getErrorMessage(message: string){
+  showMessage(message: string){
     this.snackBar.open(message, undefined, {
       duration:400})
   }
@@ -191,13 +180,15 @@ export class MapComponent{
     this.infoSite = true;
     }
     else{
-      this.getErrorMessage('lugar no localizado')
+      this.showMessage('lugar no localizado, inténtalo de nuevo mas tarde')
     }
   }
 
   //cerrar ventana emergente
-  closeInfoSite(){
-    this.infoSite = false;
+  closeInfoSite(close: boolean){
+
+    close ? this.infoSite = false: this.infoSite = true;
+ 
   }
 
 }

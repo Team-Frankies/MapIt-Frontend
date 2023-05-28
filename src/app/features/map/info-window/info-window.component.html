@@ -1,10 +1,14 @@
 
-<mat-card class="h-full" style="width: 350px; margin: 1.5rem 0 1.5rem 1.5rem; height: 90%;">
+<div class="my-6 ml-6 " >
+<mat-card class="w-full" style="height: 90%;">
+    <mat-icon class="material-symbols-outlined absolute top-0 right-0" aria-hidden="false" aria-label="Example home icon" fontIcon="close" (click)="closedWindow()"></mat-icon>
+
+    
     <mat-card-header style="justify-content: center; align-items: center; margin-bottom: 0.5rem;">
         <mat-card-title >{{place.name}}</mat-card-title>
     </mat-card-header>
 
-    <img mat-card-image class="w-full" [src]="place.photos[0]" alt="">
+    <img mat-card-image class="self-center" [src]="place.photos[0]" alt="" style="height: 300px; width: 400px">
     <div class="star-rating-container">
         <app-star-rating [rating]="rating" [editable]="false"></app-star-rating>
 
@@ -20,11 +24,14 @@
                             <p>Teléfono: {{place.formattedPhoneNumber}}</p>
                             <p>Accesibilidad con silla de ruedas: {{ getWheelchairAccesibleEntrance() }}</p>
 
-                            <div>
+                            <div *ngIf="haveWeekday">
                                 <h3>Horario de apertura: </h3>
                                 <ul>
                                     <li *ngFor="let weekday of place.weekday">{{ weekday | titlecase }}</li>
                                 </ul>
+                            </div>
+                            <div *ngIf="!haveWeekday" class="text-neutral-400">
+                                <p>Horario de apertura no disponible</p>
                             </div>
 
                            
@@ -35,8 +42,8 @@
 
             <mat-tab label="Comentarios">
                 <mat-card>
-                    <form
-                        style="padding: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <form class="py-4 px-10"
+                        style=" display: flex; flex-direction: column; justify-content: center; ">
                         <mat-form-field class="full-width">
                             <mat-label>Mi opinión</mat-label>
                             <textarea appearance="outline" type="text" matInput [(ngModel)]="comentInput"
@@ -44,8 +51,8 @@
                                 rows="2"></textarea>
                         </mat-form-field>
                         <app-star-rating [(rating)]="userRating" [editable]="true"></app-star-rating>
-                        <button *ngIf="!comentedByUser" userComment mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
-                        <button *ngIf="comentedByUser" userComment mat-raised-button color="primary" (click)="updateComment()">Actualizar comentario</button>
+                        <button *ngIf="!comentedByUser" userComment mat-raised-button color="primary" (click)="sendComment()">Enviar opinión</button>
+                        <button *ngIf="comentedByUser" userComment mat-raised-button color="primary" (click)="updateComment()">Actualizar opinión</button>
                     </form>
                     <section *ngIf="comments === []"  class="text-center"> 
                         <p >No hay comentarios sobre este lugar</p>
@@ -54,9 +61,10 @@
                     
                     <ul *ngIf="comments">
                         <li *ngFor="let comment of comments">
-                            <mat-card>
-                                <mat-card-header>
-                                    <p>{{getWrittenBy(comment.writtenBy)}}</p>
+                            <mat-card class= "border-solid border-blue-400 bg-blue-300">
+                                <mat-card-header class= "m-2 ">
+                                    <p class= "font-semibold">{{getWrittenBy(comment.writtenBy)}}</p>
+                                    <p class="absolute right-0 font-thin text-left">fecha</p>
                                 </mat-card-header>
                                 <mat-card-content>
                                     <p>{{comment.content}}</p>
@@ -89,3 +97,4 @@
         </mat-tab-group>
     </mat-card-content>
 </mat-card>
+</div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges,Output,SimpleChanges} from '@angular/core';
 import { PlaceInterface, CommentInterface } from '../ifaces';
 import { CommentsService } from '../services/comments.service';
 
@@ -13,11 +13,15 @@ export class InfoWindowComponent implements OnChanges{
   @Input() placeId!: string;
   @Input() place!: PlaceInterface;
   @Input() ratingPlace?: number = 3;
+
+  @Output() closeWindow = new EventEmitter();
+  @Output() messageResponse = new EventEmitter();
   
   nextPage: number | undefined = undefined
   previousPage: number | undefined = undefined
   comments?: CommentInterface[];
   haveComments = false;
+  haveWeekday = false;
   rating: number | undefined;
   userComment: CommentInterface | undefined
   userRating: number | undefined
@@ -40,9 +44,14 @@ export class InfoWindowComponent implements OnChanges{
 
   updateInfoWindow(){
    this.comentedByUser= false;
+    this.setHaveWeekday();
     this.getCommentByUser()
     this.getComments(1)
     this.getRating()
+  }
+
+  closedWindow(){
+    this.closeWindow.emit(true)
   }
 
  
@@ -53,13 +62,15 @@ export class InfoWindowComponent implements OnChanges{
   }
 
   getRating(){
-  
-    
     this.commentsService.getRating(this.placeId).subscribe({
      next: (data: any) => { this.rating = Math.round( data.commentsRate )}
    })
 
-  
+  }
+
+  setHaveWeekday(){
+    this.place.weekday[0] == "opening hours not available" ? this.haveWeekday = false: this.haveWeekday = true;
+
   }
 
 
@@ -69,7 +80,7 @@ export class InfoWindowComponent implements OnChanges{
     this.comentInput = "";
     this.commentsService.getCommentByUser(this.placeId).subscribe({
       next: (data: any) => {if(data.comments[0]){
-        this.userComment = data.comments[0], console.log(this.userComment), this.comentInput= this.userComment!.content, this.userRating = (this.userComment!.stars as number),  this.comentedByUser= true;
+        this.userComment = data.comments[0], this.comentInput= this.userComment!.content, this.userRating = (this.userComment!.stars as number),  this.comentedByUser= true;
       }
       }
     })
@@ -77,8 +88,7 @@ export class InfoWindowComponent implements OnChanges{
      
   getComments(page: number){
     this.commentsService.getCommentsbyPlaceId(this.placeId,page).subscribe({
-      next: (data: any) => { console.log("Pagina:"),console.log(page), console.log(data)
-        this.setPaginatorInfo(data.next, data.previous), 
+      next: (data: any) => {this.setPaginatorInfo(data.next, data.previous), 
         this.comments = data.comments;
       
       console.log(this.comments)
@@ -107,17 +117,25 @@ export class InfoWindowComponent implements OnChanges{
     }
 
     sendComment(){
-      this.commentsService.sendComment(this.comentInput, this.placeId, this.userRating)
+      this.commentsService.sendComment(this.comentInput, this.placeId, this.userRating).subscribe({
+        next: ()=> {this.showMessage("opinicón enviada")},
+        error: (error) =>{ console.log(error), this.showMessage("no se ha podido enviar la opinión, inténtalo de nuevo mas tarde")}
+      });
+
+
     }
 
     updateComment(){
-      console.log(this.userComment!._id)
-      console.log("rating nuevo: ", this.userRating)
+
       this.commentsService.updateComment(this.userComment!._id, this.comentInput ,this.userRating).subscribe({
-        next: (data) =>{console.log(data)},
-        error: (error) =>{ console.log(error) }}
+        next: (data) =>{console.log(data), this.showMessage("opición actualizada")},
+        error: (error) =>{ console.log(error), this.showMessage("no se ha podido actualizar la opinión, inténtalo de nuevo mas tarde")}}
         )     
 
+    }
+
+    showMessage(message: string){
+      this.messageResponse.emit(message);
     }
              
 }
