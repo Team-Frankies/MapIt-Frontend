@@ -116,6 +116,12 @@ export class InfoWindowComponent implements OnChanges{
       return author;
     }
 
+    getDateComment(date: string){
+
+      return date.split("T", 2)[0];
+
+    }
+
     sendComment(){
       this.commentsService.sendComment(this.comentInput, this.placeId, this.userRating).subscribe({
         next: ()=> {this.showMessage("opinicón enviada")},

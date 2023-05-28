@@ -59,11 +59,14 @@
                     
                     <ul *ngIf="comments">
                         <li *ngFor="let comment of comments">
-                            <mat-card class= "border-solid border-blue-400 bg-blue-300">
+                            <mat-card class= "border-solid border-blue-400 bg-blue-300 m-2">
                                 <mat-card-header class= "m-2 ">
                                     <p class= "font-semibold">{{getWrittenBy(comment.writtenBy)}}</p>
-                                    <p class="absolute right-0 font-thin text-left">fecha</p>
+                                    <p class="absolute right-0 font-thin" style="margin-right: 0.5vh;">{{getDateComment(comment.updatedAt)}}</p>
                                 </mat-card-header>
+                                <mat-card-content>
+                                    <p>{{comment.content}}</p>
+                                </mat-card-content>
                             </mat-card>
                         </li>
                     </ul>
