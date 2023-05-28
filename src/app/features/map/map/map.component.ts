@@ -1,14 +1,13 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MarkersService } from '../services/markers.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { GoogleMap, GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { PlacesService } from '../services/places.service';
 import {GeolocationService} from '@ng-web-apis/geolocation';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-
+import { PlaceInterface } from '../ifaces';
 
 @Component({
   selector: 'app-map',
@@ -16,52 +15,53 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent{
+  @ViewChild('#mapRef') map!: any;
   @ViewChild(MapInfoWindow, { static: false })info!: MapInfoWindow;
   @Input() address?:  google.maps.LatLngLiteral;
 
-  sizeMap = 'w-full';
-  //infoContent = '';
+
   infoContent: string[] =[]
-  place?: any | google.maps.Marker ;
-  infoSite= false;
+  place!: PlaceInterface | undefined ;
 
   center={lat: 40.41, lng: -3.7};
   zoom = 15;
   openMap = false;
-
   
-  apiLoaded: Observable<boolean>;
+  apiLoaded: Observable<boolean> | undefined;
+  mapLoaded: Observable<boolean> | undefined;
 
   markerOptions: google.maps.MarkerOptions = {draggable: false};
   markers: any[] = [];
+  marker:any;
 
-  //coordinates= {lat: 50, lng: 14};
   display: google.maps.LatLngLiteral = {lat: 40.41, lng: -3.7}; //coordenadas iniciales se deben sustituir por la ubicación del usuario si disponemos de ella
 
-  constructor(private httpClient: HttpClient,private markerService: MarkersService, private infoPlace: PlacesService, private readonly geolocation$: GeolocationService, public snackBar: MatSnackBar){
+    //variables de ventana emergente
+    idPlaceInfoWindow?: string | any;
+    placeInfoWindow?: PlaceInterface | any;
+    infoSite= false;
+
+  constructor(private httpClient: HttpClient, private markerService: MarkersService, private infoPlace: PlacesService, private readonly geolocation$: GeolocationService, public snackBar: MatSnackBar){
     
+    this.getUserLocation()
+    this.getMap()
+    
+    
+  }
+  /*******************generando mapa***************************/
+  getMap(){
     this.apiLoaded = this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleAPIKey}&libraries=places`, 'callback')
     .pipe(
       map(() => true),
       catchError(() => of(false)),
-    );   
-
-
-    geolocation$.pipe(take(1)).subscribe(position =>  {
-      this.center={lat: position.coords.latitude, lng: position.coords.longitude}
-      , this.display=this.center; this.setMarkers(), this.openMap =true}, (error: GeolocationPositionError) =>{this.setMarkers(),  this.openMap =true, this.snackBar.open('Ubicación no disponible', undefined, {
-        duration:400
-      })});
-
+    );  
   }
 
   
-
 //*******************eventos de ratón************************/
 //mapa
   moveMap(event: google.maps.MapMouseEvent) {
     if(!this.infoSite){
-    //console.log(event)
     this.center = (event?.latLng?.toJSON()) || this.center;
     this.setMarkers();}
     else{
@@ -73,30 +73,43 @@ export class MapComponent{
     this.display = event?.latLng?.toJSON() || this.display;
 
   }
-//marcadores
-  infoMarker(markerElem: MapMarker, marker: any){
-  
-    this.infoPlace.getDataPlace(marker.place_id).subscribe({ 
-      next:  (data)=>  {this.setInfoMarker(data, markerElem)}
-      })
 
-   // this.info.open(markerElem)
+  resizeMap(){
+    console.log(1)
+    this.zoom =0;
+    this.zoom = 15;
   }
+
+  resizedMap(event: any){
+    console.log(event)
+  }
+
+  
+//obtener información de marker
+  infoMarker(markerElem: MapMarker, marker: any){
+    
+    let auxPlace: PlaceInterface;
+
+    console.log("id place: " + marker.place_id)
+    this.infoPlace.getDataPlace(marker.place_id).subscribe({ 
+      next: (data) => Object.entries(data).map ((elem:any) => {auxPlace = (elem[1] as PlaceInterface), console.log(auxPlace), this.setInfoMarker(auxPlace, markerElem)}), 
+      error: (error) => {
+        this.place=undefined;
+      }
+    
+      });
+    
+  }
+
 
   //********************* generación de markers**********************************/
   setMarkers(){
-   
-   
-    console.log(2)
+
     this.markers=[]
     this.markerService.getMap(this.display).subscribe({ 
       next:  (data)=> Object.entries(data).map((elem: any) => {elem.map((e: any) => {this.markers.push(e as google.maps.Marker)})
       })
-     })
-     //console.log('markers')
-     //console.log(this.markers)
-
-     
+     })     
   }
 
   addMarker(event: google.maps.MapMouseEvent) {
@@ -106,19 +119,22 @@ export class MapComponent{
 
   //********************* actualización de información **********************************/
 
+  //geolocallización de usuario
+  getUserLocation(){
+    this.geolocation$.pipe(take(1)).subscribe(position =>  {
+      this.center={lat: position.coords.latitude, lng: position.coords.longitude}
+      , this.display=this.center; this.setMarkers(), this.openMap =true}, (error: GeolocationPositionError) =>{this.setMarkers(),  this.openMap =true, this.getErrorMessage('Ubicación no disponible')
+       
+    });
+  }
+
   //actualiza informacion de punto
-  setInfoMarker(place: any, markerElem: MapMarker){
-      
-      this.place = place;
-     // this.infoContent = this.placeToString()
-     console.log(1)
-     console.log(place)
-     if(place != null){
-     this.placeSetInfo();
-    
+  setInfoMarker(place: PlaceInterface, markerElem: MapMarker){
+    this.place = place;
+    if(place != null){
+      this.placeSetInfo();
       this.info.open(markerElem)
      }
-  
   }
 
   closeInfoMarker(){
@@ -127,39 +143,61 @@ export class MapComponent{
 
   //actualiza mapa con el buscador de direcciones
   recieveLatLng($event: any) {
-  
+ 
+    if($event != undefined){
+    this.resizeMap();
     this.center = $event
     this.display = $event
-    this.setMarkers()
+    
+    this.setMarkers()}
+    else{
+      this.getErrorMessage('Ubicación no localizada')
+    }
   }
 
-  //********************* generando inforamción para map-info-window **********************************/
+  getErrorMessage(message: string){
+    this.snackBar.open(message, undefined, {
+      duration:400})
+  }
+
+  //********************* generando información para map-info-window **********************************/
+  //metemos todos los datos en un array
+
   placeSetInfo(){
     this.infoContent =[]
-    
-    this.infoContent = this.place.formatted_address.split(",", 4); 
-  
-    this.infoContent.push(this.place.name)
-    this.infoContent.push(this.place.rating)
-    if(this.place.wheelchair_accessible_entrance){
-    this.infoContent.push("si")}
-    else{
-      this.infoContent.push("no")
+    if(this.place){
+    this.place.longName.forEach((element: any) => {
+      this.infoContent.push(element.long_name)
+    });
+   
+    //evitamos que provincia, region y/o localidad sean igual
+    if(this.infoContent[this.infoContent.length-3].includes(this.infoContent[this.infoContent.length-4])){
+      this.infoContent[this.infoContent.length-3] = ""
     }
-
-    console.log(this.infoContent)
+    if(this.infoContent[this.infoContent.length-4] == this.infoContent[this.infoContent.length-5]){
+      this.infoContent[this.infoContent.length-5] = ""
+    }
+  }
       }
 
 
   //********************* ventana emergente **********************************/
+  //abrir ventana emergente
   showInfoSite(marker: any){
+    this.infoSite = false;
+    if(this.place){
+    this.idPlaceInfoWindow = marker.place_id;
+    this.placeInfoWindow = this.place;
     this.infoSite = true;
-    this.sizeMap = 'w-3/4';
+    }
+    else{
+      this.getErrorMessage('lugar no localizado')
+    }
   }
 
+  //cerrar ventana emergente
   closeInfoSite(){
     this.infoSite = false;
-    this.sizeMap = 'w-full';
   }
 
 }

@@ -36,7 +36,20 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    this.removeTokenId();
     this.store.dispatch(logout());
   }
+
+
+  getTokenId(what: string) {
+    const res = JSON.parse(localStorage.getItem('userData') || '{}');
+    return what === 'token' ? res.token : res.id;
+  }
+  setTokenId(res: Token) {
+    return localStorage.setItem('userData', JSON.stringify(res));
+  }
+  removeTokenId() {
+    return localStorage.removeItem('userData');
+  }
+
 }
