@@ -18,6 +18,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       flex-direction: row;
       justify-content: center;
       align-items: center;
+      width: auto;
     }
     img {
       width: 1.5rem;

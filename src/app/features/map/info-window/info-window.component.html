@@ -1,16 +1,16 @@
 
-<mat-card class="h-full" style="width: 350px; margin: 1.5rem 0 1.5rem 1.5rem; height: 90%;">
-    <mat-card-header style="justify-content: center; align-items: center; margin-bottom: 0.5rem;">
+<mat-card class="w-[350px] m-[1.5rem] mt-[2rem] mr-[0] h-[90%]">
+    <mat-card-header class="justify-center items-center mb-[0.5rem]">
         <mat-card-title >{{place.name}}</mat-card-title>
     </mat-card-header>
 
-    <img mat-card-image class="w-full" [src]="place.photos[0]" alt="">
+    <img mat-card-image class="w-full" [src]="place.photos[0]" alt="fotos de lugares">
     <div class="star-rating-container">
         <app-star-rating [rating]="rating" [editable]="false"></app-star-rating>
 
     </div>
 
-    <mat-card-content class="overflow-hidden">
+    <mat-card-content class="overflow-hidden p-0">
         <mat-tab-group class="h-full" mat-stretch-tabs="false" mat-align-tabs="start">
             <mat-tab label="Información" class="overflow-y-auto">
                 <mat-card>
@@ -35,48 +35,40 @@
 
             <mat-tab label="Comentarios">
                 <mat-card>
-                    <form
-                        style="padding: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <mat-form-field class="full-width">
+                    <form class="flex flex-col justify-center align-center p-[1rem]">
+                        <mat-form-field class="full-width w-[260px]">
                             <mat-label>Mi opinión</mat-label>
                             <textarea appearance="outline" type="text" matInput [(ngModel)]="comentInput"
                                 [ngModelOptions]="{standalone: true}" placeholder="Escribe aquí tu comentario"
-                                rows="2"></textarea>
+                                rows="3"></textarea>
                         </mat-form-field>
                         <app-star-rating [(rating)]="userRating" [editable]="true"></app-star-rating>
                         <button *ngIf="!comentedByUser" userComment mat-raised-button color="primary" (click)="sendComment()">Enviar</button>
                         <button *ngIf="comentedByUser" userComment mat-raised-button color="primary" (click)="updateComment()">Actualizar comentario</button>
                     </form>
-                    <section *ngIf="comments === []"  class="text-center"> 
-                        <p >No hay comentarios sobre este lugar</p>
-                        <p>de otros usuarios</p>
-                    </section>
-                    
-                    <ul *ngIf="comments">
-                        <li *ngFor="let comment of comments">
-                            <mat-card>
+                    <section>
+                        <p *ngIf="comments !== [] else noCommentsFound">
+                            <mat-card class="comments" *ngFor="let comment of comments">
                                 <mat-card-header>
-                                    <p>{{getWrittenBy(comment.writtenBy)}}</p>
+                                    <mat-card-title>{{ getWrittenBy(comment.writtenBy) | titlecase }}</mat-card-title>
+                                    <mat-card-subtitle>{{ comment.content | titlecase }}</mat-card-subtitle>
                                 </mat-card-header>
-                                <mat-card-content>
-                                    <p>{{comment.content}}</p>
-                                </mat-card-content>
-                                <mat-card-footer>
-
-                                </mat-card-footer>
-                            
                             </mat-card>
-                        </li>
-                    </ul>
+                        </p>
+                        <!-- templade para cuando no hay comentarios -->
+                        <ng-template #noCommentsFound>
+                            <p class="text-center">No hay comentarios sobre este lugar <br> de otros usuarios</p>
+                        </ng-template>
+                    </section>
 
-                    <mat-card-footer style="display: flex; justify-content: center; align-items: center;">
+                    <mat-card-footer class="flex justify-center items-center">
                         <button *ngIf="previousPage === undefined" mat-flat-button disabled>
                             <mat-icon>navigate_before</mat-icon>
                         </button>
                         <button *ngIf="previousPage !== undefined" mat-flat-button (click)="getComments(previousPage)" >
                             <mat-icon>navigate_before</mat-icon>
                         </button>
-                        <button *ngIf="nextPage === undefined" mat-flat-button disabled>
+                        <button *ngIf="comments === []" mat-flat-button disabled>
                             <mat-icon>navigate_next</mat-icon>
                         </button>
                         <button *ngIf="nextPage !== undefined" mat-flat-button (click)="getComments(nextPage)" >
