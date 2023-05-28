@@ -63,7 +63,7 @@ export class AuthService {
 
   logout() {
     this.removeTokenId();
-    this.store.dispatch(AuthActions.login({ loggedIn: false }));
+    this.store.dispatch(AuthActions.logout({ loggedIn: false }));
   }
 
   setTokenId(res: Token) {
