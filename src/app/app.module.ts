@@ -6,11 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
+import { StoreModule } from '@ngrx/store';
+import { environment } from 'src/environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthInterceptorProvider } from './shared/interceptors/auth.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -18,9 +21,12 @@ import { SharedModule } from './shared/shared.module';
     ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [AuthInterceptorProvider],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
