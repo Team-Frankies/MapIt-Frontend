@@ -6,6 +6,18 @@
     </button>
     <mat-menu #menu="matMenu" [overlapTrigger]="false">
       <span (mouseleave)="menuTrigger.closeMenu()">
+        <button mat-menu-item routerLink="/user/profile">
+          <mat-icon>person</mat-icon>
+          <span>Ver perfil</span>
+        </button>
+        <button mat-menu-item routerLink="/map" routerLinkActive="active-link">
+          <mat-icon> location_on</mat-icon>
+          <span>Ir al mapa</span>
+        </button>
+        <button mat-menu-item routerLink="/contact" routerLinkActive="active-link">
+          <mat-icon>contact_support</mat-icon>
+          <span>Contáctanos</span>
+        </button>
         <button mat-menu-item (click)="logout()">
           <mat-icon>logout</mat-icon>
           <span>Cerrar sesión</span>
@@ -13,7 +25,7 @@
       </span>
     </mat-menu>
   </span>
-  <span class="fill-remaining-space">{{appTitle}}</span>
+  <span class="fill-remaining-space"><a routerLink="/">{{appTitle}}</a></span>
 
   <button (click)="toggleTheme()" mat-icon-button aria-label="Cambiar tema">
     <mat-icon>{{ theme ? 'bedtime' : 'sunny' }}</mat-icon>

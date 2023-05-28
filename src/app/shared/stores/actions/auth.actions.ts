@@ -1,4 +1,15 @@
-import { createAction } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
-export const login = createAction('[Auth Component] Login');
-export const logout = createAction('[Auth Component] Logout');
+const login = createAction(
+  '[Auth Component] Login',
+  props<{ loggedIn: boolean }>()
+);
+const logout = createAction(
+  '[Auth Component] Logout',
+  props<{ loggedIn: boolean }>()
+);
+
+export const AuthActions = {
+  login,
+  logout
+};

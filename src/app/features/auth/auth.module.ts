@@ -9,6 +9,8 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '../../shared/modules/material/angular-material.module';
+import { StoreModule } from '@ngrx/store';
+import { authReducer } from 'src/app/shared/stores/reducers/auth.reducer';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { AngularMaterialModule } from '../../shared/modules/material/angular-mat
     AngularMaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forFeature(authReducer)
   ],
   exports: [RouterModule],
 })

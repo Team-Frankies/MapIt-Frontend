@@ -48,13 +48,7 @@ export class RegisterComponent {
     if (!this.f.valid) {
       return;
     }
-    (await (this.authService
-      .register(this.f.value as AuthRegister)))
-      .subscribe({
-        next: (resp) => localStorage.setItem('token', resp.token),
-        error: (err) => console.error({err}),
-        complete: () => this.router.navigate(['../login'], { relativeTo: this.route })
-      });
+    const register = await (this.authService.register(this.f.value as AuthRegister))
   }
 
   isRequired(controlName: string): string {

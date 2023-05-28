@@ -5,9 +5,10 @@ import { Observable, catchError, map, of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { GoogleMap, GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { PlacesService } from '../services/places.service';
-import {GeolocationService} from '@ng-web-apis/geolocation';
+import { GeolocationService } from '@ng-web-apis/geolocation';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlaceInterface } from '../ifaces';
+
 
 @Component({
   selector: 'app-map',
