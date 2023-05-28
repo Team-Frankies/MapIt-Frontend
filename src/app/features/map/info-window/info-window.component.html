@@ -1,23 +1,12 @@
 
-<<<<<<< HEAD
-<div class="my-6 ml-6 " >
+<div class="my-6 ml-6 overflow-hidden h-full inline-block" >
 <mat-card class="w-full" style="height: 90%;">
     <mat-icon class="material-symbols-outlined absolute top-0 right-0" aria-hidden="false" aria-label="Example home icon" fontIcon="close" (click)="closedWindow()"></mat-icon>
-
-    
     <mat-card-header style="justify-content: center; align-items: center; margin-bottom: 0.5rem;">
         <mat-card-title >{{place.name}}</mat-card-title>
     </mat-card-header>
 
     <img mat-card-image class="self-center" [src]="place.photos[0]" alt="" style="height: 300px; width: 400px">
-=======
-<mat-card class="w-[350px] m-[1.5rem] mt-[2rem] mr-[0] h-[90%]">
-    <mat-card-header class="justify-center items-center mb-[0.5rem]">
-        <mat-card-title >{{place.name}}</mat-card-title>
-    </mat-card-header>
-
-    <img mat-card-image class="w-full" [src]="place.photos[0]" alt="fotos de lugares">
->>>>>>> 4470eb86a7764d57017da47564f476ce322a4992
     <div class="star-rating-container">
         <app-star-rating [rating]="rating" [editable]="false"></app-star-rating>
 
@@ -51,14 +40,9 @@
 
             <mat-tab label="Comentarios">
                 <mat-card>
-<<<<<<< HEAD
                     <form class="py-4 px-10"
                         style=" display: flex; flex-direction: column; justify-content: center; ">
                         <mat-form-field class="full-width">
-=======
-                    <form class="flex flex-col justify-center align-center p-[1rem]">
-                        <mat-form-field class="full-width w-[260px]">
->>>>>>> 4470eb86a7764d57017da47564f476ce322a4992
                             <mat-label>Mi opinión</mat-label>
                             <textarea appearance="outline" type="text" matInput [(ngModel)]="comentInput"
                                 [ngModelOptions]="{standalone: true}" placeholder="Escribe aquí tu comentario"
@@ -68,7 +52,6 @@
                         <button *ngIf="!comentedByUser" userComment mat-raised-button color="primary" (click)="sendComment()">Enviar opinión</button>
                         <button *ngIf="comentedByUser" userComment mat-raised-button color="primary" (click)="updateComment()">Actualizar opinión</button>
                     </form>
-<<<<<<< HEAD
                     <section *ngIf="comments === []"  class="text-center"> 
                         <p >No hay comentarios sobre este lugar</p>
                         <p>de otros usuarios</p>
@@ -80,22 +63,15 @@
                                 <mat-card-header class= "m-2 ">
                                     <p class= "font-semibold">{{getWrittenBy(comment.writtenBy)}}</p>
                                     <p class="absolute right-0 font-thin text-left">fecha</p>
-=======
-                    <section>
-                        <p *ngIf="comments !== [] else noCommentsFound">
-                            <mat-card class="comments" *ngFor="let comment of comments">
-                                <mat-card-header>
-                                    <mat-card-title>{{ getWrittenBy(comment.writtenBy) | titlecase }}</mat-card-title>
-                                    <mat-card-subtitle>{{ comment.content | titlecase }}</mat-card-subtitle>
->>>>>>> 4470eb86a7764d57017da47564f476ce322a4992
                                 </mat-card-header>
                             </mat-card>
-                        </p>
+                        </li>
+                    </ul>
                         <!-- templade para cuando no hay comentarios -->
                         <ng-template #noCommentsFound>
                             <p class="text-center">No hay comentarios sobre este lugar <br> de otros usuarios</p>
                         </ng-template>
-                    </section>
+                    
 
                     <mat-card-footer class="flex justify-center items-center">
                         <button *ngIf="previousPage === undefined" mat-flat-button disabled>
