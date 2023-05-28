@@ -12,7 +12,7 @@ import { fromAuth } from '../../stores/selectors/auth.selector';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  appTitle = 'HelpDesk';
+  appTitle = 'MapIt';
   theme = false;
   loggedIn$: Observable<boolean>;
 
