@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User, UserUpdateProfile } from 'src/app/models/auth.model';
 
 import { UserService } from '../../user.service';
 import { CustomValidators } from 'src/app/shared/validators/custom.validators';
+import { AuthService } from 'src/app/features/auth/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,11 +14,12 @@ import { CustomValidators } from 'src/app/shared/validators/custom.validators';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  hide = true;
-  user$: Observable<any> | undefined;
+  hideOldPass = true;  // hide old password
+  hideNewPass = true;  // hide new password
+  user$: Observable<any> | undefined; // get user data from the bbdd
   userForm = new FormGroup(
     {
-      firstname: new FormControl('', [Validators.required]),
+      firstname: new FormControl(``, [Validators.required]),
       lastname: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
       newpassword: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
@@ -37,11 +39,10 @@ export class ProfileComponent implements OnInit {
     comments: [],
   }
 
-
-
   constructor(
     private userService: UserService,
-    private route: ActivatedRoute
+    private authService: AuthService,
+    private router: Router ,
   ) {
   }
 
@@ -49,9 +50,11 @@ export class ProfileComponent implements OnInit {
     this.user$ = this.userService.getCurrentUser();
     this.user$.subscribe({
       next: (data) => {
-        console.log(data);
         this.userData = data.user;
-        console.log(this.userData);
+        this.userForm.patchValue({
+          firstname: this.userData.firstname,
+          lastname: this.userData.lastname,
+        });
       },
       error: (err) => console.log(err),
     });
@@ -64,25 +67,24 @@ export class ProfileComponent implements OnInit {
   saveChanges() {
     if (this.userForm.valid) {
       // Update user profile information
+      const {firstname, lastname, password, newpassword} = this.putForm.value;
       const userUpdateProfile: UserUpdateProfile = {
-        firstname: this.putForm.value.firstname,
-        lastname: this.putForm.value.lastname,
-        password: this.putForm.value.password,
-        newpassword: this.putForm.value.newpassword,
+        firstname,
+        lastname,
+        password,
+        newpassword,
       }
 
       // Update user profile information using the service
       this.userService.updateProfile(userUpdateProfile).subscribe({
-        next: (data) => {
-          console.log(data);
+        next: () => {
+          this.userService.showConfirmationMessage();
+          this.authService.logout();
+          this.router.navigate(['/']);
         },
-        error: (err) => console.log(err),
+        error: (err) => console.error(err),
       })
-
-      // Show success message: Information updated successfully
-    } else {
-      // Show error message: All fields must be completed
-      console.error('All fields must be completed');
     }
+    return;
   }
 }

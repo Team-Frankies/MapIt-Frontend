@@ -51,8 +51,6 @@ export class AuthService {
       })
       .pipe(
         tap((data) => {
-          console.log({data})
-          const token = data.token;
           if (!data) {
             this.store.dispatch(AuthActions.logout({ loggedIn: false }));
             return this.router.navigate(['/auth/login']);

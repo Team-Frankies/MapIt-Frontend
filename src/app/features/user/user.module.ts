@@ -5,10 +5,11 @@ import { UserRoutingModule } from './user-routing.module';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from 'src/app/shared/modules/material/angular-material.module';
+import { MessageModalComponent } from './components/message-modal/message-modal.component';
 
 
 @NgModule({
-  declarations: [ProfileComponent],
+  declarations: [ProfileComponent, MessageModalComponent],
   imports: [
     CommonModule,
     UserRoutingModule,

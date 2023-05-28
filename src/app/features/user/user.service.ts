@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User, UserUpdateProfile } from 'src/app/models/auth.model';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MessageModalComponent } from './components/message-modal/message-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,7 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
+    private _snackBar: MatSnackBar
   ) { }
 
   getCurrentUser() {
@@ -20,5 +23,11 @@ export class UserService {
 
   updateProfile(user: UserUpdateProfile) {
     return this.http.put(`${this.apiUrl}/auth/user/${this.currentUserId}`, user )
+  }
+
+  showConfirmationMessage() {
+    this._snackBar.openFromComponent(MessageModalComponent, {
+      duration: 2000,
+    });
   }
 }

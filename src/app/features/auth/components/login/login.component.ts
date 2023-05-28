@@ -29,6 +29,7 @@ export class LoginComponent {
     ]),
   });
   hide = true;
+  showErrorCredentials = false; // variable para mostrar el mensaje de error
 
   constructor(
     private authService: AuthService,
@@ -62,17 +63,15 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
-        const login = await this.authService.login({ email, password } as AuthLogin).subscribe({
+        await this.authService.login({ email, password } as AuthLogin).subscribe({
           next: (response) => {
-            console.log({response}),
             this.authService.setTokenId(response)
+            this.showErrorCredentials = false;
           },
           error: (err) => {
-            console.error({ err })
-            return err
+           return (err.status == 403) ? this.showErrorCredentials = true : err
           },
         })
-        console.log({login})
     } else {
       this.loginForm.markAllAsTouched();
     }

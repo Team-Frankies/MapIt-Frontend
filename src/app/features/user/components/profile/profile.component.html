@@ -1,59 +1,68 @@
 <div class="flex items-center justify-center h-screen">
   <div class="max-w-3xl w-full">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="bg-white shadow-md rounded px-8 py-6 mb-4 sm:mb-0">
-        <h2 class="text-lg font-semibold mb-4">Informacion del usuario</h2>
-        <p><strong>Nombre:</strong> {{ userData | json }}</p>
-        <p><strong>Nombre:</strong> {{ userData.firstname }}</p>
-        <p><strong>Apellidos:</strong> {{ userData.lastname }}</p>
-        <p><strong>Email:</strong> {{ userData.email }}</p>
+    <section class="flex flex-wrap items-center h-[calc(100vh_-_64px)] w-[100%]">
+ 
 
-      </div>
+      <mat-card class="bg-white shadow-md rounded max-w-[400px] my-0 mx-auto">
+        <mat-toolbar class="text-lg font-semibold mb-4 justify-center" color="primary">EDITAR USUARIO</mat-toolbar>
 
-      <div class="bg-white shadow-md rounded px-8 py-6">
-        <h2 class="text-lg font-semibold mb-4">Editar Usuario</h2>
-        <form (ngSubmit)="saveChanges()" [formGroup]="userForm">
-          
-          <mat-form-field appearance="outline" class="w-full mb-4">
-            <mat-label>Nombre:</mat-label>
-            <input matInput formControlName="firstname" placeholder="Nombre">
-          </mat-form-field>
+        <mat-card-content class="my-[1.5rem] mx-[0.5rem] px-[0] py-[0]">
+          <form (ngSubmit)="saveChanges()" [formGroup]="userForm">
 
-          <mat-form-field appearance="outline" class="w-full mb-4">
-            <mat-label>Apellidos:</mat-label>
-            <input matInput formControlName="lastname" placeholder="Apellidos">
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full mb-2">
+              <mat-label>Nombre:</mat-label>
+              <input matInput formControlName="firstname" placeholder="Nombre">
+              <mat-error [hidden]="userForm.get('firstname')?.valid || userForm.get('firstname')?.pristine">
+                <small *ngIf="userForm.get('firstname')?.errors?.['required']">El nombre es requerido</small>
+              </mat-error>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" class="w-full mb-4">
-            <mat-label>Contraseña:</mat-label>
-            <input [type]="hide ? 'password' : 'text'" autocomplete="false" matInput
-              placeholder="Contraseña *" formControlName="password">
-            <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hide = !hide">
-              <mat-icon> {{ hide ? 'visibility_off' : 'visibility' }} </mat-icon>
-            </button>
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full mb-2">
+              <mat-label>Apellidos:</mat-label>
+              <input matInput formControlName="lastname" placeholder="Apellidos">
+              <mat-error [hidden]="userForm.get('lastname')?.valid || userForm.get('lastname')?.pristine">
+                <small *ngIf="userForm.get('lastname')?.errors?.['required']">El nombre es requerido</small>
+              </mat-error>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" class="w-full mb-4">
-            <mat-label>Nueva contraseña:</mat-label>
-            <input [type]="hide ? 'password' : 'text'" autocomplete="false" matInput
-              placeholder="Nueva contraseña *" formControlName="newpassword">
-            <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hide = !hide">
-              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full mb-2">
+              <mat-label>Contraseña:</mat-label>
+              <input [type]="hideOldPass ? 'password' : 'text'" autocomplete="false" matInput placeholder="Contraseña *"
+                formControlName="password">
+              <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hideOldPass = !hideOldPass">
+                <mat-icon> {{ hideOldPass ? 'visibility_off' : 'visibility' }} </mat-icon>
+              </button>
+              <mat-error [hidden]="userForm.get('password')?.valid || userForm.get('password')?.pristine">
+                <small *ngIf="userForm.get('password')?.errors?.['required']">La contraseña es requerida</small>
+              </mat-error>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" class="w-full mb-4">
-            <mat-label>Confirma nueva contraseña:</mat-label>
-            <input [type]="hide ? 'password' : 'text'" autocomplete="false" matInput
-              placeholder="Confirmar nueva contraseña *" formControlName="newpasswordConfirm">
-            <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hide = !hide">
-              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full mb-2">
+              <mat-label>Nueva contraseña:</mat-label>
+              <input [type]="hideNewPass ? 'password' : 'text'" autocomplete="false" matInput placeholder="Nueva contraseña *"
+                formControlName="newpassword">
+              <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hideNewPass = !hideNewPass">
+                <mat-icon>{{ hideNewPass ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
 
-          <button mat-raised-button color="primary" class="bg-blue-500 text-white px-4 py-2 rounded" type="submit">Guardar Cambios</button>
-        </form>
-      </div>
-    </div>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full mb-2">
+              <mat-label>Confirma nueva contraseña:</mat-label>
+              <input [type]="hideNewPass ? 'password' : 'text'" autocomplete="false" matInput
+                placeholder="Confirmar nueva contraseña *" formControlName="newpasswordConfirm">
+              <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hideNewPass = !hideNewPass">
+                <mat-icon>{{ hideNewPass ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <div class="flex justify-end">
+              <button mat-raised-button color="primary" class="bg-blue-500 text-white px-4 py-2 rounded"  [disabled]="userForm.invalid"
+              type="submit">Guardar Cambios</button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </section>
   </div>
 </div>
