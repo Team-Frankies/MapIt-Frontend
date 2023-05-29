@@ -24,7 +24,7 @@ export class LoginComponent {
       ),
     ]),
     password: new FormControl('', [
-      Validators.minLength(6),
+      Validators.minLength(8),
       Validators.required,
     ]),
   });
@@ -54,7 +54,7 @@ export class LoginComponent {
     return field?.hasError('email') || field?.hasError('pattern')
       ? 'Ingresa un email válido'
       : field?.dirty && field?.hasError('minlength')
-      ? 'La contraseña debe contener mínimo 6 caracteres'
+      ? 'La contraseña debe contener mínimo 8 caracteres'
       : '';
   }
 
