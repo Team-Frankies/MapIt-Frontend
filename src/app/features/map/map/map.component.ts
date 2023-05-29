@@ -146,7 +146,7 @@ export class MapComponent{
 
   showMessage(message: string){
     this.snackBar.open(message, undefined, {
-      duration:400})
+      duration:2000})
   }
 
   //********************* generando información para map-info-window **********************************/

@@ -99,7 +99,7 @@ export class InfoWindowComponent implements OnChanges{
   }
 
   setPaginatorInfo(nextPage: any, previousPage: any){
-    typeof nextPage  != undefined ? this.nextPage= nextPage.page: this.nextPage =undefined;
+    nextPage  != undefined ? this.nextPage= nextPage.page: this.nextPage =undefined;
     previousPage != undefined ? this.previousPage=previousPage.page: this.previousPage= undefined;
   }
 
