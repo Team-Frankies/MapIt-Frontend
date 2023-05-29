@@ -33,7 +33,7 @@ export class CustomValidators {
 
   static checkPassword(control: AbstractControl): ValidationErrors | null {
       const enteredPassword = control.value;
-      const passwordCheck = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+      const passwordCheck = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
       return !passwordCheck.test(enteredPassword) && enteredPassword
         ? { requirements: true }

@@ -35,9 +35,11 @@ export class InfoWindowComponent implements OnChanges{
     
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
     if(changes['placeId']){
+      this.updateInfoWindow();
+    }
+    if(changes['place']){
       this.updateInfoWindow();
     }
   }
@@ -68,10 +70,10 @@ export class InfoWindowComponent implements OnChanges{
 
   }
 
-  setHaveWeekday(){
-    this.place.weekday[0] == "opening hours not available" ? this.haveWeekday = false: this.haveWeekday = true;
+  /*setHaveWeekday(){
+    this.place.weekday ? this.haveWeekday = false: this.haveWeekday = true;
 
-  }
+  }*/
 
 
   /***************************comments**************************** */
