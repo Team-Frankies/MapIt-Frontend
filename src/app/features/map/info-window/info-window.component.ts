@@ -39,9 +39,6 @@ export class InfoWindowComponent implements OnChanges{
     if(changes['placeId']){
       this.updateInfoWindow();
     }
-    if(changes['place']){
-      this.updateInfoWindow();
-    }
   }
 
   updateInfoWindow(){
