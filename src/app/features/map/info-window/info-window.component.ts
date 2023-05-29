@@ -35,7 +35,6 @@ export class InfoWindowComponent implements OnChanges{
     
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
     if(changes['placeId']){
       this.updateInfoWindow();
@@ -68,10 +67,10 @@ export class InfoWindowComponent implements OnChanges{
 
   }
 
-  setHaveWeekday(){
-    this.place.weekday[0] == "opening hours not available" ? this.haveWeekday = false: this.haveWeekday = true;
+  /*setHaveWeekday(){
+    this.place.weekday ? this.haveWeekday = false: this.haveWeekday = true;
 
-  }
+  }*/
 
 
   /***************************comments**************************** */
@@ -97,7 +96,7 @@ export class InfoWindowComponent implements OnChanges{
   }
 
   setPaginatorInfo(nextPage: any, previousPage: any){
-    typeof nextPage  != undefined ? this.nextPage= nextPage.page: this.nextPage =undefined;
+    nextPage  != undefined ? this.nextPage= nextPage.page: this.nextPage =undefined;
     previousPage != undefined ? this.previousPage=previousPage.page: this.previousPage= undefined;
   }
 
