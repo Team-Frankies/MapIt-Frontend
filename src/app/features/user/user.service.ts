@@ -5,21 +5,19 @@ import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageModalComponent } from './components/message-modal/message-modal.component';
 import { AuthService } from '../auth/auth.service';
-import { Router } from '@angular/router';
+import { catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private apiUrl = environment.apiUrl;
-  private token = this.authService.getTokenId('token');
   private currentUserId = this.authService.getTokenId('id');
 
   constructor(
     private http: HttpClient,
     private _snackBar: MatSnackBar,
     private authService: AuthService,
-    private router: Router
   ) { }
 
   getCurrentUser() {
@@ -27,10 +25,16 @@ export class UserService {
   }
 
   updateProfile(user: UserUpdateProfile) {
-    this.showConfirmationMessage()
-    this.authService.logout()
-    this.router.navigate(['/auth'])
-    return this.http.put(`${this.apiUrl}/auth/user/${this.currentUserId}`, user )
+    return this.http.put(`${this.apiUrl}/auth/user/${this.currentUserId}`, user ).pipe(
+      catchError(error => {
+        if (error.status === 401 || error.status === 403) {
+          return this._snackBar.open('Contraseña Incorrecta', 'Cerrar', {
+            duration: 2000,
+          });
+        }
+        return error;
+      }
+    ));
   }
 
   showConfirmationMessage() {

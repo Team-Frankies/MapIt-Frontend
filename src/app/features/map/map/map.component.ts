@@ -140,7 +140,7 @@ export class MapComponent{
     
     this.setMarkers()}
     else{
-      this.showMessage('Ubicación no localizada, inténtalo de nuevo mas tarde')
+      this.showMessage('Ubicación no localizada, inténtalo de nuevo más tarde')
     }
   }
 

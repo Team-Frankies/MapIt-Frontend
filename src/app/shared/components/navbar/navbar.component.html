@@ -6,7 +6,7 @@
     </button>
     <mat-menu #menu="matMenu" [overlapTrigger]="false">
       <span (mouseleave)="menuTrigger.closeMenu()">
-        <button mat-menu-item routerLink="/user/profile">
+        <button mat-menu-item routerLink="/user/profile" routerLinkActive="active-link">
           <mat-icon>person</mat-icon>
           <span>Ver perfil</span>
         </button>
@@ -27,9 +27,12 @@
   </span>
   <span class="fill-remaining-space"><a routerLink="/">{{appTitle}}</a></span>
 
-  <button (click)="toggleTheme()" mat-icon-button aria-label="Cambiar tema">
+
+  <span></span> <!-- reemplazar por boton de cambio de tema -->
+  
+  <!-- <button (click)="toggleTheme()" mat-icon-button aria-label="Cambiar tema">
     <mat-icon>{{ theme ? 'bedtime' : 'sunny' }}</mat-icon>
-  </button>
+  </button> -->
 
 </mat-toolbar>
 

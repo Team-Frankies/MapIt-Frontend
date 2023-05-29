@@ -50,8 +50,6 @@ export class StarRatingComponent{
     if (this.editable) { 
       this.rating = index + 1;
       this.ratingChange.emit(this.rating);
-      // Emite el valor de rating a la variable myRating de info-window.component.ts
-      console.log(this.rating);
     } 
   }
 

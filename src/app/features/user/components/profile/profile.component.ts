@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { User, UserUpdateProfile } from 'src/app/models/auth.model';
 
 import { UserService } from '../../user.service';
@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private router: Router ,
+    private router: Router,
   ) {
   }
 
@@ -56,7 +56,7 @@ export class ProfileComponent implements OnInit {
           lastname: this.userData.lastname,
         });
       },
-      error: (err) => console.log(err),
+      error: (err) => console.error(err),
     });
   }
 
@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
   saveChanges() {
     if (this.userForm.valid) {
       // Update user profile information
-      const {firstname, lastname, password, newpassword} = this.putForm.value;
+      const { firstname, lastname, password, newpassword } = this.putForm.value;
       const userUpdateProfile: UserUpdateProfile = {
         firstname,
         lastname,
@@ -82,7 +82,11 @@ export class ProfileComponent implements OnInit {
           this.authService.logout();
           this.router.navigate(['/auth']);
         },
-        error: (err) => console.error(err),
+        error: () => {
+          this.userService.showConfirmationMessage();
+          this.authService.logout();
+          this.router.navigate(['/auth']);
+        }
       })
     }
     return;

@@ -29,7 +29,6 @@ export class LoginComponent {
     ]),
   });
   hide = true;
-  showErrorCredentials = false; // variable para mostrar el mensaje de error
 
   constructor(
     private authService: AuthService,
@@ -66,11 +65,7 @@ export class LoginComponent {
         await this.authService.login({ email, password } as AuthLogin).subscribe({
           next: (response) => {
             this.authService.setTokenId(response)
-            this.showErrorCredentials = false;
-          },
-          error: (err) => {
-           return (err.status == 403) ? this.showErrorCredentials = true : err
-          },
+          }
         })
 
     } else {

@@ -4,8 +4,9 @@ import { Store } from '@ngrx/store';
 import { environment } from '../../../environments/environment';
 import { AuthActions } from '../../shared/stores/actions/auth.actions';
 import { AuthLogin, AuthRegister, Token } from '../../models/auth.model';
-import { Observable, Subscription, tap } from 'rxjs';
+import { Observable, Subscription, catchError, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Injectable({
@@ -16,7 +17,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private store: Store
+    private store: Store,
+    private _snackBar: MatSnackBar,
   ) { }
 
 
@@ -31,12 +33,13 @@ export class AuthService {
         password,
       })
       .subscribe({
-        next: (response) => {
-          localStorage.setItem('token', JSON.stringify(response.token));
-          this.store.dispatch(AuthActions.login({ loggedIn: true }));
-          return this.router.navigate(['/map']);
+        next: () => {
+          return this.router.navigate(['/auth/login']);
         },
         error: (err) => {
+          this._snackBar.open('No se pudo completar el registro', 'Cerrar', {
+            duration: 2000,
+          });
           return err;
         },
       });
@@ -57,6 +60,14 @@ export class AuthService {
           }
           this.store.dispatch(AuthActions.login({ loggedIn: true }));
           return this.router.navigate(['/map']);
+        }),
+        catchError(error => {
+          if (error.status === 403) {
+            this._snackBar.open('Usuario no autenticado', 'Cerrar', {
+              duration: 2000,
+            });
+          }
+          return throwError(error);
         })
       );
   }

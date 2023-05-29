@@ -7,7 +7,7 @@
       <mat-card-content>
         <form class="feedbackForm" [formGroup]="feedbackForm" (ngSubmit)="sendFeedback()" >
 
-          <mat-form-field appearance="outline">
+          <mat-form-field class="mat-form-field-invalid" appearance="outline">
             <mat-label>Nombre y Apellido</mat-label>
             <mat-icon matPrefix>person_outline</mat-icon>
             <input autofocus type="text" matInput placeholder="Nombre" formControlName="name">
@@ -16,7 +16,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field class="mat-form-field-invalid" appearance="outline">
             <mat-label>Email</mat-label>
             <mat-icon matPrefix>email</mat-icon>
             <input type="email" matInput placeholder="Escriba su email" formControlName="email">
@@ -26,7 +26,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field class="mat-form-field-invalid" appearance="outline">
             <mat-label>Asunto</mat-label>
             <mat-icon matPrefix>subject</mat-icon>
             <input type="text" matInput placeholder="Escriba su nombre" formControlName="subject">
@@ -35,7 +35,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field class="mat-form-field-invalid" appearance="outline">
             <mat-label>Mensaje</mat-label>
             <textarea matInput placeholder="Escriba su nombre" rows="5" formControlName="message"></textarea>
             <mat-error [hidden]="form.get('message')?.valid || form.get('message')?.pristine">

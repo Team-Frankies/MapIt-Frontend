@@ -44,7 +44,7 @@ export class InfoWindowComponent implements OnChanges{
 
   updateInfoWindow(){
    this.comentedByUser= false;
-    this.setHaveWeekday();
+    // this.setHaveWeekday();
     this.getCommentByUser()
     this.getComments(1)
     this.getRating()
@@ -122,8 +122,10 @@ export class InfoWindowComponent implements OnChanges{
 
     sendComment(){
       this.commentsService.sendComment(this.comentInput, this.placeId, this.userRating).subscribe({
-        next: ()=> {this.showMessage("opinicón enviada")},
-        error: (error) =>{ this.showMessage("no se ha podido enviar la opinión, inténtalo de nuevo mas tarde")}
+        next: ()=> {
+          this.getCommentByUser(), 
+          this.showMessage("Opinión enviada")},
+        error: () =>{ this.showMessage("No se ha podido enviar la opinión, inténtalo de nuevo más tarde")}
       });
 
 
@@ -132,8 +134,10 @@ export class InfoWindowComponent implements OnChanges{
     updateComment(){
 
       this.commentsService.updateComment(this.userComment!._id, this.comentInput ,this.userRating).subscribe({
-        next: (data) =>{this.showMessage("opición actualizada")},
-        error: (error) =>{this.showMessage("no se ha podido actualizar la opinión, inténtalo de nuevo mas tarde")}}
+        next: () =>{ 
+          this.showMessage("Opinión actualizada")
+        },
+        error: () =>{this.showMessage("No se ha podido actualizar la opinión, inténtalo de nuevo más tarde")}}
         )     
 
     }

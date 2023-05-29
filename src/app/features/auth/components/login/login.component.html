@@ -25,9 +25,6 @@
           <mat-error *ngIf="loginForm.get('password')?.invalid">
             <small>{{ getErrorMessage("password") }}</small>
           </mat-error>
-          <mat-error *ngIf="showErrorCredentials">
-            <small>Contraseña Inválida</small>
-          </mat-error>
         </mat-form-field>
 
         <div class="login-form-btn">

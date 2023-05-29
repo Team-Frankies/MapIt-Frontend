@@ -2,7 +2,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 
 import { AuthService } from '../../auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CustomValidators } from '../../../../shared/validators/custom.validators';
 import { AuthRegister } from '../../../../models/auth.model';
 
@@ -12,8 +11,8 @@ export enum RequiredMessages {
   password = 'La contraseña es requerida',
   passwordConfirm = 'La confirmación de contraseña es requerida',
   email_hasError_email = 'Dirección de e-mail incorrecta',
-  password_hasError_requirements = 'La contraseña debe tener al menos 6 caracteres, una letra mayúscula y un número',
-  passwordConfirm_hasError_requirements = 'La contraseña debe tener al menos 6 caracteres, una letra mayúscula y un número'
+  password_hasError_requirements = 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número',
+  passwordConfirm_hasError_requirements = 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número'
 }
 
 @Component({
@@ -36,8 +35,6 @@ export class RegisterComponent {
   );
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private authService: AuthService
   ) {}
 
@@ -48,7 +45,7 @@ export class RegisterComponent {
     if (!this.f.valid) {
       return;
     }
-    const register = await (this.authService.register(this.f.value as AuthRegister))
+    await (this.authService.register(this.f.value as AuthRegister))
   }
 
   isRequired(controlName: string): string {
