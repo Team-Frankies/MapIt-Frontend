@@ -1,37 +1,41 @@
-<section class="login-container">
-  <div class="login-content">
+<section class="w-full h-[calc(100vh_-_64px)] items-center flex flex-wrap">
+  <div class="w-4/5 max-w-[380px] block mx-auto">
     <mat-card>
-      <mat-toolbar class="login-toolbar" color="primary">UNETE A LA COMUNIDAD</mat-toolbar>
+      <mat-toolbar class="justify-center mb-4" color="primary">UNETE A LA COMUNIDAD</mat-toolbar>
 
       <mat-card-content>
-        <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <form [formGroup]="registerForm" (ngSubmit)="register()" class="w-full">
 
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
             <mat-icon matPrefix>email</mat-icon>
             <input autofocus type="email" matInput placeholder="Escriba su email" formControlName="email">
-            <mat-error *ngIf="checkValidation('email')">
-              <small>{{ hasError('email', 'email') }}</small>
-            </mat-error>
           </mat-form-field>
+          <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2" *ngIf="checkValidation('email')">
+            <span> {{ hasError('email', 'email') }} </span>
+          </div >
 
-          <div style="display: flex; flex-direction: row;">
-            <mat-form-field appearance="outline" style="width: 50%; display: inline-block; padding-right:0.15rem">
-              <mat-label>Nombre</mat-label>
-              <mat-icon matPrefix>person_outline</mat-icon>
-              <input type="text" matInput placeholder="Escriba su nombre" formControlName="firstname">
-              <mat-error *ngIf="checkValidation('firstname')">
-                <small>El nombre es requerido</small>
-              </mat-error>
-            </mat-form-field>
+          <div class="flex flex-row gap-[5px]">
+            <div class="flex flex-col w-2/4">
+              <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <mat-icon matPrefix>person_outline</mat-icon>
+                <input type="text" matInput placeholder="Escriba su nombre" formControlName="firstname">
+              </mat-form-field>
+              <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2" *ngIf="checkValidation('firstname')">
+                <span>El nombre es requerido</span>
+              </div>
+            </div>
 
-            <mat-form-field appearance="outline" style="width: 50%; display: inline-block; padding-left: 0.15rem;">
-              <mat-label>Apellidos</mat-label>
-              <input type="text" matInput placeholder="Escriba sus apellidos" formControlName="lastname">
-              <mat-error *ngIf="checkValidation('lastname')">
-                <small>Los apellidos son requeridos</small>
-              </mat-error>
-            </mat-form-field>
+            <div class="flex flex-col w-2/4">
+              <mat-form-field appearance="outline">
+                <mat-label>Apellidos</mat-label>
+                <input type="text" matInput placeholder="Escriba sus apellidos" formControlName="lastname">
+              </mat-form-field>
+              <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2" *ngIf="checkValidation('lastname')">
+                <span>Los apellidos son requeridos</span>
+              </div>
+            </div>
           </div>
 
 
@@ -43,12 +47,12 @@
             <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hide = !hide">
               <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <mat-error *ngIf="checkValidation('password')">
-              <small>{{ hasError('password', 'requirements') }}</small>
-            </mat-error>
           </mat-form-field>
+          <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2" *ngIf="checkValidation('password')">
+            <span> {{ hasError('password', 'requirements') }} </span>
+          </div >
 
-          <mat-form-field appearance="outline" style="padding-right: 0.1rem">
+          <mat-form-field appearance="outline">
             <mat-label>Confirmar contraseña</mat-label>
             <mat-icon matPrefix>lock_outline</mat-icon>
             <input [type]="hide ? 'password' : 'text'" autocomplete="false" matInput
@@ -56,14 +60,14 @@
             <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hide = !hide">
               <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <mat-error *ngIf="checkValidation('passwordConfirm')">
-              <small>{{ hasError('passwordConfirm', 'requirements') }}</small>
-            </mat-error>
           </mat-form-field>
+          <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2" *ngIf="checkValidation('passwordConfirm')">
+            <span>{{ hasError('passwordConfirm', 'requirements') }}</span>
+          </div>
 
-          <mat-error *ngIf="checkValidation('passwordConfirm') && f.hasError('passwordsNotMatching')">
-            <small>Las contraseñas no coinciden</small>
-          </mat-error>
+          <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2" *ngIf="checkValidation('passwordConfirm') && f.hasError('passwordsNotMatching')">
+            <span>Las contraseñas no coinciden</span>
+          </div>
 
           <div class="socialMediaFlex">
             <button style="width:50%" [disabled]="registerForm.invalid" type="submit" mat-raised-button
