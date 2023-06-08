@@ -2,7 +2,6 @@ import { AuthService } from './../../../features/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { AuthActions } from '../../stores/actions/auth.actions';
 import { fromAuth } from '../../stores/selectors/auth.selector';
 
@@ -14,18 +13,21 @@ import { fromAuth } from '../../stores/selectors/auth.selector';
 export class NavbarComponent implements OnInit {
   appTitle = 'MapIt';
   theme = false;
-  loggedIn$: Observable<boolean>;
+  loggedIn$?: Observable<boolean>;
 
   constructor(
     private store: Store,
-    private router: Router,
     private authService: AuthService
   ) {
     this.loggedIn$ = this.store.select(fromAuth.isLoggedIn);
+    console.log(this.loggedIn$);
   }
   ngOnInit() {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    // const token = localStorage.getItem('token');
+    const token = this.authService.getTokenId('token');
+    if (token) {
+      this.store.dispatch(AuthActions.login({ loggedIn: true }));
+    } else {
       this.logout();
     }
   }
@@ -46,6 +48,5 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/home']);
   }
 }
