@@ -1,19 +1,19 @@
-<section class="login-container">
-  <div class="login-content">
+<section class="h-[calc(100vh_-_64px)] w-full items-center flex flex-wrap justify-center">
+  <div class="w-4/5 max-w-[350px] block m-auto">
 
 
     <mat-card>
-      <mat-toolbar class="login-toolbar" color="primary">INICIAR SESIÔN</mat-toolbar>
+      <mat-toolbar class="justify-center mb-4" color="primary">INICIAR SESIÔN</mat-toolbar>
       <mat-card-content>
-      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
+      <form class="login-form w-full" [formGroup]="loginForm" (ngSubmit)="login()">
         <mat-form-field appearance="outline">
           <mat-icon matPrefix>mail</mat-icon>
           <mat-label>Email</mat-label>
           <input type="email" formControlName="email" matInput placeholder="email@example.com" />
-          <mat-error *ngIf="loginForm.get('email')?.invalid">
-            <small>{{ getErrorMessage("email") }}</small>
-          </mat-error>
         </mat-form-field>
+        <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          <span> {{ getErrorMessage("email") }} </span>
+        </div>
 
         <mat-form-field appearance="outline">
           <mat-icon matPrefix>lock</mat-icon>
@@ -22,12 +22,12 @@
           </mat-icon>
           <mat-label>Contraseña</mat-label>
           <input matInput placeholder="Contraseña" [type]="hide ? 'password' : 'text'" formControlName="password" />
-          <mat-error *ngIf="loginForm.get('password')?.invalid">
-            <small>{{ getErrorMessage("password") }}</small>
-          </mat-error>
         </mat-form-field>
+        <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          <span> {{ getErrorMessage("password") }} </span>
+        </div>
 
-        <div class="login-form-btn">
+        <div class="flex justify-around">
           <button mat-flat-button (click)="redirectSignUp()">Crear cuenta</button>
           <button type="submit" mat-flat-button color="primary" [disabled]="loginForm.get('email')?.invalid">
             Ingresar
