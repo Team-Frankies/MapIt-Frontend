@@ -1,36 +1,11 @@
-.login-container {
-  height: calc(100vh - 64px);
-  width: 100%;
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-form {
-  width: 100%;
-}
-
-.login-content {
-  width: 80%;
-  max-width: 400px;
-  display: block;
-  margin: 0 auto;
-}
 .mat-mdc-card {
   opacity: 0.9;
-}
-.login-toolbar {
-  justify-content: center;
 }
 
 .mat-mdc-form-field {
   width: 100%;
   display: block;
-  padding-bottom: 1rem;
-}
-
-mat-toolbar {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .mat-mdc-raised-button {
@@ -38,6 +13,7 @@ mat-toolbar {
   height: 60px;
   margin: 1rem;
 }
+
 .socialMediaFlex {
   display: flex;
   justify-content: space-around;
