@@ -75,10 +75,11 @@ export class AuthService {
   logout() {
     this.removeTokenId();
     this.store.dispatch(AuthActions.logout({ loggedIn: false }));
+    this.router.navigate(['/home']);
   }
 
   setTokenId(res: Token) {
-    return localStorage.setItem('userData', JSON.stringify(res));
+    localStorage.setItem('userData', JSON.stringify(res));
   }
 
   getTokenId(what: string) {
@@ -87,7 +88,7 @@ export class AuthService {
   }
 
   removeTokenId() {
-    return localStorage.removeItem('userData');
+    localStorage.removeItem('userData');
   }
 
 }
