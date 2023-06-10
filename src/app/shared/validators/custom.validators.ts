@@ -27,7 +27,7 @@ export class CustomValidators {
     ) {
       return null;
     } else {
-      return { passwordsNotMatching: true };
+      return { newpasswordsNotMatching: true };
     }
   }
 

@@ -1,7 +1,6 @@
 <div class="flex items-center justify-center h-screen">
   <div class="max-w-3xl w-full">
     <section class="flex flex-wrap items-center h-[calc(100vh_-_64px)] w-[100%]">
- 
 
       <mat-card class="bg-white shadow-md rounded w-[80%] max-w-[350px] block my-0 mx-auto">
         <mat-toolbar class="text-lg font-semibold mb-4 justify-center" color="primary">EDITAR USUARIO</mat-toolbar>
@@ -10,56 +9,95 @@
           <form (ngSubmit)="saveChanges()" [formGroup]="userForm">
 
             <mat-form-field appearance="outline" class="w-full mb-2">
-              <mat-label>Nombre:</mat-label>
+              <mat-label>Nombre</mat-label>
               <input matInput formControlName="firstname" placeholder="Nombre">
-              <mat-error [hidden]="userForm.get('firstname')?.valid || userForm.get('firstname')?.pristine">
-                <small *ngIf="userForm.get('firstname')?.errors?.['required']">El nombre es requerido</small>
-              </mat-error>
             </mat-form-field>
+            <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2"
+              *ngIf="userForm.get('firstname')?.invalid && userForm.get('firstname')?.touched">
+              <span *ngIf="userForm.get('firstname')?.errors?.['required']">El nombre es requerido</span>
+            </div>
 
             <mat-form-field appearance="outline" class="w-full mb-2">
-              <mat-label>Apellidos:</mat-label>
+              <mat-label>Apellidos</mat-label>
               <input matInput formControlName="lastname" placeholder="Apellidos">
-              <mat-error [hidden]="userForm.get('lastname')?.valid || userForm.get('lastname')?.pristine">
-                <small *ngIf="userForm.get('lastname')?.errors?.['required']">El nombre es requerido</small>
-              </mat-error>
             </mat-form-field>
+            <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2"
+              *ngIf="userForm.get('lastname')?.invalid && userForm.get('lastname')?.touched">
+              <span *ngIf="userForm.get('lastname')?.errors?.['required']">El nombre es requerido</span>
+            </div>
 
             <mat-form-field appearance="outline" class="w-full mb-2">
-              <mat-label>Contraseña:</mat-label>
+              <mat-label>Contraseña</mat-label>
               <input [type]="hideOldPass ? 'password' : 'text'" autocomplete="false" matInput placeholder="Contraseña *"
                 formControlName="password">
-              <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hideOldPass = !hideOldPass">
+              <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix
+                (click)="hideOldPass = !hideOldPass">
                 <mat-icon> {{ hideOldPass ? 'visibility_off' : 'visibility' }} </mat-icon>
               </button>
-              <mat-error [hidden]="userForm.get('password')?.valid || userForm.get('password')?.pristine">
-                <small *ngIf="userForm.get('password')?.errors?.['required']">La contraseña es requerida</small>
-              </mat-error>
             </mat-form-field>
+            <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2"
+              *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+              <div *ngIf="userForm.get('password')?.errors?.['required']">La contraseña es requerida</div>
+              <div *ngIf="getErrorMessagePass()">{{ getErrorMessagePass() }}</div>
+            </div>
 
-            <mat-form-field appearance="outline" class="w-full mb-2">
-              <mat-label>Nueva contraseña:</mat-label>
-              <input [type]="hideNewPass ? 'password' : 'text'" autocomplete="false" matInput placeholder="Nueva contraseña *"
-                formControlName="newpassword">
-              <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hideNewPass = !hideNewPass">
-                <mat-icon>{{ hideNewPass ? 'visibility_off' : 'visibility' }}</mat-icon>
-              </button>
+            <!-- MODIFICAR CONTRASEÑA -->
 
-            </mat-form-field>
+            <mat-expansion-panel hideToggle class="p-[0] w-full mb-2">
+              <mat-expansion-panel-header>
+                <mat-checkbox (change)="togglePasswordChange()" [checked]="changePassword">
+                  <mat-panel-title>Modificar contraseña</mat-panel-title>
+                </mat-checkbox>
+              </mat-expansion-panel-header>
+              
 
-            <mat-form-field appearance="outline" class="w-full mb-2">
-              <mat-label>Confirma nueva contraseña:</mat-label>
-              <input [type]="hideNewPass ? 'password' : 'text'" autocomplete="false" matInput
-                placeholder="Confirmar nueva contraseña *" formControlName="newpasswordConfirm">
-              <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix (click)="hideNewPass = !hideNewPass">
-                <mat-icon>{{ hideNewPass ? 'visibility_off' : 'visibility' }}</mat-icon>
-              </button>
-            </mat-form-field>
+              <mat-form-field appearance="outline" class="w-full mb-2">
+                <mat-label>Nueva contraseña</mat-label>
+                <input [type]="hideNewPass ? 'password' : 'text'" autocomplete="false" matInput
+                  placeholder="Nueva contraseña *" formControlName="newpassword">
+                <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix
+                  (click)="hideNewPass = !hideNewPass">
+                  <mat-icon>{{ hideNewPass ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+              </mat-form-field>
+              <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2"
+                *ngIf="userForm.get('newpassword')?.invalid && userForm.get('newpassword')?.touched">
+                <span *ngIf="userForm.get('newpassword')?.errors?.['required']">La contraseña es requerida</span>
+                <span *ngIf="userForm.get('newpassword')?.errors?.['requirements']">La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número</span>
+              </div>
+
+              <mat-form-field appearance="outline" class="w-full mb-2">
+                <mat-label>Confirma nueva contraseña</mat-label>
+                <input [type]="hideNewPass ? 'password' : 'text'" autocomplete="false" matInput
+                  placeholder="Confirmar nueva contraseña *" formControlName="newpasswordConfirm">
+                <button aria-label="Ver contraseña" role="button" mat-icon-button matSuffix
+                  (click)="hideNewPass = !hideNewPass">
+                  <mat-icon>{{ hideNewPass ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+              </mat-form-field>
+              <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2"
+                *ngIf="userForm.get('newpasswordConfirm')?.invalid && userForm.get('newpasswordConfirm')?.touched">
+                <span *ngIf="userForm.get('newpasswordConfirm')?.errors?.['required']">La contraseña es requerida</span>
+              </div>
+              <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2"
+                *ngIf="
+                  !(userForm.get('newpassword')?.errors?.['required'] || 
+                  userForm.get('newpassword')?.errors?.['requirements']) &&
+                  !userForm.get('newpasswordConfirm')?.errors?.['required'] &&
+                  userForm.errors?.['newpasswordsNotMatching']
+                ">
+                Las contraseñas no coinciden
+              </div>
+
+            </mat-expansion-panel>
+
+            <!-- FIN MODIFICAR CONTRASEÑA -->
 
             <div class="flex justify-end">
-              <button mat-raised-button color="primary" class="bg-blue-500 text-white px-4 py-2 rounded"  [disabled]="userForm.invalid"
-              type="submit">Guardar Cambios</button>
+              <button mat-raised-button color="primary" class="bg-blue-500 text-white px-4 py-2 rounded"
+                [disabled]="userForm.invalid" type="submit">Guardar Cambios</button>
             </div>
+
           </form>
         </mat-card-content>
       </mat-card>

@@ -16,14 +16,15 @@ import { AuthService } from 'src/app/features/auth/auth.service';
 export class ProfileComponent implements OnInit {
   hideOldPass = true;  // hide old password
   hideNewPass = true;  // hide new password
+  changePassword = false; // show change password form
   user$: Observable<any> | undefined; // get user data from the bbdd
   userForm = new FormGroup(
     {
       firstname: new FormControl(``, [Validators.required]),
       lastname: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
-      newpassword: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
-      newpasswordConfirm: new FormControl('', [Validators.required, CustomValidators.checkPassword]),
+      newpassword: new FormControl('', [CustomValidators.checkPassword]),
+      newpasswordConfirm: new FormControl('', [CustomValidators.checkPassword]),
     },
 
     { validators: [CustomValidators.newpasswordsMatching] }
@@ -90,5 +91,27 @@ export class ProfileComponent implements OnInit {
       })
     }
     return;
+  }
+
+  getErrorMessagePass(): string | null {
+    const passwordControl = this.userForm.get('password');
+    if (passwordControl?.hasError('requirements')) {
+      return 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número';
+    }
+    return null;
+  }
+
+  togglePasswordChange() {
+    this.changePassword = !this.changePassword;
+    
+    if (this.changePassword) {
+      this.userForm.get('newpassword')?.setValidators([Validators.required, CustomValidators.checkPassword]);
+      this.userForm.get('newpasswordConfirm')?.setValidators([Validators.required, CustomValidators.checkPassword]);
+    } else {
+      this.userForm.get('newpassword')?.clearValidators();
+      this.userForm.get('newpasswordConfirm')?.clearValidators();
+    }
+    this.userForm.get('newpassword')?.updateValueAndValidity();
+    this.userForm.get('newpasswordConfirm')?.updateValueAndValidity();
   }
 }

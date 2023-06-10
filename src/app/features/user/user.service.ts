@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { User, UserUpdateProfile } from 'src/app/models/auth.model';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MessageModalComponent } from './components/message-modal/message-modal.component';
 import { AuthService } from '../auth/auth.service';
 import { catchError } from 'rxjs';
 
@@ -38,7 +37,7 @@ export class UserService {
   }
 
   showConfirmationMessage() {
-    this._snackBar.openFromComponent(MessageModalComponent, {
+    this._snackBar.open("Cambios Guardados", "Cerrar", {
       duration: 2000,
     });
   }
