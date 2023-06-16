@@ -23,7 +23,7 @@
             </mat-form-field>
             <div class="text-red-400 mt-[-0.3rem] mb-[0.3rem] pl-2"
               *ngIf="userForm.get('lastname')?.invalid && userForm.get('lastname')?.touched">
-              <span *ngIf="userForm.get('lastname')?.errors?.['required']">El nombre es requerido</span>
+              <span *ngIf="userForm.get('lastname')?.errors?.['required']">El apellido es requerido</span>
             </div>
 
             <mat-form-field appearance="outline" class="w-full mb-2">
