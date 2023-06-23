@@ -22,7 +22,7 @@ export interface UserUpdateProfile {
   firstname: string;
   lastname: string;
   password: string;
-  newpassword: string;
+  newpassword?: string;
 }
 
 export interface Comment {

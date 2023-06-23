@@ -20,10 +20,9 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService
   ) {
     this.loggedIn$ = this.store.select(fromAuth.isLoggedIn);
-    console.log(this.loggedIn$);
   }
+  
   ngOnInit() {
-    // const token = localStorage.getItem('token');
     const token = this.authService.getTokenId('token');
     if (token) {
       this.store.dispatch(AuthActions.login({ loggedIn: true }));
